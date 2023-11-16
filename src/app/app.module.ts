@@ -6,14 +6,13 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NgOptimizedImage} from "@angular/common";
-import { LoginComponentComponent } from './login/login-component.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingPageComponent,
     NavBarComponent,
-    LoginComponentComponent
   ],
   imports: [
     BrowserModule,
