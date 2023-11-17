@@ -9,7 +9,7 @@ import { FoodTrackerComponent} from "./food-tracker/food-tracker.component";
 import { CurrentWorkoutComponent} from "./current-workout/current-workout.component";
 import { ProfileComponent} from "./profile/profile.component";
 import { RegisterComponent} from "./register/register.component";
-import * as path from "path";
+
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
