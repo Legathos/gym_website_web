@@ -7,6 +7,12 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NgOptimizedImage} from "@angular/common";
 import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
+import { WorkoutsComponent } from './workouts/workouts.component';
+import { ExercisesComponent } from './exercises/exercises.component';
+import { CurrentWorkoutComponent } from './current-workout/current-workout.component';
+import { FoodComponent } from './food/food.component';
+import { FoodTrackerComponent } from './food-tracker/food-tracker.component';
 
 
 @NgModule({
@@ -15,6 +21,12 @@ import { LoginComponent } from './login/login.component';
     LandingPageComponent,
     NavBarComponent,
     LoginComponent,
+    ProfileComponent,
+    WorkoutsComponent,
+    ExercisesComponent,
+    CurrentWorkoutComponent,
+    FoodComponent,
+    FoodTrackerComponent,
   ],
   imports: [
     BrowserModule,
