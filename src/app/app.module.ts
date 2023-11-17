@@ -13,6 +13,7 @@ import { ExercisesComponent } from './exercises/exercises.component';
 import { CurrentWorkoutComponent } from './current-workout/current-workout.component';
 import { FoodComponent } from './food/food.component';
 import { FoodTrackerComponent } from './food-tracker/food-tracker.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { FoodTrackerComponent } from './food-tracker/food-tracker.component';
     CurrentWorkoutComponent,
     FoodComponent,
     FoodTrackerComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
