@@ -8,6 +8,8 @@ import { FoodComponent} from "./food/food.component";
 import { FoodTrackerComponent} from "./food-tracker/food-tracker.component";
 import { CurrentWorkoutComponent} from "./current-workout/current-workout.component";
 import { ProfileComponent} from "./profile/profile.component";
+import { RegisterComponent} from "./register/register.component";
+import * as path from "path";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -18,6 +20,7 @@ const routes: Routes = [
   {path: 'exercises', component: ExercisesComponent},
   {path: 'food', component: FoodComponent},
   {path: 'food-tracker', component: FoodTrackerComponent},
+  {path: 'register', component: RegisterComponent},
   {path: '**', redirectTo: 'landing-page'}
 ];
 
