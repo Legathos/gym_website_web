@@ -14,6 +14,7 @@ import { CurrentWorkoutComponent } from './current-workout/current-workout.compo
 import { FoodComponent } from './food/food.component';
 import { FoodTrackerComponent } from './food-tracker/food-tracker.component';
 import { RegisterComponent } from './register/register.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { RegisterComponent } from './register/register.component';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

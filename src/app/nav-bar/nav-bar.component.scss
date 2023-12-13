@@ -1,19 +1,64 @@
+/* Updated color palette */
+$primary-color: #1E314A;
+$secondary-color: #256A7A;
+$tertiary-color: #C5E4E9;
+$accent-color: #BB8A2E;
+
+/* Navbar styling */
+.navbar {
+  background-color: $secondary-color; /* Set the background color */
+}
+
 .container-fluid {
-  background-color: #256A7A;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-.nav-link{
-  font-weight: bold;
-  color: white;
+.navbar-brand img {
+  height: 60px;
+  width: 60px;
+  display: block;
 }
 
-.link{
-    color: #FFFFFF;
-    text-decoration: none;
+.navbar-toggler-icon {
+  background-color: white; /* Set the color of the toggle icon */
+}
+
+/* Navigation links */
+.nav-link, .link {
   font-weight: bold;
+  color: $primary-color; /* Change the color to the primary color */
+  text-decoration: none;
   font-size: large;
+  transition: color 0.3s;
 }
 
-.nav-item{
+/* Hover effect for navigation links */
+.nav-link:hover, .link:hover {
+  color: $accent-color; /* Change the color on hover */
+}
+
+/* Padding for navigation items */
+.nav-item {
   padding: 5px;
+}
+
+/* Remove default list style */
+.navbar-nav {
+  list-style-type: none;
+}
+
+/* Add spacing between navigation items */
+.nav-item + .nav-item {
+  margin-left: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar-nav {
+    text-align: center; /* Center align the navigation links */
+  }
+  .nav-item {
+    margin: 5px 0; /* Add vertical margin for spacing */
+  }
 }

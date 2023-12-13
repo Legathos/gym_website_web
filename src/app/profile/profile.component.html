@@ -1,3 +1,42 @@
-<div class="container text-center">
-  <app-nav-bar></app-nav-bar>
+<div class="container">
+<app-nav-bar></app-nav-bar>
+<h1 class="text-center">Profile</h1>
+<div class="row">
+  <section class="col profile">
+    <section class="profile-info">
+      <div class="info">Username:</div>
+      <div class="info">Weight:</div>
+      <div class="info">Height:</div>
+      <div class="info">Gender:</div>
+      <div class="info">Total weight lifted</div>
+      <div class="info">Total time invested</div>
+    </section>
+    <section class="goals">
+      <div class="weight-progress-bar">
+        <div aria-label="Info example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress"
+             role="progressbar">
+          <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
+        </div>
+      </div>
+      <div class="weight-progress-bar">
+        <div aria-label="Info example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress"
+             role="progressbar">
+          <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
+        </div>
+      </div>
+      <div class="weight-progress-bar">
+        <div aria-label="Info example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress"
+             role="progressbar">
+          <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
+        </div>
+      </div>
+    </section>
+  </section>
+</div>
+<div class="row">
+  <section class="col weight-chart">
+    <canvas id="weight-chart"></canvas>
+  </section>
+</div>
+
 </div>
