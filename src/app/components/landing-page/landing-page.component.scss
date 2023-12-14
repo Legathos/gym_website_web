@@ -1,0 +1,87 @@
+/* Updated color palette */
+$primary-color: #1E314A;
+$secondary-color: #256A7A;
+$tertiary-color: #C5E4E9;
+$accent-color: #BB8A2E;
+
+/* Reset some default styles */
+body, h1, h2, p, div {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Apply a background color to the whole page */
+body {
+  background-color: $tertiary-color; /* Use tertiary color as background */
+  font-family: 'Arial', sans-serif;
+}
+
+/* Center the container and add some spacing */
+.container {
+  margin: 10px auto; /* Reduced margin */
+  padding: 15px; /* Reduced padding */
+  background-color: #fff; /* Use white as the background */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the navbar */
+.app-nav-bar {
+  background-color: $secondary-color; /* Use secondary color for navbar */
+  color: #fff;
+  padding: 10px;
+}
+
+/* Style the main banner */
+.main-banner {
+  background: linear-gradient(to right, $secondary-color, $tertiary-color); /* Use gradient based on secondary and tertiary colors */
+  color: #fff;
+  text-align: center;
+  padding: 30px 15px; /* Adjusted padding for smaller screens */
+  margin: 10px 0; /* Adjusted margin for smaller screens */
+  height: 10vh; /* Set the height to the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Style the content sections */
+.row {
+  margin: 10px 0; /* Reduced margin */
+}
+
+.col {
+  padding: 15px; /* Reduced padding */
+  border: 1px solid #ddd; /* Add a subtle border */
+  border-radius: 5px; /* Add a slight border radius */
+  background-color: #fff;
+}
+
+/* Style the login and register links */
+.login, .register {
+  margin-top: 10px; /* Reduced margin-top */
+}
+
+.nav-link {
+  color: $secondary-color; /* Use secondary color for nav link text */
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: 2px solid $secondary-color; /* Use secondary color for border */
+  border-radius: 5px;
+  display: inline-block;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+  background-color: $secondary-color;
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-banner {
+    padding: 20px 15px; /* Adjusted padding for even smaller screens */
+    margin: 0; /* No margin for smaller screens */
+  }
+}
