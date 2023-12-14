@@ -13,13 +13,13 @@ import { RegisterComponent} from "./components/auth/register/register.component"
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'profile', component: ProfileComponent},
+  {path: 'profile/:id', component: ProfileComponent},
   {path: 'landing-page', component:LandingPageComponent },
-  {path: 'workouts', component: WorkoutsComponent},
-  {path: 'current-workout', component: CurrentWorkoutComponent},
+  {path: 'workouts/:id', component: WorkoutsComponent},
+  {path: 'current-workout/:id', component: CurrentWorkoutComponent},
   {path: 'exercises', component: ExercisesComponent},
   {path: 'food', component: FoodComponent},
-  {path: 'food-tracker', component: FoodTrackerComponent},
+  {path: 'food-tracker/:id', component: FoodTrackerComponent},
   {path: 'register', component: RegisterComponent},
   {path: '**', redirectTo: 'login'}
 ];

@@ -68,15 +68,9 @@ export class LoginComponent implements OnInit {
   navigate(user: any) {
     let navigationExtras: NavigationExtras = {};
 
-    if (user.roles === 'ADMIN') {
-      navigationExtras.queryParams = { role: 'admin' };
-      this.router.navigateByUrl('admin', navigationExtras);
-    } else if (user.roles === 'ORGANIZER') {
-      navigationExtras.queryParams = { role: 'organizer' };
-      this.router.navigateByUrl('event-list', navigationExtras);
-    } else {
-      navigationExtras.queryParams = { role: 'attendee' };
-      this.router.navigateByUrl('event-list', navigationExtras);
+    if (user.roles === 'MEMBER') {
+      navigationExtras.queryParams = { role: 'member' };
+      this.router.navigateByUrl('landing-page', navigationExtras);
     }
   }
 
