@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent} from "./auth/login/login.component";
-import { LandingPageComponent} from "./landing-page/landing-page.component";
-import { WorkoutsComponent} from "./training/workouts/workouts.component";
-import { ExercisesComponent} from "./training/exercises/exercises.component";
-import { FoodComponent} from "./nutrition/food/food.component";
-import { FoodTrackerComponent} from "./nutrition/food-tracker/food-tracker.component";
-import { CurrentWorkoutComponent} from "./training/current-workout/current-workout.component";
-import { ProfileComponent} from "./profile/profile.component";
-import { RegisterComponent} from "./auth/register/register.component";
+import { LoginComponent} from "./components/auth/login/login.component";
+import { LandingPageComponent} from "./components/landing-page/landing-page.component";
+import { WorkoutsComponent} from "./components/training/workouts/workouts.component";
+import { ExercisesComponent} from "./components/training/exercises/exercises.component";
+import { FoodComponent} from "./components/nutrition/food/food.component";
+import { FoodTrackerComponent} from "./components/nutrition/food-tracker/food-tracker.component";
+import { CurrentWorkoutComponent} from "./components/training/current-workout/current-workout.component";
+import { ProfileComponent} from "./components/profile/profile.component";
+import { RegisterComponent} from "./components/auth/register/register.component";
 
 
 const routes: Routes = [

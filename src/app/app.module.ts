@@ -2,19 +2,20 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NgOptimizedImage} from "@angular/common";
-import { LoginComponent } from './auth/login/login.component';
-import { ProfileComponent } from './profile/profile.component';
-import { WorkoutsComponent } from './training/workouts/workouts.component';
-import { ExercisesComponent } from './training/exercises/exercises.component';
-import { CurrentWorkoutComponent } from './training/current-workout/current-workout.component';
-import { FoodComponent } from './nutrition/food/food.component';
-import { FoodTrackerComponent } from './nutrition/food-tracker/food-tracker.component';
-import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { WorkoutsComponent } from './components/training/workouts/workouts.component';
+import { ExercisesComponent } from './components/training/exercises/exercises.component';
+import { CurrentWorkoutComponent } from './components/training/current-workout/current-workout.component';
+import { FoodComponent } from './components/nutrition/food/food.component';
+import { FoodTrackerComponent } from './components/nutrition/food-tracker/food-tracker.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 import { NgChartsModule } from 'ng2-charts';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { NgChartsModule } from 'ng2-charts';
     AppRoutingModule,
     NgbModule,
     NgOptimizedImage,
-    NgChartsModule
+    NgChartsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
