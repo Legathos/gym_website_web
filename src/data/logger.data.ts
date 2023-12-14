@@ -1,0 +1,11 @@
+export interface LoggerData{
+  id:number,
+  user_id:number,
+  date:Date,
+  food_id:number,
+  weight:number,
+  calories:number,
+  carbs:number,
+  protein:number,
+  fats:number,
+}

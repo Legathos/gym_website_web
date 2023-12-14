@@ -21,7 +21,7 @@ const routes: Routes = [
   {path: 'food', component: FoodComponent},
   {path: 'food-tracker', component: FoodTrackerComponent},
   {path: 'register', component: RegisterComponent},
-  {path: '**', redirectTo: 'landing-page'}
+  {path: '**', redirectTo: 'login'}
 ];
 
 @NgModule({
