@@ -6,14 +6,14 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NgOptimizedImage} from "@angular/common";
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 import { ProfileComponent } from './profile/profile.component';
-import { WorkoutsComponent } from './workouts/workouts.component';
-import { ExercisesComponent } from './exercises/exercises.component';
-import { CurrentWorkoutComponent } from './current-workout/current-workout.component';
-import { FoodComponent } from './food/food.component';
-import { FoodTrackerComponent } from './food-tracker/food-tracker.component';
-import { RegisterComponent } from './register/register.component';
+import { WorkoutsComponent } from './training/workouts/workouts.component';
+import { ExercisesComponent } from './training/exercises/exercises.component';
+import { CurrentWorkoutComponent } from './training/current-workout/current-workout.component';
+import { FoodComponent } from './nutrition/food/food.component';
+import { FoodTrackerComponent } from './nutrition/food-tracker/food-tracker.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { NgChartsModule } from 'ng2-charts';
 
 
