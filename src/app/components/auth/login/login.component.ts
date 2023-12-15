@@ -16,13 +16,9 @@ import {GlobalConstants} from "../../../../data/global-constraints.data";
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  user !: User;
   warningMessage !: string;
   alertType !: string;
   hide: boolean = true;
-  username!: string;
-  href!: string;
-
   @ViewChild('confirmationMessage', { static: false }) confirmationMessage!: NgbAlert;
 
   constructor(private router: Router,

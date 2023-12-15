@@ -9,18 +9,20 @@ import { FoodTrackerComponent} from "./components/nutrition/food-tracker/food-tr
 import { CurrentWorkoutComponent} from "./components/training/current-workout/current-workout.component";
 import { ProfileComponent} from "./components/profile/profile.component";
 import { RegisterComponent} from "./components/auth/register/register.component";
+import {LoggedInGuardService} from "./services/logged-in-guard.service";
+import {RedirectGuardServiceService} from "./services/redirect-guard-service.service";
 
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'profile/:id', component: ProfileComponent},
-  {path: 'landing-page', component:LandingPageComponent },
-  {path: 'workouts/:id', component: WorkoutsComponent},
-  {path: 'current-workout/:id', component: CurrentWorkoutComponent},
-  {path: 'exercises', component: ExercisesComponent},
-  {path: 'food', component: FoodComponent},
-  {path: 'food-tracker/:id', component: FoodTrackerComponent},
-  {path: 'register', component: RegisterComponent},
+  {path: 'login', component: LoginComponent,canActivate:[LoggedInGuardService]},
+  {path: 'profile/:id', component: ProfileComponent,canActivate:[RedirectGuardServiceService]},
+  {path: 'landing-page', component:LandingPageComponent,canActivate:[RedirectGuardServiceService] },
+  {path: 'workouts/:id', component: WorkoutsComponent,canActivate:[RedirectGuardServiceService]},
+  {path: 'current-workout/:id', component: CurrentWorkoutComponent,canActivate:[RedirectGuardServiceService]},
+  {path: 'exercises', component: ExercisesComponent,canActivate:[RedirectGuardServiceService]},
+  {path: 'food', component: FoodComponent,canActivate:[RedirectGuardServiceService]},
+  {path: 'food-tracker/:id', component: FoodTrackerComponent,canActivate:[RedirectGuardServiceService]},
+  {path: 'register', component: RegisterComponent,canActivate:[]},
   {path: '**', redirectTo: 'login'}
 ];
 

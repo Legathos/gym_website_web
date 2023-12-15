@@ -14,14 +14,19 @@ import { FoodComponent } from './components/nutrition/food/food.component';
 import { FoodTrackerComponent } from './components/nutrition/food-tracker/food-tracker.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { NgChartsModule } from 'ng2-charts';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
 import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {SimpleNotificationsModule} from "angular2-notifications";
-import { AuthGuardService } from './services/auth-guard.service';
 import { HttpInterceptorService } from './services/http-interceptor.service';
-import { MemberGuardService } from './services/member-guard.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {NotificationsService} from "angular2-notifications";
+import { DialogComponent } from './components/dialog/dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
+import {MemberService} from "./services/member.service";
+import {AuthService} from "./services/auth.service";
 
 
 @NgModule({
@@ -39,6 +44,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
     RegisterComponent,
     ChangePasswordComponent,
     NavBarComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +55,11 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
     ReactiveFormsModule,
     SimpleNotificationsModule,
     HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatDialogContent,
+    MatDialogActions,
+    MatButtonModule,
   ],
   providers: [NgbActiveModal,
     {
@@ -56,8 +67,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
       useClass: HttpInterceptorService,
       multi: true
     },
-    AuthGuardService,
-    MemberGuardService,
+    NotificationsService,
+    MemberService,
+    AuthService,
     DatePipe
   ],
   bootstrap: [AppComponent]
