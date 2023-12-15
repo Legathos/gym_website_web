@@ -14,7 +14,7 @@ import { FoodComponent } from './components/nutrition/food/food.component';
 import { FoodTrackerComponent } from './components/nutrition/food-tracker/food-tracker.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { NgChartsModule } from 'ng2-charts';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
 import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {SimpleNotificationsModule} from "angular2-notifications";
@@ -22,6 +22,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { MemberGuardService } from './services/member-guard.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {NotificationsService} from "angular2-notifications";
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
     ReactiveFormsModule,
     SimpleNotificationsModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [NgbActiveModal,
     {
@@ -56,6 +58,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
       useClass: HttpInterceptorService,
       multi: true
     },
+    NotificationsService,
     AuthGuardService,
     MemberGuardService,
     DatePipe

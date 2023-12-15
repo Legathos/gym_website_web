@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Chart} from "chart.js";
-import _default from "chart.js/dist/plugins/plugin.tooltip";
-import borderColor = _default.defaults.borderColor;
 
 @Component({
   selector: 'app-profile',
