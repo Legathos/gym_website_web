@@ -1,41 +1,40 @@
 <div class="container">
-<h1 class="text-center">Profile</h1>
-<div class="row">
-  <section class="col profile">
-    <section class="profile-info">
-      <div class="info">Username: {{user.username}}</div>
-      <div class="info">Weight:{{user.weight}}</div>
-      <div class="info">Height:{{user.height}}</div>
-      <div class="info">Gender:{{user.gender}}</div>
-      <div class="info">Total weight lifted:</div>
-      <div class="info">Total time invested:</div>
+  <h1 class="text-center">Profile</h1>
+  <div class="row">
+    <section class="col profile">
+      <section class="profile-info">
+        <div class="info">Username: {{user.username}}</div>
+        <div class="info">Weight:{{user.weight}}</div>
+        <div class="info">Height:{{user.height}}</div>
+        <div class="info">Gender:{{user.gender}}</div>
+        <div class="info">Total weight lifted:</div>
+        <div class="info">Total time invested:</div>
+      </section>
+      <section class="goals">
+        <div class="weight-progress-bar">
+          <div aria-label="Info example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress"
+               role="progressbar">
+            <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
+          </div>
+        </div>
+        <div class="weight-progress-bar">
+          <div aria-label="Info example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress"
+               role="progressbar">
+            <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
+          </div>
+        </div>
+        <div class="weight-progress-bar">
+          <div aria-label="Info example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress"
+               role="progressbar">
+            <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
+          </div>
+        </div>
+      </section>
     </section>
-    <section class="goals">
-      <div class="weight-progress-bar">
-        <div aria-label="Info example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress"
-             role="progressbar">
-          <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
-        </div>
-      </div>
-      <div class="weight-progress-bar">
-        <div aria-label="Info example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress"
-             role="progressbar">
-          <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
-        </div>
-      </div>
-      <div class="weight-progress-bar">
-        <div aria-label="Info example" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress"
-             role="progressbar">
-          <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
-        </div>
-      </div>
+  </div>
+  <div class="row">
+    <section class="col weight-chart">
+      <canvas id="weight-chart"></canvas>
     </section>
-  </section>
-</div>
-<div class="row">
-  <section class="col weight-chart">
-    <canvas id="weight-chart"></canvas>
-  </section>
-</div>
-
+  </div>
 </div>

@@ -1,10 +1,9 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie-service';
-import { RequestsService} from "../../services/requests.service";
-
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {RequestsService} from "../../services/requests.service";
 
 @Component({
   selector: 'app-dialog',
@@ -14,7 +13,6 @@ import { RequestsService} from "../../services/requests.service";
 export class DialogComponent implements OnInit {
   question: string = '';
   action: string = '';
-  @Input() eventIdCancel = new Number();
 
   constructor(public activeModal: NgbActiveModal, private router: Router, private cookieService: CookieService, public dialogRef: MatDialogRef<DialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any, private requestsService: RequestsService) { }

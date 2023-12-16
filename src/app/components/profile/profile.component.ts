@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Chart} from "chart.js";
-import {RequestsService} from "../../services/requests.service";
 import {User} from "../../../data/user.data";
 import {MemberService} from "../../services/member.service";
 import {ActivatedRoute} from "@angular/router";
 import {JwtServiceService} from "../../services/jwt-service.service";
 import {CookieService} from "ngx-cookie-service";
+import {RequestsService} from "../../services/requests.service";
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +15,6 @@ import {CookieService} from "ngx-cookie-service";
 export class ProfileComponent implements OnInit {
   username!:string;
   user!: User;
-  userId!:number;
 
   constructor(private requestService: RequestsService,
               private memberService:MemberService,
@@ -75,6 +74,4 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-
-
 }

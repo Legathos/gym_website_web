@@ -4,9 +4,7 @@ import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {HttpClient} from "@angular/common/http";
 import {RequestsService} from "../../../services/requests.service";
-import {NotificationsService} from "angular2-notifications";
 import {User} from "../../../../data/user.data";
-import {Observable, Subject} from "rxjs";
 import {MemberService} from "../../../services/member.service";
 
 @Component({
@@ -26,7 +24,7 @@ export class RegisterComponent implements OnInit {
               private requestsService: RequestsService,
               private route: ActivatedRoute,
               private router: Router,
-              private memberService: MemberService) {
+              private memberService:MemberService) {
   }
 
   ngOnInit(): void {
@@ -43,33 +41,21 @@ export class RegisterComponent implements OnInit {
       height: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
     })
+
   }
 
   onSubmit() {
-    this.navigate(this.registerForm)
-    this.register()
+    this.user = this.registerForm.value;
+    this.memberService.registerUser(this.user).subscribe();
+    this.navigate(this.registerForm);
   }
-
 
   showPassword() {
     this.hide = !this.hide;
   }
 
-  register() {
-    this.user = this.registerForm.value;
-    const url: string = 'http://localhost:8080/user/register';
-    return this.http.post(url, this.user).subscribe({
-      next: () => {
-        },
-      error: (error) => {
-        console.log(error)
-        }
-    });
-  }
   navigate(user: any) {
     let navigationExtras: NavigationExtras = {};
-
-
     navigationExtras.queryParams = {role: 'member'};
     this.router.navigateByUrl('login', navigationExtras);
   }

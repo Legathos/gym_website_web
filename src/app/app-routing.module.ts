@@ -10,19 +10,19 @@ import { CurrentWorkoutComponent} from "./components/training/current-workout/cu
 import { ProfileComponent} from "./components/profile/profile.component";
 import { RegisterComponent} from "./components/auth/register/register.component";
 import {LoggedInGuardService} from "./services/logged-in-guard.service";
-import {RedirectGuardServiceService} from "./services/redirect-guard-service.service";
+import {MemberGuardService} from "./services/member-guard.service";
 
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,canActivate:[LoggedInGuardService]},
-  {path: 'profile/:id', component: ProfileComponent,canActivate:[RedirectGuardServiceService]},
-  {path: 'landing-page', component:LandingPageComponent,canActivate:[RedirectGuardServiceService] },
-  {path: 'workouts/:id', component: WorkoutsComponent,canActivate:[RedirectGuardServiceService]},
-  {path: 'current-workout/:id', component: CurrentWorkoutComponent,canActivate:[RedirectGuardServiceService]},
-  {path: 'exercises', component: ExercisesComponent,canActivate:[RedirectGuardServiceService]},
-  {path: 'food', component: FoodComponent,canActivate:[RedirectGuardServiceService]},
-  {path: 'food-tracker/:id', component: FoodTrackerComponent,canActivate:[RedirectGuardServiceService]},
-  {path: 'register', component: RegisterComponent,canActivate:[]},
+  {path: 'profile/:id', component: ProfileComponent,canActivate:[MemberGuardService]},
+  {path: 'landing-page', component:LandingPageComponent,canActivate:[MemberGuardService] },
+  {path: 'workouts/:id', component: WorkoutsComponent,canActivate:[MemberGuardService]},
+  {path: 'current-workout/:id', component: CurrentWorkoutComponent,canActivate:[MemberGuardService]},
+  {path: 'exercises', component: ExercisesComponent,canActivate:[MemberGuardService]},
+  {path: 'food', component: FoodComponent,canActivate:[MemberGuardService]},
+  {path: 'food-tracker/:id', component: FoodTrackerComponent,canActivate:[MemberGuardService]},
+  {path: 'register', component: RegisterComponent,canActivate:[LoggedInGuardService]},
   {path: '**', redirectTo: 'login'}
 ];
 

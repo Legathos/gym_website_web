@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a (click)="closeNavbar()" class="link" routerLink="/profile/{{userId}}">Profile</a>
+          <a (click)="closeNavbar()" class="link">Profile</a>
         </li>
         <li class="nav-item">
           <a (click)="closeNavbar()" class="link" routerLink="/workouts">Workouts</a>
@@ -23,8 +23,8 @@
         <li class="nav-item">
           <a (click)="closeNavbar()" class="link" routerLink="/food">Food</a>
         </li>
-        <li>
-          <a (click)="openDialog()" mat-button>Log out</a>
+        <li class="nav-item">
+          <a (click)="openDialog()" class="link">Log out</a>
         </li>
       </ul>
     </div>

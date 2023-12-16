@@ -19,13 +19,10 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordForm!: FormGroup;
   user!: User;
   username!: string | null;
-  confirmationMessage_: string = '';
-  alertType!: string
 
   constructor(private router: Router, private authService: AuthService, private route: ActivatedRoute,
               private jwtService: JwtServiceService, private cookieService: CookieService, private notificationService: NotificationsService,
               private http: HttpClient) { }
-
 
   onCancel() {
     this.router.navigateByUrl('login');
@@ -46,11 +43,8 @@ export class ChangePasswordComponent implements OnInit {
     this.initChangePassForm();
   }
 
-
   onSubmit() {
     const url = 'http://localhost:8080/user/change-password';
-
-
     const changePasswordData: ChangePasswordData = {
       username: this.username,
       oldPassword: this.changePasswordForm.value.oldPassword,
@@ -66,7 +60,6 @@ export class ChangePasswordComponent implements OnInit {
       error: (error: any) => {
         this.errorNotification("There was an error while changing the password!");
       }
-
     })
   }
 

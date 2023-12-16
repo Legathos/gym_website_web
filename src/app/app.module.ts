@@ -20,13 +20,11 @@ import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {SimpleNotificationsModule} from "angular2-notifications";
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {NotificationsService} from "angular2-notifications";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
+import {MatDialogActions, MatDialogClose, MatDialogContent} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
-import {MemberService} from "./services/member.service";
-import {AuthService} from "./services/auth.service";
+import {MemberGuardService} from "./services/member-guard.service";
 
 
 @NgModule({
@@ -46,30 +44,29 @@ import {AuthService} from "./services/auth.service";
     NavBarComponent,
     DialogComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgbModule,
-    NgOptimizedImage,
-    NgChartsModule,
-    ReactiveFormsModule,
-    SimpleNotificationsModule,
-    HttpClientModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MatDialogContent,
-    MatDialogActions,
-    MatButtonModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NgbModule,
+        NgOptimizedImage,
+        NgChartsModule,
+        ReactiveFormsModule,
+        SimpleNotificationsModule,
+        HttpClientModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatDialogContent,
+        MatDialogActions,
+        MatButtonModule,
+        MatDialogClose,
+    ],
   providers: [NgbActiveModal,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
       multi: true
     },
-    NotificationsService,
-    MemberService,
-    AuthService,
+    MemberGuardService,
     DatePipe
   ],
   bootstrap: [AppComponent]
