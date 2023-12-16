@@ -8,6 +8,7 @@ import {FoodData} from "../../../../data/food.data";
   styleUrl: './food.component.scss'
 })
 export class FoodComponent implements OnInit{
+  foodItem!:FoodData;
   foodItems:FoodData[]=[];
   constructor(private requestsService:RequestsService) {
   }
@@ -29,5 +30,17 @@ export class FoodComponent implements OnInit{
           }
         });
   }
+
+  getFoodItemById(id:number){
+    this.requestService.getFoodItem(id)
+      .subscribe({
+        next:(data)=>{
+          this.foodItem = data;
+        }
+      });
+  }
+
+
+  
 
 }
