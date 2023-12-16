@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
 import {JwtServiceService} from "../../services/jwt-service.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {RequestsService} from "../../services/requests.service";
+import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {User} from "../../../data/user.data";
-import {Observable} from "rxjs";
 import {MemberService} from "../../services/member.service";
+import {DialogComponent} from "../dialog/dialog.component";
+import { MatDialog } from '@angular/material/dialog';
+import {UserLogin} from "../../../data/userlogin.data";
+import {GlobalConstants} from "../../../data/global-constraints.data";
 
 @Component({
   selector: 'app-nav-bar',
@@ -22,26 +24,34 @@ export class NavBarComponent implements OnInit {
               private route: ActivatedRoute,
               private jwtService: JwtServiceService,
               private cookieService: CookieService,
+              private dialog: MatDialog,
               private memberService: MemberService) {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams) => {
-      this.userRole = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).roles;
       this.username = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).username;
-      this.memberService.getUserByUsername(this.username)
-        .subscribe({
-          next: (user: User) => {
-            console.log('User details:', user);
-            this.user = user;
-            this.userId=user.id;
-          },
-          error: (error: any) => {
-            console.error('Error fetching user details:', error);
-            // Handle the error
-          },
-        });
-    });
+      this.userRole = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).role;
   }
 
+  navigate(url:string) {
+    const baseUrl = "http://localhost:4200/"
+    let navigationExtras: NavigationExtras = {};
+    if (this.userRole === 'MEMBER') {
+      navigationExtras.queryParams = { role: 'member' };
+      this.router.navigateByUrl(baseUrl+url, navigationExtras);
+    }
+  }
+
+  closeNavbar() {
+    const navbarToggler = document.querySelector('.navbar-toggler') as HTMLElement;
+    if (navbarToggler) {
+      navbarToggler.click();
+    }
+  }
+
+  openDialog() {
+    this.dialog.open(DialogComponent, {
+      data: { question: 'Are you sure you want to log out?', action: 'Log out' }
+    });
+  }
 }

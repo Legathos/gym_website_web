@@ -9,32 +9,24 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <nav>
-            <a class="link"  routerLink="/profile/{{userId}}">Profile</a>
-          </nav>
+          <a (click)="closeNavbar()" class="link">Profile</a>
         </li>
         <li class="nav-item">
-          <nav>
-            <a class="link" routerLink="/workouts">Workouts</a>
-          </nav>
+          <a (click)="closeNavbar()" class="link" routerLink="/workouts">Workouts</a>
         </li>
         <li class="nav-item">
-          <nav>
-            <a class="link" routerLink="/exercises">Exercises</a>
-          </nav>
+          <a (click)="closeNavbar()" class="link" routerLink="/exercises">Exercises</a>
         </li>
         <li class="nav-item">
-          <nav>
-            <a class="link" routerLink="/food-tracker">Food Tracker</a>
-          </nav>
+          <a (click)="closeNavbar()" class="link" routerLink="/food-tracker">Food Tracker</a>
         </li>
         <li class="nav-item">
-          <nav>
-            <a class="link" routerLink="/food">Food</a>
-          </nav>
+          <a (click)="closeNavbar()" class="link" routerLink="/food">Food</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="openDialog()" class="link">Log out</a>
         </li>
       </ul>
     </div>
-
   </div>
 </nav>

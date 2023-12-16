@@ -18,11 +18,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
 import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {SimpleNotificationsModule} from "angular2-notifications";
-import { AuthGuardService } from './services/auth-guard.service';
 import { HttpInterceptorService } from './services/http-interceptor.service';
-import { MemberGuardService } from './services/member-guard.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {NotificationsService} from "angular2-notifications";
+import { DialogComponent } from './components/dialog/dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDialogActions, MatDialogClose, MatDialogContent} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
+import {MemberGuardService} from "./services/member-guard.service";
 
 
 @NgModule({
@@ -40,26 +42,30 @@ import {NotificationsService} from "angular2-notifications";
     RegisterComponent,
     ChangePasswordComponent,
     NavBarComponent,
+    DialogComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgbModule,
-    NgOptimizedImage,
-    NgChartsModule,
-    ReactiveFormsModule,
-    SimpleNotificationsModule,
-    HttpClientModule,
-    FormsModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NgbModule,
+        NgOptimizedImage,
+        NgChartsModule,
+        ReactiveFormsModule,
+        SimpleNotificationsModule,
+        HttpClientModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatDialogContent,
+        MatDialogActions,
+        MatButtonModule,
+        MatDialogClose,
+    ],
   providers: [NgbActiveModal,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
       multi: true
     },
-    NotificationsService,
-    AuthGuardService,
     MemberGuardService,
     DatePipe
   ],

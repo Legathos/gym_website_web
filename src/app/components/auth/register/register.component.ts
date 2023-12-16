@@ -4,8 +4,8 @@ import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {HttpClient} from "@angular/common/http";
 import {RequestsService} from "../../../services/requests.service";
-import {NotificationsService} from "angular2-notifications";
 import {User} from "../../../../data/user.data";
+import {MemberService} from "../../../services/member.service";
 
 @Component({
   selector: 'app-register',
@@ -17,10 +17,14 @@ export class RegisterComponent implements OnInit {
   hide: boolean = true;
   warningMessage!: string;
   alertType!: string;
+  user!: User;
   @ViewChild('confirmationMessage', {static: false}) confirmationMessage!: NgbAlert;
 
-  constructor(private http: HttpClient, private requestsService: RequestsService,
-              private route: ActivatedRoute,private router: Router) {
+  constructor(private http: HttpClient,
+              private requestsService: RequestsService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private memberService:MemberService) {
   }
 
   ngOnInit(): void {
@@ -37,38 +41,22 @@ export class RegisterComponent implements OnInit {
       height: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
     })
+
   }
 
   onSubmit() {
-  this.navigate(this.registerForm)
-    this.register()
-    console.log(this.registerForm)
+    this.user = this.registerForm.value;
+    this.memberService.registerUser(this.user).subscribe();
+    this.navigate(this.registerForm);
   }
-
 
   showPassword() {
     this.hide = !this.hide;
   }
 
-  register() {
-    const postUrl: string = 'http://localhost:8080/user/register';
-    const user: User = this.registerForm.value;
-    return this.http.post(postUrl, user).subscribe({
-      next: (data: any) => {
-        console.log("User added successfully!")
-        // this.successNotification("User added successfully!");
-      },
-    error: (error: any) =>  {
-      console.log("Error")
-      // this.errorNotification("There was an error while adding the user!");
-    }
-  })
-  }
   navigate(user: any) {
     let navigationExtras: NavigationExtras = {};
-
-
-      navigationExtras.queryParams = {role: 'member'};
-      this.router.navigateByUrl('login', navigationExtras);
+    navigationExtras.queryParams = {role: 'member'};
+    this.router.navigateByUrl('login', navigationExtras);
   }
 }

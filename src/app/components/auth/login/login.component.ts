@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../../../data/user.data";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {NavigationExtras, Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
@@ -26,7 +25,6 @@ export class LoginComponent implements OnInit {
               private cookieService: CookieService,
               private jwtService: JwtServiceService) { }
 
-  //initialized the login form with empty strings
   initLoginForm() {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
@@ -38,15 +36,11 @@ export class LoginComponent implements OnInit {
     this.initLoginForm();
   }
 
-  //function to call the login request from backend. Based on the role of the user we navigate to
-  // the corresponding page using the navigate function.
   onSubmit() {
     const url = 'http://localhost:8080/user/login'
-
     this.authService.login<UserLogin>(url, this.loginForm.value).subscribe({
       next: () => {
         this.navigate(this.jwtService.parseJwt(this.cookieService.get("auth-cookie")));
-
       },
       error: (error: any) => {
         this.warningMessage = GlobalConstants.genericError;
@@ -55,15 +49,12 @@ export class LoginComponent implements OnInit {
           this.confirmationMessage.close();
           this.warningMessage = '';
         }, 3000);
-
       }
     });
   }
 
-  // function for navigating based on the role of the user
   navigate(user: any) {
     let navigationExtras: NavigationExtras = {};
-
     if (user.roles === 'MEMBER') {
       navigationExtras.queryParams = { role: 'member' };
       this.router.navigateByUrl('landing-page', navigationExtras);
@@ -73,7 +64,5 @@ export class LoginComponent implements OnInit {
   showPassword() {
     this.hide = !this.hide;
   }
-
-
 }
 
