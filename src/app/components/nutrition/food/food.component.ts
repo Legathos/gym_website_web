@@ -32,7 +32,7 @@ export class FoodComponent implements OnInit{
   }
 
   getFoodItemById(id:number){
-    this.requestService.getFoodItem(id)
+    this.requestService.getFoodItemById(id)
       .subscribe({
         next:(data)=>{
           this.foodItem = data;
