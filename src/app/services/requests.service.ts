@@ -24,7 +24,7 @@ export class RequestsService {
     return this.http.get<FoodData[]>(url)
   }
 
-  getFoodItem(id:number):Observable<any>{
+  getFoodItemById(id:number):Observable<any>{
     const url = this.httpUtilsService.getFullUrl(environment.getFoodItemById)+id;
     return this.http.get<FoodData>(url)
 }
