@@ -30,16 +30,21 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
       this.username = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).username;
-      this.userRole = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).role;
+      this.userRole = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).roles;
+
   }
 
   navigate(url:string) {
-    const baseUrl = "http://localhost:4200/"
     let navigationExtras: NavigationExtras = {};
     if (this.userRole === 'MEMBER') {
       navigationExtras.queryParams = { role: 'member' };
-      this.router.navigateByUrl(baseUrl+url, navigationExtras);
+      if(url.endsWith("/")){
+        this.router.navigateByUrl(url+this.username, navigationExtras);
+      }
+      this.router.navigateByUrl(url, navigationExtras);
+
     }
+    this.closeNavbar();
   }
 
   closeNavbar() {
