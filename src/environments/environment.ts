@@ -22,5 +22,5 @@ export const environment = {
   editFoodItem:'edit-food-item',
   deleteFoodItem:'delete-food-item-',
   getFoodItemById:'get-food-item-',
-  getAllFoodItems:'get-food-items',
+  getAllFoodItems:'food/get-food-items',
 };
