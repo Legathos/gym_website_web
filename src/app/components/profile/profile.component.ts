@@ -24,26 +24,27 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getUserData();
     this.weightChart();
-    this.getUserData()
-    console.log(this.user)
   }
 
-  getUserData(){
-    this.route.queryParams.subscribe((queryParams) => {
+  getUserData() {
       this.username = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).username;
       this.memberService.getUserByUsername(this.username)
         .subscribe({
-          next: (user: User) => {
-            console.log('User details:', user);
-            this.user = user;
+          next: (data) => {
+            this.user = data;
           },
           error: (error: any) => {
             console.error('Error fetching user details:', error);
             // Handle the error
-          },
+          }
         });
-    });
+
+  }
+
+  getUserGoalsData(){
+
   }
 
   weightChart() {
