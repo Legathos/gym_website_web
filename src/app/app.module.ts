@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogActions, MatDialogClose, MatDialogContent} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {MemberGuardService} from "./services/member-guard.service";
+import { ViewFoodItemComponent } from './components/nutrition/view-food-item/view-food-item.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {MemberGuardService} from "./services/member-guard.service";
     ChangePasswordComponent,
     NavBarComponent,
     DialogComponent,
+    ViewFoodItemComponent,
   ],
     imports: [
         BrowserModule,
