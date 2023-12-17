@@ -11,6 +11,7 @@ import { ProfileComponent} from "./components/profile/profile.component";
 import { RegisterComponent} from "./components/auth/register/register.component";
 import {LoggedInGuardService} from "./services/logged-in-guard.service";
 import {MemberGuardService} from "./services/member-guard.service";
+import {ViewFoodItemComponent} from "./components/nutrition/view-food-item/view-food-item.component";
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'current-workout/:id', component: CurrentWorkoutComponent,canActivate:[MemberGuardService]},
   {path: 'exercises', component: ExercisesComponent,canActivate:[MemberGuardService]},
   {path: 'food', component: FoodComponent,canActivate:[MemberGuardService]},
+  {path: 'view-food-item/:id', component:ViewFoodItemComponent, canActivate:[MemberGuardService]},
   {path: 'food-tracker/:id', component: FoodTrackerComponent,canActivate:[MemberGuardService]},
   {path: 'register', component: RegisterComponent,canActivate:[LoggedInGuardService]},
   {path: '**', redirectTo: 'login'}
