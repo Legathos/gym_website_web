@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {RequestsService} from "../../../services/requests.service";
 import {FoodData} from "../../../../data/food.data";
+import {Route, Router} from "@angular/router";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-food',
@@ -9,11 +11,16 @@ import {FoodData} from "../../../../data/food.data";
 })
 export class FoodComponent implements OnInit{
   foodItems:FoodData[]=[];
-  constructor(private requestsService:RequestsService) {
+  constructor(private requestsService:RequestsService,
+              private router:Router) {
   }
 
   ngOnInit(){
     this.getAllFoodItems();
+  }
+
+  navigateToItem(foodItem: any) {
+    this.router.navigate(['view-food-item'], { state: { foodItem } });
   }
 
   getAllFoodItems(){

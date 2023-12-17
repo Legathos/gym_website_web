@@ -22,7 +22,7 @@ const routes: Routes = [
   {path: 'current-workout/:id', component: CurrentWorkoutComponent,canActivate:[MemberGuardService]},
   {path: 'exercises', component: ExercisesComponent,canActivate:[MemberGuardService]},
   {path: 'food', component: FoodComponent,canActivate:[MemberGuardService]},
-  {path: 'view-food-item/:id', component:ViewFoodItemComponent, canActivate:[MemberGuardService]},
+  {path: 'view-food-item', component:ViewFoodItemComponent, canActivate:[MemberGuardService]},
   {path: 'food-tracker/:id', component: FoodTrackerComponent,canActivate:[MemberGuardService]},
   {path: 'register', component: RegisterComponent,canActivate:[LoggedInGuardService]},
   {path: '**', redirectTo: 'login'}

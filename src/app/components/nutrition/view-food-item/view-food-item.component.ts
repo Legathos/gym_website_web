@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {RequestsService} from "../../../services/requests.service";
-import {FoodComponent} from "../food/food.component";
 import {FoodData} from "../../../../data/food.data";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-view-food-item',
@@ -10,21 +10,17 @@ import {FoodData} from "../../../../data/food.data";
 })
 export class ViewFoodItemComponent implements OnInit{
 
-  foodItem!:[FoodData];
+  @Input() foodItem!:FoodData;
 
-  constructor(private requestsService:RequestsService) {
-  }
+
+  constructor(private route: ActivatedRoute) {}
+
 
   ngOnInit() {
-
-  }
-
-  getFoodItem(id:number){
-    this.requestsService.getFoodItemById(id).subscribe({
-      next:(data)=>{
-        this.foodItem = data;
-      }
-    })
+    // Retrieve the data from the route
+    this.route.paramMap.subscribe(params => {
+      this.foodItem = history.state.foodItem;
+    });
   }
 
 }

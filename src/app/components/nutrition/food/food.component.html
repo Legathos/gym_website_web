@@ -8,11 +8,9 @@
   <!-- Food items list -->
   <div class="grid">
     <div *ngFor="let f of foodItems" class="foodItem">
-      <div class="card">
+      <div (click)="navigateToItem(f)" class="card">
         <div class="card-body">
           <h5 class="card-title">{{ f.name }}</h5>
-          <!-- Add other properties like weight, calories, etc. here -->
-          <!-- Example: <p class="card-text">Weight: {{ f.weight }}g</p> -->
         </div>
       </div>
     </div>
