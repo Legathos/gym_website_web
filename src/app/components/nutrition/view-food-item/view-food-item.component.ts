@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RequestsService} from "../../../services/requests.service";
 import {FoodData} from "../../../../data/food.data";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-view-food-item',
@@ -13,7 +13,8 @@ export class ViewFoodItemComponent implements OnInit{
   @Input() foodItem!:FoodData;
 
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,
+              private router: Router) {}
 
 
   ngOnInit() {
@@ -21,6 +22,10 @@ export class ViewFoodItemComponent implements OnInit{
     this.route.paramMap.subscribe(params => {
       this.foodItem = history.state.foodItem;
     });
+  }
+
+  navigate(url:string){
+    this.router.navigateByUrl(url)
   }
 
 }
