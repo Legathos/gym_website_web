@@ -23,4 +23,5 @@ export const environment = {
   deleteFoodItem:'delete-food-item-',
   getFoodItemById:'get-food-item-',
   getAllFoodItems:'food/get-food-items',
+  getuserWeightHistory:'user/weight-history-user-'
 };
