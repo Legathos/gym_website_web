@@ -1,4 +1,4 @@
-export interface UserweightData{
+export interface UserWeightData{
   id:number,
   user_id:number,
   weight:number,

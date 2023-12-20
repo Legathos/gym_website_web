@@ -2,10 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Chart} from "chart.js";
 import {User} from "../../../data/user.data";
 import {MemberService} from "../../services/member.service";
-import {ActivatedRoute} from "@angular/router";
-import {JwtServiceService} from "../../services/jwt-service.service";
-import {CookieService} from "ngx-cookie-service";
 import {RequestsService} from "../../services/requests.service";
+import {UserWeightData} from "../../../data/userweight.data";
 
 @Component({
   selector: 'app-profile',
@@ -13,66 +11,39 @@ import {RequestsService} from "../../services/requests.service";
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
-  username!:string;
+  username!: string;
   user!: User;
+  userWeightHistory!: UserWeightData[];
 
   constructor(private requestService: RequestsService,
-              private memberService:MemberService,
-              private route: ActivatedRoute,
-              private jwtService: JwtServiceService,
-              private cookieService: CookieService) {
+              private memberService: MemberService) {
   }
 
   ngOnInit() {
     this.getUserData();
-    this.weightChart();
+    this.getUserWeightHistoryData(this.user.id)
   }
 
   getUserData() {
-      this.username = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).username;
-      this.memberService.getUserByUsername(this.username)
-        .subscribe({
-          next: (data) => {
-            this.user = data;
-          },
-          error: (error: any) => {
-            console.error('Error fetching user details:', error);
-            // Handle the error
-          }
-        });
-
-  }
-
-  getUserGoalsData(){
-
-  }
-
-  weightChart() {
-    const data = [
-      {date: "1-12-2023", weight: 95},
-      {date: "2-12-2023", weight: 94},
-      {date: "3-12-2023", weight: 90},
-      {date: "4-12-2023", weight: 87},
-      {date: "5-12-2023", weight: 91},
-      {date: "6-12-2023", weight: 95},
-
-    ];
-
-    new Chart(
-      <HTMLCanvasElement>document.getElementById('weight-chart'),
-      {
-        type: 'line',
-        data: {
-          labels: data.map(row => row.date),
-          datasets: [
-            {
-              label: 'Weight',
-              data: data.map(row => row.weight)
-            }
-          ]
-        },
-        options: {}
+    this.memberService.getUserData().subscribe({
+      next: (data) => {
+        this.user = data;
+        this.getUserWeightHistoryData(this.user.id);
       }
-    );
+    });
   }
+
+  getUserWeightHistoryData(id: number) {
+    let data
+    console.log(this.user.id)
+    this.memberService.getUserWeightHistoryData(id)
+      .subscribe({
+        next: (data) => {
+          this.userWeightHistory = data;
+          this.memberService.weightChart(this.userWeightHistory)
+        }
+      })
+  }
+
+
 }

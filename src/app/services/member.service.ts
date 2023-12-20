@@ -8,6 +8,8 @@ import {environment} from "../../environments/environment";
 import {HttpUtilsService} from "./http-utils.service";
 import {JwtServiceService} from "./jwt-service.service";
 import {CookieService} from "ngx-cookie-service";
+import {Chart} from "chart.js";
+import {UserWeightData} from "../../data/userweight.data";
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +21,38 @@ export class MemberService {
               private jwtService:JwtServiceService,
               private cookieService:CookieService) { }
 
-  getUserByUsername(username:string):Observable<any>{
-    return this.requestsService.getUserByUsername(username);
-}
 
   registerUser(user:User):Observable<any>{
     const url:string = this.httpUtilsService.getFullUrl(environment.register);
     return this.http.post(url,user);
   }
 
+  getUserData() {
+    let username = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).username;
+    return this.requestsService.getUserByUsername(username);
+  }
+
+  getUserWeightHistoryData(id:number){
+    return this.requestsService.getUserWeightHistory(id)
+  }
+
+  weightChart(userWeightHistory:UserWeightData[]) {
+    const data = userWeightHistory
+    new Chart(
+      <HTMLCanvasElement>document.getElementById('weight-chart'),
+      {
+        type: 'line',
+        data: {
+          labels: data.map(row => row.date.toString().slice(0,10)),
+          datasets: [
+            {
+              label: 'Weight',
+              data: data.map(row => row.weight)
+            }
+          ]
+        },
+        options: {}
+      }
+    );
+  }
 }

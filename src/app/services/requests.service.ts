@@ -24,4 +24,9 @@ export class RequestsService {
     return this.http.get<FoodData[]>(url);
   }
 
+  getUserWeightHistory(id:number):Observable<any>{
+    const url = this.httpUtilsService.getFullUrl(environment.getuserWeightHistory+id);
+    return this.http.get(url)
+  }
+
 }
