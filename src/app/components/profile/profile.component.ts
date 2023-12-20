@@ -21,7 +21,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.getUserData();
-    this.getUserWeightHistoryData(this.user.id)
   }
 
   getUserData() {
