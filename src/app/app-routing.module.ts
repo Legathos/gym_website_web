@@ -9,7 +9,7 @@ import { FoodTrackerComponent} from "./components/nutrition/food-tracker/food-tr
 import { CurrentWorkoutComponent} from "./components/training/current-workout/current-workout.component";
 import { ProfileComponent} from "./components/profile/profile.component";
 import { RegisterComponent} from "./components/auth/register/register.component";
-import {LoggedInGuardService} from "./services/logged-in-guard.service";
+import {LoggedInGuardService} from "./core/auth/logged-in-guard.service";
 import {MemberGuardService} from "./services/member/service/member-guard.service";
 import {ViewFoodItemComponent} from "./components/nutrition/view-food-item/view-food-item.component";
 

@@ -18,7 +18,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
 import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {SimpleNotificationsModule} from "angular2-notifications";
-import { HttpInterceptorService } from './services/http-interceptor.service';
+import { HttpInterceptorService } from './core/auth/http-interceptor.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

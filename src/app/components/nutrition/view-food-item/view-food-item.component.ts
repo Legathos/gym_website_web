@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FoodData} from "../../../../data/food.data";
 import {ActivatedRoute, Router} from "@angular/router";
+import { FoodData } from '../../../services/food/model/food.model';
 
 @Component({
   selector: 'app-view-food-item',
@@ -16,7 +16,7 @@ export class ViewFoodItemComponent implements OnInit{
 
   ngOnInit() {
     // Retrieve the data from the route
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe(() => {
       this.foodItem = history.state.foodItem;
     });
   }
