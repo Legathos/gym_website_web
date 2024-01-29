@@ -26,7 +26,7 @@ import {MatDialogActions, MatDialogClose, MatDialogContent} from "@angular/mater
 import {MatButtonModule} from "@angular/material/button";
 import {MemberGuardService} from "./services/member/service/member-guard.service";
 import { ViewFoodItemComponent } from './components/nutrition/view-food-item/view-food-item.component';
-import { CoreModule } from './core/core-module.module';
+import { CoreModule } from './core/core.module';
 
 
 @NgModule({

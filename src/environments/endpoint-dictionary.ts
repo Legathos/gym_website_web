@@ -2,7 +2,7 @@ const apiUrl = 'http://localhost:8080/';
 
 export const EndpointDictionary = {
   host: 'http://localhost:8080/',
-  register:`${apiUrl}user/register`,
+  register:`user/register`,
   getUserInfoByUsername:'user/get-user-username-',
   getUserInfo:'get-user-info-',
   deleteUser: 'delete-user-',

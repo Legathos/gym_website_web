@@ -21,8 +21,8 @@ export class ChangePasswordComponent implements OnInit {
   username!: string | null;
 
   constructor(private router: Router, private authService: AuthService, private route: ActivatedRoute,
-              private jwtService: JwtServiceService, private cookieService: CookieService, private notificationService: NotificationsService,
-              private http: HttpClient) { }
+              private notificationService: NotificationsService,
+              ) { }
 
   onCancel() {
     this.router.navigateByUrl('login');

@@ -65,4 +65,3 @@ export class LoginComponent implements OnInit {
     this.hide = !this.hide;
   }
 }
-

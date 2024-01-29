@@ -1,9 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
+import {NavigationExtras, Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
-import {HttpClient} from "@angular/common/http";
-import {RequestsService} from "../../../services/requests.service";
 import {MemberService} from "../../../services/member/service/member.service";
 import { User } from '../../../services/user/model/user.model';
 
@@ -20,10 +18,7 @@ export class RegisterComponent implements OnInit {
   user!: User;
   @ViewChild('confirmationMessage', {static: false}) confirmationMessage!: NgbAlert;
 
-  constructor(private http: HttpClient,
-              private requestsService: RequestsService,
-              private route: ActivatedRoute,
-              private router: Router,
+  constructor(private router: Router,
               private memberService:MemberService) {
   }
 

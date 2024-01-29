@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RequestsService} from "../../../services/requests.service";
 import {FoodData} from "../../../../data/food.data";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -12,10 +11,8 @@ export class ViewFoodItemComponent implements OnInit{
 
   @Input() foodItem!:FoodData;
 
-
   constructor(private route: ActivatedRoute,
               private router: Router) {}
-
 
   ngOnInit() {
     // Retrieve the data from the route

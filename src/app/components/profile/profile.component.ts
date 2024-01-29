@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {MemberService} from "../../services/member/service/member.service";
-import {RequestsService} from "../../services/requests.service";
 import {UserWeightData} from "../../../data/userweight.data";
 import { User } from '../../services/user/model/user.model';
 
@@ -14,8 +13,7 @@ export class ProfileComponent implements OnInit {
   user!: User;
   userWeightHistory!: UserWeightData[];
 
-  constructor(private requestService: RequestsService,
-              private memberService: MemberService) {
+  constructor(private memberService: MemberService) {
   }
 
   ngOnInit() {
@@ -32,7 +30,6 @@ export class ProfileComponent implements OnInit {
   }
 
   getUserWeightHistoryData(id: number) {
-    console.log(this.user.id)
     this.memberService.getUserWeightHistoryData(id)
       .subscribe({
         next: (data) => {
