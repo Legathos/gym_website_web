@@ -4,8 +4,8 @@ import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {HttpClient} from "@angular/common/http";
 import {RequestsService} from "../../../services/requests.service";
-import {User} from "../../../../data/user.data";
-import {MemberService} from "../../../services/member.service";
+import {MemberService} from "../../../services/member/service/member.service";
+import { User } from '../../../services/user/model/user.model';
 
 @Component({
   selector: 'app-register',

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
 import {JwtServiceService} from "../../services/jwt-service.service";
-import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
-import {User} from "../../../data/user.data";
+import {NavigationExtras, Router} from "@angular/router";
 import {DialogComponent} from "../dialog/dialog.component";
 import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../services/user/model/user.model';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,7 +18,6 @@ export class NavBarComponent implements OnInit {
   private userRole!: string;
 
   constructor(private router: Router,
-              private route: ActivatedRoute,
               private jwtService: JwtServiceService,
               private cookieService: CookieService,
               private dialog: MatDialog) {

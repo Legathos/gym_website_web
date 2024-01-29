@@ -1,6 +1,8 @@
-export const environment = {
+const apiUrl = 'http://localhost:8080/';
+
+export const EndpointDictionary = {
   host: 'http://localhost:8080/',
-  register:'user/register',
+  register:`${apiUrl}user/register`,
   getUserInfoByUsername:'user/get-user-username-',
   getUserInfo:'get-user-info-',
   deleteUser: 'delete-user-',

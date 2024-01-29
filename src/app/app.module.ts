@@ -24,8 +24,9 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogActions, MatDialogClose, MatDialogContent} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
-import {MemberGuardService} from "./services/member-guard.service";
+import {MemberGuardService} from "./services/member/service/member-guard.service";
 import { ViewFoodItemComponent } from './components/nutrition/view-food-item/view-food-item.component';
+import { CoreModule } from './core/core-module.module';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { ViewFoodItemComponent } from './components/nutrition/view-food-item/vie
         MatDialogActions,
         MatButtonModule,
         MatDialogClose,
+        CoreModule
     ],
   providers: [NgbActiveModal,
     {

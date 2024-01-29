@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../../../data/user.data";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {JwtServiceService} from "../../../services/jwt-service.service";
@@ -8,6 +7,7 @@ import {HttpClient} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import {NotificationsService} from "angular2-notifications";
 import {ChangePasswordData} from "../../../../data/changepassworddata.data";
+import { User } from '../../../services/user/model/user.model';
 
 @Component({
   selector: 'app-change-password',

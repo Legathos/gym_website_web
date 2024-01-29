@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {RequestsService} from "../../../services/requests.service";
 import {FoodData} from "../../../../data/food.data";
 import {Route, Router} from "@angular/router";
-import {environment} from "../../../../environments/environment";
+import {EndpointDictionary} from "../../../../environments/endpoint-dictionary";
 
 @Component({
   selector: 'app-food',

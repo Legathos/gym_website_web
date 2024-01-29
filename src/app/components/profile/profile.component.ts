@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Chart} from "chart.js";
-import {User} from "../../../data/user.data";
-import {MemberService} from "../../services/member.service";
+import {MemberService} from "../../services/member/service/member.service";
 import {RequestsService} from "../../services/requests.service";
 import {UserWeightData} from "../../../data/userweight.data";
+import { User } from '../../services/user/model/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -33,7 +32,6 @@ export class ProfileComponent implements OnInit {
   }
 
   getUserWeightHistoryData(id: number) {
-    let data
     console.log(this.user.id)
     this.memberService.getUserWeightHistoryData(id)
       .subscribe({
@@ -43,6 +41,4 @@ export class ProfileComponent implements OnInit {
         }
       })
   }
-
-
 }

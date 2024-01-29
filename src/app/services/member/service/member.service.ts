@@ -1,35 +1,33 @@
-import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { RequestsService } from './requests.service';
+import { RequestsService } from '../../requests.service';
 import { HttpClient } from '@angular/common/http';
-import {User} from "../../data/user.data";
 import {Observable} from "rxjs";
-import {environment} from "../../environments/environment";
-import {HttpUtilsService} from "./http-utils.service";
-import {JwtServiceService} from "./jwt-service.service";
+import {EndpointDictionary} from "../../../../environments/endpoint-dictionary";
+import {HttpUtilsService} from "../../http-utils.service";
+import {JwtServiceService} from "../../jwt-service.service";
 import {CookieService} from "ngx-cookie-service";
 import {Chart} from "chart.js";
-import {UserWeightData} from "../../data/userweight.data";
+import {UserWeightData} from "../../../../data/userweight.data";
+import { UserService } from '../../user/services/user.service';
+import { User } from '../../user/model/user.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class MemberService {
 
-  constructor(private requestsService: RequestsService, private datePipe: DatePipe,
+  constructor(private requestsService: RequestsService, private userService: UserService,
               private http: HttpClient,private httpUtilsService:HttpUtilsService,
               private jwtService:JwtServiceService,
-              private cookieService:CookieService) { }
+              private cookieService:CookieService
+              ) { }
 
-
-  registerUser(user:User):Observable<any>{
-    const url:string = this.httpUtilsService.getFullUrl(environment.register);
+  registerUser(user: User):Observable<any>{
+    const url:string = this.httpUtilsService.getFullUrl(EndpointDictionary.register);
     return this.http.post(url,user);
   }
 
   getUserData() {
     let username = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).username;
-    return this.requestsService.getUserByUsername(username);
+    return this.userService.getUserByUsername(username);
   }
 
   getUserWeightHistoryData(id:number){

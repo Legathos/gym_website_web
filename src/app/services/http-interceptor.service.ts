@@ -4,8 +4,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { EMPTY, Observable } from 'rxjs';
 import { JwtServiceService } from './jwt-service.service';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
