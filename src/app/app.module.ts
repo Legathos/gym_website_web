@@ -15,16 +15,17 @@ import { FoodTrackerComponent } from './components/nutrition/food-tracker/food-t
 import { RegisterComponent } from './components/auth/register/register.component';
 import { NgChartsModule } from 'ng2-charts';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { ChangePasswordComponent } from './components/auth/change-password/change-password.component';
 import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {SimpleNotificationsModule} from "angular2-notifications";
-import { HttpInterceptorService } from './services/http-interceptor.service';
+import { HttpInterceptorService } from './core/auth/http-interceptor.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogActions, MatDialogClose, MatDialogContent} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
-import {MemberGuardService} from "./services/member-guard.service";
+import {MemberGuardService} from "./services/member";
+import { ViewFoodItemComponent } from './components/nutrition/view-food-item/view-food-item.component';
+import { CoreModule } from './core';
 
 
 @NgModule({
@@ -40,9 +41,9 @@ import {MemberGuardService} from "./services/member-guard.service";
     FoodComponent,
     FoodTrackerComponent,
     RegisterComponent,
-    ChangePasswordComponent,
     NavBarComponent,
     DialogComponent,
+    ViewFoodItemComponent,
   ],
     imports: [
         BrowserModule,
@@ -59,6 +60,7 @@ import {MemberGuardService} from "./services/member-guard.service";
         MatDialogActions,
         MatButtonModule,
         MatDialogClose,
+        CoreModule
     ],
   providers: [NgbActiveModal,
     {

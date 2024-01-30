@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {RequestsService} from "../../../services/requests.service";
-import {FoodData} from "../../../../data/food.data";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Router} from "@angular/router";
+import { FoodService } from '../../../services/food/services/food.service';
+import { FoodData } from '../../../services/food/model/food.model';
 
 @Component({
   selector: 'app-food',
@@ -9,23 +10,26 @@ import {FoodData} from "../../../../data/food.data";
 })
 export class FoodComponent implements OnInit{
   foodItems:FoodData[]=[];
-  constructor(private requestsService:RequestsService) {
+  constructor(private foodService: FoodService,
+              private router:Router) {
   }
 
   ngOnInit(){
     this.getAllFoodItems();
   }
 
+  navigateToItem(foodItem: any) {
+    this.router.navigate(['view-food-item'], { state: { foodItem } });
+  }
+
   getAllFoodItems(){
-      this.requestsService.getAllFoodItems()
+      this.foodService.getAllFoodItems()
         .subscribe({
           next: (data) => {
             this.foodItems = data;
-            console.log(this.foodItems)
           },
           error: (error: any) => {
             console.error('Error fetching user details:', error);
-            // Handle the error
           }
         });
   }

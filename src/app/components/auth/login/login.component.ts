@@ -2,11 +2,12 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {NavigationExtras, Router} from "@angular/router";
-import {AuthService} from "../../../services/auth.service";
 import {CookieService} from "ngx-cookie-service";
-import {UserLogin} from "../../../../data/userlogin.data";
-import {JwtServiceService} from "../../../services/jwt-service.service";
+import {JwtServiceService} from "../../../core/auth/jwt-service.service";
 import {GlobalConstants} from "../../../../data/global-constraints.data";
+import { UserLogin } from '../../../services/user-login/model/user-login.model';
+import { AuthService } from '../../../core/auth/auth.service';
+import { UserLoginService } from '../../../services/user-login/service/user-login.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   @ViewChild('confirmationMessage', { static: false }) confirmationMessage!: NgbAlert;
 
   constructor(private router: Router,
-              private authService: AuthService,
+              private userLoginService: UserLoginService,
               private cookieService: CookieService,
               private jwtService: JwtServiceService) { }
 
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const url = 'http://localhost:8080/user/login'
-    this.authService.login<UserLogin>(url, this.loginForm.value).subscribe({
+    this.userLoginService.login<UserLogin>(url, this.loginForm.value).subscribe({
       next: () => {
         this.navigate(this.jwtService.parseJwt(this.cookieService.get("auth-cookie")));
       },
@@ -65,4 +66,3 @@ export class LoginComponent implements OnInit {
     this.hide = !this.hide;
   }
 }
-

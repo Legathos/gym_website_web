@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {RequestsService} from "../../services/requests.service";
 
 @Component({
   selector: 'app-dialog',
@@ -15,7 +14,7 @@ export class DialogComponent implements OnInit {
   action: string = '';
 
   constructor(public activeModal: NgbActiveModal, private router: Router, private cookieService: CookieService, public dialogRef: MatDialogRef<DialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any, private requestsService: RequestsService) { }
+              @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.question = this.data.question;
