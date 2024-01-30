@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpUtilsService } from './http-utils.service';
 import {Observable} from "rxjs";
 import {EndpointDictionary} from "../../environments/endpoint-dictionary";
 import {FoodData} from "../../data/food.data";
@@ -10,16 +9,15 @@ import {FoodData} from "../../data/food.data";
 })
 export class RequestsService {
   url: string = 'http://localhost:8080/'
-  constructor(private http: HttpClient, private httpUtilsService: HttpUtilsService) { }
+  constructor(private http: HttpClient) { }
 
   getAllFoodItems():Observable<any>{
-    const url = this.httpUtilsService.getFullUrl(EndpointDictionary.getAllFoodItems);
-    return this.http.get<FoodData[]>(url);
+    return this.http.get<FoodData[]>(EndpointDictionary.getAllFoodItems);
   }
 
   getUserWeightHistory(id:number):Observable<any>{
-    const url = this.httpUtilsService.getFullUrl(EndpointDictionary.getuserWeightHistory+id);
-    return this.http.get(url)
+    const url = EndpointDictionary.getuserWeightHistory+id;
+    return this.http.get(url);
   }
 
 }

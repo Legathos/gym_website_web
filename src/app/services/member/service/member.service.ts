@@ -3,7 +3,6 @@ import { RequestsService } from '../../requests.service';
 import { HttpClient } from '@angular/common/http';
 import {Observable} from "rxjs";
 import {EndpointDictionary} from "../../../../environments/endpoint-dictionary";
-import {HttpUtilsService} from "../../http-utils.service";
 import {JwtServiceService} from "../../jwt-service.service";
 import {CookieService} from "ngx-cookie-service";
 import {Chart} from "chart.js";
@@ -15,14 +14,13 @@ import { User } from '../../user/model/user.model';
 export class MemberService {
 
   constructor(private requestsService: RequestsService, private userService: UserService,
-              private http: HttpClient,private httpUtilsService:HttpUtilsService,
+              private http: HttpClient,
               private jwtService:JwtServiceService,
               private cookieService:CookieService
               ) { }
 
   registerUser(user: User):Observable<any>{
-    const url:string = this.httpUtilsService.getFullUrl(EndpointDictionary.register);
-    return this.http.post(url,user);
+    return this.http.post(EndpointDictionary.register,user);
   }
 
   getUserData() {
