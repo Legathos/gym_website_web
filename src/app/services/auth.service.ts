@@ -1,14 +1,13 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError, Observable, throwError} from "rxjs";
-import {CookieService} from "ngx-cookie-service";
+import { Observable, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  constructor(private http: HttpClient) { }
 
   login<UserLogin>(url: string, body: UserLogin): Observable<any> {
     return this.http.post<UserLogin>(url, body, {
@@ -17,11 +16,6 @@ export class AuthService {
     )
   }
 
-  changePassword<ChangePasswordData>(url: string, body: ChangePasswordData) : Observable<ChangePasswordData>{
-    return this.http.put<ChangePasswordData>(url, body).pipe(
-      catchError(this.handleError)
-    )
-  }
 
   public handleError(error: HttpErrorResponse) {
     let errorMsg = '';
