@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { JwtServiceService } from '../../jwt-service.service';
+import { JwtServiceService } from '../../../core/auth/jwt-service.service';
 
 @Injectable()
 export class MemberGuardService implements CanActivate{

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { RequestsService } from '../../requests.service';
 import { HttpClient } from '@angular/common/http';
 import {Observable} from "rxjs";
 import {EndpointDictionary} from "../../../../environments/endpoint-dictionary";
-import {JwtServiceService} from "../../jwt-service.service";
+import {JwtServiceService} from "../../../core/auth/jwt-service.service";
 import {CookieService} from "ngx-cookie-service";
 import {Chart} from "chart.js";
 import {UserWeightData} from "../../../../data/userweight.data";
@@ -13,7 +12,7 @@ import { User } from '../../user/model/user.model';
 @Injectable()
 export class MemberService {
 
-  constructor(private requestsService: RequestsService, private userService: UserService,
+  constructor(private userService: UserService,
               private http: HttpClient,
               private jwtService:JwtServiceService,
               private cookieService:CookieService
@@ -29,7 +28,7 @@ export class MemberService {
   }
 
   getUserWeightHistoryData(id:number){
-    return this.requestsService.getUserWeightHistory(id)
+    return this.userService.getUserWeightHistory(id)
   }
 
   weightChart(userWeightHistory:UserWeightData[]) {

@@ -13,4 +13,9 @@ export class UserService {
     const url = EndpointDictionary.getUserInfoByUsername+username;
     return this.httpClient.get<User>(url);
   }
+
+  getUserWeightHistory(id:number):Observable<any>{
+    const url = EndpointDictionary.getuserWeightHistory+id;
+    return this.httpClient.get(url)
+  }
 }
