@@ -10,7 +10,7 @@ import { CurrentWorkoutComponent} from "./components/training/current-workout/cu
 import { ProfileComponent} from "./components/profile/profile.component";
 import { RegisterComponent} from "./components/auth/register/register.component";
 import {LoggedInGuardService} from "./core/auth/logged-in-guard.service";
-import {MemberGuardService} from "./services/member/service/member-guard.service";
+import {MemberGuardService} from "./services/member";
 import {ViewFoodItemComponent} from "./components/nutrition/view-food-item/view-food-item.component";
 
 const routes: Routes = [
