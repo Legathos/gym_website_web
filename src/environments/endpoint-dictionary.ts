@@ -1,6 +1,7 @@
 const apiUrl = 'http://localhost:8080/';
 
 export const EndpointDictionary = {
+  login:`${apiUrl}user/login`,
   register:`${apiUrl}user/register`,
   getUserInfoByUsername:`${apiUrl}user/get-user-username-`,
   getUserInfo:`${apiUrl}get-user-info-`,
