@@ -21,11 +21,11 @@ import { HttpInterceptorService } from './core/auth/http-interceptor.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatDialogActions, MatDialogClose, MatDialogContent} from "@angular/material/dialog";
+import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
-import {MemberGuardService} from "./services/member";
+import {MemberGuardService} from "@domain/member";
 import { ViewFoodItemComponent } from './components/nutrition/view-food-item/view-food-item.component';
-import { CoreModule } from './core';
+import { CoreModule } from '@core/core.module';
 
 
 @NgModule({
@@ -60,7 +60,8 @@ import { CoreModule } from './core';
         MatDialogActions,
         MatButtonModule,
         MatDialogClose,
-        CoreModule
+        CoreModule,
+        MatDialogModule 
     ],
   providers: [NgbActiveModal,
     {

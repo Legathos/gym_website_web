@@ -4,7 +4,6 @@ import { Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {MemberService} from "@domain/member";
 import { User } from '@domain/user';
-import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-register',

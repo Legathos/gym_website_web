@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
-import {JwtService} from "../../core/auth/jwt-service.service";
+import {JwtService} from "@core/auth";
 import {NavigationExtras, Router} from "@angular/router";
 import {DialogComponent} from "../dialog/dialog.component";
 import { MatDialog } from '@angular/material/dialog';
-import { User } from '../../services/user/model/user.model';
+import { User } from '@domain/user';
 
 @Component({
   selector: 'app-nav-bar',
