@@ -1,13 +1,11 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import { HttpErrorResponse} from "@angular/common/http";
 import { throwError} from "rxjs";
-
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
-
+  constructor() { }
 
   public handleError(error: HttpErrorResponse) {
     let errorMsg = '';

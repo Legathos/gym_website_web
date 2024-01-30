@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from './auth.service';
-import { HttpInterceptorService } from './http-interceptor.service';
-import { JwtServiceService } from './jwt-service.service';
-import { LoggedInGuardService } from './logged-in-guard.service';
+import { JwtService, HttpInterceptorService, AuthService, LoggedInGuardService } from '@core/auth';
 
 @NgModule({
   declarations: [],
@@ -13,7 +10,7 @@ import { LoggedInGuardService } from './logged-in-guard.service';
   providers: [
     AuthService,
     HttpInterceptorService,
-    JwtServiceService,
+    JwtService,
     LoggedInGuardService
   ]
 })

@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from './services/user.service';
+
+import { LocalStorageService } from '@domain/local-storage';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule
   ],
-
   providers: [
-    UserService
+    LocalStorageService
   ]
 })
-export class UserModule { }
+
+export class LocalStorageDomainModule { }

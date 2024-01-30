@@ -2,8 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NavigationExtras, Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
-import {MemberService} from "../../../services/member/service/member.service";
-import { User } from '../../../services/user/model/user.model';
+import {MemberService} from "@domain/member";
+import { User } from '@domain/user';
 
 @Component({
   selector: 'app-register',

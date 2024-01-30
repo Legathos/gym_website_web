@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FoodService } from './services/food.service';
+import { UserService } from '@domain/user';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule
   ],
+
   providers: [
-    FoodService
+    UserService
   ]
 })
-export class FoodDomainModule { }
+export class UserModule { }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
-import {JwtServiceService} from "../../core/auth/jwt-service.service";
+import {JwtService} from "../../core/auth/jwt-service.service";
 import {NavigationExtras, Router} from "@angular/router";
 import {DialogComponent} from "../dialog/dialog.component";
 import { MatDialog } from '@angular/material/dialog';
@@ -18,7 +18,7 @@ export class NavBarComponent implements OnInit {
   private userRole!: string;
 
   constructor(private router: Router,
-              private jwtService: JwtServiceService,
+              private jwtService: JwtService,
               private cookieService: CookieService,
               private dialog: MatDialog) {
   }

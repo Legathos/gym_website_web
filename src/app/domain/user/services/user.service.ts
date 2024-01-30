@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
-import { User } from '../model/user.model';
+import { User } from '@domain/user';
 
 @Injectable()
 export class UserService {

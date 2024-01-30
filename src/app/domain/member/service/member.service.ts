@@ -2,19 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable} from "rxjs";
 import {EndpointDictionary} from "../../../../environments/endpoint-dictionary";
-import {JwtServiceService} from "../../../core/auth/jwt-service.service";
+import {JwtService} from "@core/auth";
 import {CookieService} from "ngx-cookie-service";
 import {Chart} from "chart.js";
-import {UserWeightData} from "../../../../data/userweight.data";
-import { UserService } from '../../user/services/user.service';
-import { User } from '../../user/model/user.model';
+import { UserWeightData } from "../../../../data/userweight.data";
+import { User, UserService } from '@domain/user';
 
 @Injectable()
 export class MemberService {
 
   constructor(private userService: UserService,
               private http: HttpClient,
-              private jwtService:JwtServiceService,
+              private jwtService:JwtService,
               private cookieService:CookieService
               ) { }
 

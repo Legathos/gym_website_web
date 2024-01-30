@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { FoodData } from '../model/food.model';
-import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
 import { HttpClient } from '@angular/common/http';
+
+import { Observable } from 'rxjs';
+
+import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
+
+import { FoodData } from '@domain/food';
 
 @Injectable()
 export class FoodService {

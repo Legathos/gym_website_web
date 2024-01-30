@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserLoginService } from './service/user-login.service';
+
+import { FoodService } from '@domain/food';
 
 @NgModule({
   declarations: [],
@@ -8,8 +9,7 @@ import { UserLoginService } from './service/user-login.service';
     CommonModule
   ],
   providers: [
-    UserLoginService
+    FoodService
   ]
-
 })
-export class UserLoginModule { }
+export class FoodDomainModule { }

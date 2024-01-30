@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MemberGuardService } from './service/member-guard.service';
-import { MemberService } from './service/member.service';
+import { MemberGuardService, MemberService } from '@domain/member';
 
 @NgModule({
   declarations: [],
