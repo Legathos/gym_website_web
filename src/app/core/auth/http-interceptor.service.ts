@@ -13,7 +13,6 @@ export class HttpInterceptorService implements HttpInterceptor {
     if (!req.url.includes("login")) {
       const jwt = this.cookieService.get("auth-cookie");
       if (jwt !== '' && Date.now() > this.jwtService.parseJwt(jwt).exp * 1000) {
-        //TO DO: Afiseaza modal sau o pagina noua si dupa redirect
         return EMPTY;
       }
       const header = {

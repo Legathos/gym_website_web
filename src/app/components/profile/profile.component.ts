@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MemberService} from "../../services/member/service/member.service";
+import {MemberService} from "../../services/member";
 import {UserWeightData} from "../../../data/userweight.data";
 import { User } from '../../services/user/model/user.model';
 

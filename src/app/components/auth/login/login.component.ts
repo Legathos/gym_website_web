@@ -6,6 +6,7 @@ import {CookieService} from "ngx-cookie-service";
 import {JwtService} from "../../../core/auth/jwt-service.service";
 import {GlobalConstants} from "../../../../data/global-constraints.data";
 import { UserLogin, UserLoginService } from '@domain/user-login';
+import {EndpointDictionary} from "../../../../environments/endpoint-dictionary";
 
 @Component({
   selector: 'app-login',
@@ -36,8 +37,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    const url = 'http://localhost:8080/user/login'
-    this.userLoginService.login<UserLogin>(url, this.loginForm.value).subscribe({
+    this.userLoginService.login<UserLogin>(EndpointDictionary.login, this.loginForm.value).subscribe({
       next: () => {
         this.navigate(this.jwtService.parseJwt(this.cookieService.get("auth-cookie")));
       },

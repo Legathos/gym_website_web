@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Chart, plugins} from "chart.js";
-import _default from "chart.js/dist/plugins/plugin.legend";
 
 @Component({
   selector: 'app-food-tracker',
