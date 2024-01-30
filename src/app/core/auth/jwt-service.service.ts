@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class JwtServiceService {
+export class JwtService {
 
   constructor() { }
   parseJwt(token: string): any {

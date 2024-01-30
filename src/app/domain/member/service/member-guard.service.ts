@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { JwtServiceService } from '../../../core/auth/jwt-service.service';
+import { JwtService } from '@core/auth';
 
 @Injectable()
 export class MemberGuardService implements CanActivate{
 
-  constructor(private cookieService: CookieService, private router: Router, private jwtService: JwtServiceService) { }
+  constructor(private cookieService: CookieService, private router: Router, private jwtService: JwtService) { }
 
   canActivate(): boolean {
     const role = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).roles;

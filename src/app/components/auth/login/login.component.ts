@@ -3,10 +3,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {NavigationExtras, Router} from "@angular/router";
 import {CookieService} from "ngx-cookie-service";
-import {JwtServiceService} from "../../../core/auth/jwt-service.service";
+import {JwtService} from "../../../core/auth/jwt-service.service";
 import {GlobalConstants} from "../../../../data/global-constraints.data";
-import { UserLogin } from '../../../services/user-login/model/user-login.model';
-import { UserLoginService } from '../../../services/user-login/service/user-login.service';
+import { UserLogin, UserLoginService } from '@domain/user-login';
 import {EndpointDictionary} from "../../../../environments/endpoint-dictionary";
 
 @Component({
@@ -24,7 +23,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
               private userLoginService: UserLoginService,
               private cookieService: CookieService,
-              private jwtService: JwtServiceService) { }
+              private jwtService: JwtService) { }
 
   initLoginForm() {
     this.loginForm = new FormGroup({

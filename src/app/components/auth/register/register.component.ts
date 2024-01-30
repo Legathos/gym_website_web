@@ -2,9 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
-import {MemberService} from "../../../services/member";
-import { User } from '../../../services/user/model/user.model';
-import {debounceTime} from "rxjs";
+import {MemberService} from "@domain/member";
+import { User } from '@domain/user';
 
 @Component({
   selector: 'app-register',

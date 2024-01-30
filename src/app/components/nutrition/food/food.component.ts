@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import { FoodService } from '../../../services/food/services/food.service';
-import { FoodData } from '../../../services/food/model/food.model';
+import { FoodService, FoodData } from '@domain/food';
 
 @Component({
   selector: 'app-food',

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import { FoodData } from '../../../services/food/model/food.model';
+import { FoodData } from '@domain/food';
 
 @Component({
   selector: 'app-view-food-item',
