@@ -1,9 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {NavigationExtras, Router} from "@angular/router";
+import { Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {MemberService} from "../../../services/member";
 import { User } from '../../../services/user/model/user.model';
+import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,7 @@ export class RegisterComponent implements OnInit {
   warningMessage!: string;
   alertType!: string;
   user!: User;
+  userRegisteredCheck!: boolean;
   @ViewChild('confirmationMessage', {static: false}) confirmationMessage!: NgbAlert;
 
   constructor(private router: Router,
@@ -41,17 +43,15 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     this.user = this.registerForm.value;
-    this.memberService.registerUser(this.user).subscribe();
-    this.navigate(this.registerForm);
+    this.memberService.registerUser(this.user).subscribe(() =>{
+      this.router.navigateByUrl('login');
+    });
+    this.router.navigateByUrl('register')
   }
 
   showPassword() {
     this.hide = !this.hide;
   }
 
-  navigate(user: any) {
-    let navigationExtras: NavigationExtras = {};
-    navigationExtras.queryParams = {role: 'member'};
-    this.router.navigateByUrl('login', navigationExtras);
-  }
+
 }
