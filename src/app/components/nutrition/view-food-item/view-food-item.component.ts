@@ -15,7 +15,6 @@ export class ViewFoodItemComponent implements OnInit{
               private router: Router) {}
 
   ngOnInit() {
-    // Retrieve the data from the route
     this.route.paramMap.subscribe(() => {
       this.foodItem = history.state.foodItem;
     });

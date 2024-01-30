@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NavigationExtras, Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
-import {MemberService} from "../../../services/member/service/member.service";
+import {MemberService} from "../../../services/member";
 import { User } from '../../../services/user/model/user.model';
 
 @Component({
