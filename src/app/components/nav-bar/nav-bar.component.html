@@ -1,32 +1,11 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <img alt="Bootstrap" height="60" ngSrc="assets/logo.png" width="60">
-    </a>
-    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a (click)="navigate('profile/')" class="link">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a (click)="navigate('workouts/')" class="link">Workouts</a>
-        </li>
-        <li class="nav-item">
-          <a (click)="navigate('exercises')" class="link">Exercises</a>
-        </li>
-        <li class="nav-item">
-          <a (click)="navigate('food-tracker/')" class="link">Food Tracker</a>
-        </li>
-        <li class="nav-item">
-          <a (click)="navigate('food')" class="link">Food</a>
-        </li>
-        <li class="nav-item">
-          <a (click)="openDialog()" class="link">Log out</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<nav>
+  <mat-toolbar>
+    <span  class="space">Fit Forge</span>
+    <mat-tab-group (selectedTabChange)="tabClick($event)" mat-align-tabs="start">
+      <mat-tab label="WIP"></mat-tab>
+      <mat-tab label="Profile">
+      </mat-tab>
+      <mat-tab label="Third"></mat-tab>
+    </mat-tab-group>
+  </mat-toolbar>
 </nav>

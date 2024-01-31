@@ -28,6 +28,10 @@ export class NavBarComponent implements OnInit {
       this.userRole = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).roles;
   }
 
+  tabClick(tab: any) {
+    console.log(tab);
+  }
+
   navigate(url:string) {
     let navigationExtras: NavigationExtras = {};
     if (this.userRole === 'MEMBER') {
