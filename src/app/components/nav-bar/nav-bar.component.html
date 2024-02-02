@@ -1,11 +1,11 @@
 <nav>
   <mat-toolbar>
-    <span  class="space">Fit Forge</span>
+    <span (click)="navigate('landing-page')" class="space">Fit Forge</span>
     <mat-tab-group (selectedTabChange)="tabClick($event)" mat-align-tabs="start">
       <mat-tab label="WIP"></mat-tab>
       <mat-tab label="Profile">
       </mat-tab>
-      <mat-tab label="Third"></mat-tab>
+      <mat-tab label="Food"></mat-tab>
     </mat-tab-group>
   </mat-toolbar>
 </nav>

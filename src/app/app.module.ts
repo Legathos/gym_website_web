@@ -31,6 +31,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
         MatFormFieldModule,
         MatTabsModule,
         MatToolbarModule,
-        MatIconModule
+        MatIconModule,
+        MatMenuModule,
+        MatButtonToggleModule
     ],
   providers: [NgbActiveModal,
     {

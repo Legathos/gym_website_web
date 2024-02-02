@@ -29,7 +29,12 @@ export class NavBarComponent implements OnInit {
   }
 
   tabClick(tab: any) {
-    console.log(tab);
+    switch(tab.index){
+      case 1: this.navigate('profile/');
+      break;
+      case 2: this.navigate('food-tracker/');
+      break
+    }
   }
 
   navigate(url:string) {
