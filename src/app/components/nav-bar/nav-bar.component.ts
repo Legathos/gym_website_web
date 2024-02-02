@@ -30,10 +30,12 @@ export class NavBarComponent implements OnInit {
 
   tabClick(tab: any) {
     switch(tab.index){
+      case 0: this.navigate('landing-page');
+      break;
       case 1: this.navigate('profile/');
       break;
       case 2: this.navigate('food-tracker/');
-      break
+      break;
     }
   }
 
