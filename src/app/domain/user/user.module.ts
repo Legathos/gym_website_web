@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '@domain/user';
+import { UserService } from '@domain/user/services/user.service';
 
 @NgModule({
   declarations: [],

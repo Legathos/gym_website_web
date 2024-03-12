@@ -4,9 +4,6 @@
   margin-top: 20px;
 }
 
-.input-group {
-  margin-bottom: 20px;
-}
 
 .foodItem {
   margin-bottom: 20px;
@@ -17,7 +14,20 @@
   text-align: left;
 }
 
-.card-title{
+.card-title {
   font-weight: bold;
   font-size: 20px;
+}
+
+.row {
+  margin-bottom: 20px;
+}
+
+.column1 {
+  flex: 80%;
+}
+
+.column2 {
+  margin-top: 5px;
+  flex: 20%;
 }

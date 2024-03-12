@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { FoodService } from '@domain/food';
+import { FoodService } from '@domain/food/services/food.service';
 
 @NgModule({
   declarations: [],
