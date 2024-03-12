@@ -36,6 +36,8 @@ export class NavBarComponent implements OnInit {
       break;
       case 2: this.navigate('food-tracker/');
       break;
+      case 3: this.navigate('food');
+      break;
     }
   }
 
