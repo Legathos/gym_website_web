@@ -1,14 +1,50 @@
 <div class="container">
   <h1 class="text-center">Profile</h1>
   <div class="row">
+    <section class="profile">
+      <form [formGroup]="profileFormGroup">
+        <div class="profile">
+          <div class="profile_card">
+            Username:
+              <mat-form-field>
+                <input placeholder="Username" matInput formControlName="username">
+              </mat-form-field>
+          </div>
+          <div class="profile_card">
+            Age:
+            <mat-form-field>
+              <input placeholder="Age" matInput formControlName="age">
+            </mat-form-field>
+          </div>
+
+          <div class="profile_card">
+            Gender:
+              <mat-form-field>
+                <input placeholder="Gender" matInput formControlName="gender">
+              </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Wip
+           change input color
+           style profile
+           add to the model first name and last name
+           add profile photo/ upload photo
+           display id
+
+           maybe a good idea is to add a edit button to change the weight/ height / username values
+           save button
+
+
+           aslo regarding nav bar:
+           change the primary color
+           add remaining tabs
+           style mat menu 
+         -->
+      
+    </form>
+    </section>
     <section class="col profile">
-      <section class="profile-info">
-        <div class="info"><strong>Username:</strong> {{this.user.username}}</div>
-        <div class="info"><strong>Age:</strong> {{this.user.age}}</div>
-        <div class="info"><strong>Weight:</strong> {{this.user.weight}}</div>
-        <div class="info"><strong>Height:</strong> {{this.user.height}}</div>
-        <div class="info"><strong>Gender:</strong> {{this.user.gender}}</div>
-      </section>
       <section class="goals">
         <div class="weight-progress-bar">
           <div>Weight lifted milestone</div>

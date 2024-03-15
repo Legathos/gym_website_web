@@ -19,8 +19,6 @@ body {
 }
 
 .profile {
-  display: flex;
-  flex-direction: column;
   background-color: #fff;
   border: 1px solid #ddd;
   padding: 20px;
@@ -56,4 +54,17 @@ body {
   border: 1px solid #ddd;
   padding: 20px;
   border-radius: 8px;
+}
+
+.profile_card{
+  display: flex;
+  flex-direction: column;
+  >mat-form-field{
+    width: 100%;
+  }
+}
+
+.profile{
+  display: flex;
+  gap: 25px;
 }

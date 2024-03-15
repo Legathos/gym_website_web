@@ -1,18 +1,23 @@
 <nav>
   <mat-toolbar>
-    <span class="space">Fit Forge</span>
+    <span class="title">Fit Forge</span>
     <mat-tab-group (selectedTabChange)="tabClick($event)" mat-align-tabs="start">
       <mat-tab label="Home"></mat-tab>
-      <mat-tab label="Profile">
-      </mat-tab>
       <mat-tab label="Food Tracker"></mat-tab>
       <mat-tab label="Food"></mat-tab>
     </mat-tab-group>
     <span class="space"></span>
     <button [matMenuTriggerFor]="menu" mat-button>User</button>
 <mat-menu #menu="matMenu">
-  <button (click)="navigate('profile/')" mat-menu-item>Profile</button>
-  <button (click)="openDialog()" mat-menu-item>Logout</button>
+
+  <button (click)="navigate('profile/')" mat-menu-item> 
+    <mat-icon fontIcon="person"></mat-icon> 
+    <span>Profile</span> 
+  </button>
+
+  <button (click)="openDialog()" mat-menu-item>
+    <span>Logout</span>
+    <mat-icon fontIcon="logout"></mat-icon></button>
 </mat-menu>
   </mat-toolbar>
 </nav>

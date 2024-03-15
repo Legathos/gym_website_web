@@ -33,6 +33,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         MatToolbarModule,
         MatIconModule,
         MatMenuModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
+        MatInputModule
+
     ],
   providers: [NgbActiveModal,
     {
