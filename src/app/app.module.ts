@@ -26,7 +26,13 @@ import {MatButtonModule} from "@angular/material/button";
 import {MemberGuardService} from "@domain/member";
 import { ViewFoodItemComponent } from './components/nutrition/view-food-item/view-food-item.component';
 import { CoreModule } from '@core/core.module';
-
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -61,7 +67,14 @@ import { CoreModule } from '@core/core.module';
         MatButtonModule,
         MatDialogClose,
         CoreModule,
-        MatDialogModule 
+        MatDialogModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatTabsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatMenuModule,
+        MatButtonToggleModule
     ],
   providers: [NgbActiveModal,
     {

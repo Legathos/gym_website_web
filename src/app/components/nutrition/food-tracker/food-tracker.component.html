@@ -17,114 +17,58 @@
       <tbody>
       <tr>
         <td class="macro-name">Calories (kcal)</td>
-        <td>{{this.calories}}</td>
+        <td>{{ this.calories }}</td>
       </tr>
       <tr>
         <td class="macro-name">Protein (g)</td>
-        <td>{{this.protein}}</td>
+        <td>{{ this.protein }}</td>
       </tr>
       <tr>
         <td class="macro-name">Carbohydrates (g)</td>
-        <td>{{this.carbs}}</td>
+        <td>{{ this.carbs }}</td>
       </tr>
       <tr>
         <td class="macro-name">Fats (g)</td>
-        <td>{{this.fats}}</td>
+        <td>{{ this.fats }}</td>
       </tr>
       </tbody>
     </table>
-    <section class="food-items">
-      <div class="expandable-food-item">
-        <button aria-controls="collapseExample" aria-expanded="false" class="btn btn-outline-dark"
-                data-bs-target="#collapseExample" data-bs-toggle="collapse" type="button">
-          Expandable food item
-        </button>
-        <div class="collapse" id="collapseExample">
-          <div class="card card-body">
-            <table class="table">
-              <tbody>
-              <tr>
-                <td class="macro-name">Calories (kcal)</td>
-                <td>{{this.calories}}</td>
-              </tr>
-              <tr>
-                <td class="macro-name">Protein (g)</td>
-                <td>{{this.protein}}</td>
-              </tr>
-              <tr>
-                <td class="macro-name">Carbohydrates (g)</td>
-                <td>{{this.carbs}}</td>
-              </tr>
-              <tr>
-                <td class="macro-name">Fats (g)</td>
-                <td>{{this.fats}}</td>
-              </tr>
-              </tbody>
-            </table>
+    <section class="food-items grid">
+      <div *ngFor="let f of foodLogs; let i = index" class="foodLog">
+        <div class="card-body">
+          <div class="expandable-food-item">
+            <button [attr.aria-controls]="'collapsableFoodItem' + i"
+                    [attr.data-bs-target]="'#collapsableFoodItem' + i"
+                    aria-expanded="false" class="btn btn-outline-dark"
+                    data-bs-toggle="collapse" type="button">
+              {{ f.food_name }}
+            </button>
+            <div [attr.id]="'collapsableFoodItem' + i" class="collapse">
+              <table class="table">
+                <tbody>
+                <tr>
+                  <td class="macro-name">Calories (kcal)</td>
+                  <td>{{ f.calories }}</td>
+                </tr>
+                <tr>
+                  <td class="macro-name">Protein (g)</td>
+                  <td>{{ f.protein }}</td>
+                </tr>
+                <tr>
+                  <td class="macro-name">Carbohydrates (g)</td>
+                  <td>{{ f.carbs }}</td>
+                </tr>
+                <tr>
+                  <td class="macro-name">Fats (g)</td>
+                  <td>{{ f.fats }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-      <div class="expandable-food-item">
-        <button aria-controls="collapseExample1" aria-expanded="false" class="btn btn-outline-dark"
-                data-bs-target="#collapseExample1" data-bs-toggle="collapse" type="button">
-          Expandable food item
-        </button>
-        <div class="collapse" id="collapseExample1">
-          <div class="card card-body">
-            <table class="table">
-              <tbody>
-              <tr>
-                <td class="macro-name">Calories (kcal)</td>
-                <td>{{this.calories}}</td>
-              </tr>
-              <tr>
-                <td class="macro-name">Protein (g)</td>
-                <td>{{this.protein}}</td>
-              </tr>
-              <tr>
-                <td class="macro-name">Carbohydrates (g)</td>
-                <td>{{this.carbs}}</td>
-              </tr>
-              <tr>
-                <td class="macro-name">Fats (g)</td>
-                <td>{{this.fats}}</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="expandable-food-item">
-        <button aria-controls="collapseExample2" aria-expanded="false" class="btn btn-outline-dark"
-                data-bs-target="#collapseExample2" data-bs-toggle="collapse" type="button">
-          Expandable food item
-        </button>
-        <div class="collapse" id="collapseExample2">
-          <div class="card card-body">
-            <table class="table">
-              <tbody>
-              <tr>
-                <td class="macro-name">Calories (kcal)</td>
-                <td>{{this.calories}}</td>
-              </tr>
-              <tr>
-                <td class="macro-name">Protein (g)</td>
-                <td>{{this.protein}}</td>
-              </tr>
-              <tr>
-                <td class="macro-name">Carbohydrates (g)</td>
-                <td>{{this.carbs}}</td>
-              </tr>
-              <tr>
-                <td class="macro-name">Fats (g)</td>
-                <td>{{this.fats}}</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
     </section>
+
   </div>
 </div>

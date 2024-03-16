@@ -7,6 +7,6 @@ export interface LoggerData{
   weight:number,
   calories:number,
   carbs:number,
-  protein:number,
   fats:number,
+  protein:number,
 }

@@ -26,9 +26,6 @@ export class FoodComponent implements OnInit{
         .subscribe({
           next: (data) => {
             this.foodItems = data;
-          },
-          error: (error: any) => {
-            console.error('Error fetching user details:', error);
           }
         });
   }

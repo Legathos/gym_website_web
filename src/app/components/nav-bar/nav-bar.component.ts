@@ -28,6 +28,19 @@ export class NavBarComponent implements OnInit {
       this.userRole = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).roles;
   }
 
+  tabClick(tab: any) {
+    switch(tab.index){
+      case 0: this.navigate('landing-page');
+      break;
+      case 1: this.navigate('profile/');
+      break;
+      case 2: this.navigate('food-tracker/');
+      break;
+      case 3: this.navigate('food');
+      break;
+    }
+  }
+
   navigate(url:string) {
     let navigationExtras: NavigationExtras = {};
     if (this.userRole === 'MEMBER') {

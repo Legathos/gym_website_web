@@ -1,27 +1,40 @@
-# GymWebsiteWeb
+# Fit Forge Frontend
+**Work in progress**
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
+**_This application was born out of our passion for fitness and nutrition and coding._**
 
-## Development server
+**_The app aims to be a food and workout tracker that is easy and enjoyable to use as well as a guideline for beginners._**
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Functionalities:
 
-## Code scaffolding
+#### 1. Food Tracking:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Track food intake
+- Get detailed macro nutrient overview
+- Visualize progress and get insights
+- Add custom food items and recipes
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+#### 2. Workout Tracking:
 
-## Running unit tests
+- Log exercises and track progress over time
+- Get access to exercise documentation with examples
+- Receive personalized workout recommendations
+- Work towards achievements
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Roadmap:
+#### Release 1 - Mid-August
+**_This release will include:_**
+- Food and macro tracking
+- Progress tracking and insights
+- Food library with ability to create and modify items
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+#### Release 2 - Mid-December
+**_This release will include:_**
+- Workout and exercise tracking
+- Exercise documentation and examples
+- Achievements
+- Workout generation
