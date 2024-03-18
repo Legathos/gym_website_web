@@ -11,9 +11,9 @@ import {LoggerData} from "../../../../data/logger.data";
 export class FoodTrackerComponent implements OnInit {
 
   foodLogs: LoggerData[] = [];
-  protein = 150;
-  carbs = 200;
-  fats = 50;
+  protein = 0;
+  carbs = 0;
+  fats = 0;
   calories = this.protein * 4 + this.carbs * 4 + this.fats * 9;
   date:string = new Date().toISOString().slice(0,10)
 
@@ -21,16 +21,27 @@ export class FoodTrackerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.foodService.macrosChart(this.protein, this.carbs, this.fats)
-    this.getFoodTrackingByIdAndDate( this.date);
+    this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe(data => {
+      this.foodLogs = data;
+      if (this.foodLogs) {
+        this.calculateTotalCalories();
+        this.calculateMacros();
+        this.foodService.macrosChart(this.protein, this.carbs, this.fats);
+      }
+    });
   }
 
-  getFoodTrackingByIdAndDate( date: String) {
-    this.foodService.getFoodTrackingByIdAndDate( date)
-      .subscribe({
-        next: (data) => {
-          this.foodLogs = data;
-        }
-      })
+  calculateTotalCalories() {
+    for (const log of this.foodLogs) {
+      this.calories += log.calories;
+    }
+  }
+
+  calculateMacros(){
+    for (const log of this.foodLogs){
+      this.protein+=log.protein;
+      this.carbs+=log.carbs;
+      this.fats+=log.fats;
+    }
   }
 }
