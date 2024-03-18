@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Chart} from "chart.js";
 import {FoodService} from "@domain/food";
 import {LoggerData} from "../../../../data/logger.data";
 
@@ -16,14 +15,14 @@ export class FoodTrackerComponent implements OnInit {
   carbs = 200;
   fats = 50;
   calories = this.protein * 4 + this.carbs * 4 + this.fats * 9;
+  date:string = new Date().toISOString().slice(0,10)
 
   constructor(private foodService: FoodService) {
   }
 
   ngOnInit(): void {
     this.foodService.macrosChart(this.protein, this.carbs, this.fats)
-    this.getFoodTrackingByIdAndDate( "2023-2-23");
-
+    this.getFoodTrackingByIdAndDate( this.date);
   }
 
   getFoodTrackingByIdAndDate( date: String) {
@@ -31,7 +30,6 @@ export class FoodTrackerComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.foodLogs = data;
-          console.log(data)
         }
       })
   }
