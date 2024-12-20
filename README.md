@@ -23,18 +23,3 @@
 - Work towards achievements
 
 
-## Roadmap:
-#### Release 1 - Mid-August
-**_This release will include:_**
-- Food and macro tracking
-- Progress tracking and insights
-- Food library with ability to create and modify items
-
-
-
-#### Release 2 - Mid-December
-**_This release will include:_**
-- Workout and exercise tracking
-- Exercise documentation and examples
-- Achievements
-- Workout generation
