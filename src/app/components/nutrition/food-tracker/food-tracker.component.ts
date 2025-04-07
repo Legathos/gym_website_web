@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Chart} from "chart.js";
 import {FoodService} from "@domain/food";
 import {LoggerData} from "../../../../data/logger.data";
-import {MemberService} from "@domain/member";
-import {timeout} from "rxjs";
 
 @Component({
   selector: 'app-food-tracker',
@@ -23,7 +21,7 @@ export class FoodTrackerComponent implements OnInit {
 
   ngOnInit(): void {
     this.macrosChart()
-    this.getFoodTrackingByIdAndDate( "2023-2-23");
+    this.getFoodTrackingByIdAndDate( "2024-04-07");
 
   }
 
