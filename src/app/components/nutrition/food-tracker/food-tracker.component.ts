@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FoodService} from "@domain/food";
 import {LoggerData} from "../../../../data/logger.data";
 
-
 @Component({
   selector: 'app-food-tracker',
   templateUrl: './food-tracker.component.html',

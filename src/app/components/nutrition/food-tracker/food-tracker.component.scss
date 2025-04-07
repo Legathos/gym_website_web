@@ -1,64 +1,85 @@
-
-body, h1, h2, p, div {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-
 body {
   background-color: #f0f0f0;
+  font-family: 'Segoe UI', sans-serif;
+  color: #1E314A;
 }
 
-
-.app-nav-bar {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
+.container {
+  padding: 20px;
 }
 
-#macros-chart{
-  height: 10vh;
-  width: 10vw;
-}
-
-.macros-chart{
-height: 30vh;
-}
-
-.macro-section{
-  font-weight: bold;
-  padding: 10px;
-}
-
-.macro{
-  padding: 10px;
-}
-
-.table {
+.macros-chart {
+  position: relative;
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+  max-width: 200px; // adjust size as needed
+  margin: 0 auto;
 }
 
-.table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-.macro-name {
-  font-weight: bold;
+#macros-chart {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1; // maintains a perfect circle
 }
 
 
 .add-button {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  button {
+    background-color: white;
+    border: 2px solid #256A7A;
+    color: #256A7A;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #256A7A;
+      color: white;
+    }
+  }
 }
 
-.card-body{
-  padding: 2px;
+.table {
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
+.table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.macro-name {
+  font-weight: 600;
+  background-color: #e6f0f2;
+  color: #256A7A;
+}
+
+.card {
+  border-radius: 8px;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    font-size: 1rem;
+  }
+
+  .card-body {
+    background-color: #fafafa;
+  }
+
+  .table-sm td {
+    padding: 6px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .add-button {
+    position: static;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+}

@@ -1,87 +1,111 @@
-/* Updated color palette */
 $primary-color: #1E314A;
 $secondary-color: #256A7A;
 $tertiary-color: #C5E4E9;
 $accent-color: #BB8A2E;
 
-/* Reset some default styles */
 body, h1, h2, p, div {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Apply a background color to the whole page */
 body {
-  background-color: $tertiary-color; /* Use tertiary color as background */
+  background-color: $tertiary-color;
   font-family: 'Arial', sans-serif;
+  color: $primary-color;
 }
 
-/* Center the container and add some spacing */
 .container {
-  margin: 10px auto; /* Reduced margin */
-  padding: 15px; /* Reduced padding */
-  background-color: #fff; /* Use white as the background */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Style the navbar */
-.app-nav-bar {
-  background-color: $secondary-color; /* Use secondary color for navbar */
-  color: #fff;
-  padding: 10px;
-}
-
-/* Style the main banner */
-.main-banner {
-  background: linear-gradient(to right, $secondary-color, $tertiary-color); /* Use gradient based on secondary and tertiary colors */
-  color: #fff;
-  text-align: center;
-  padding: 30px 15px; /* Adjusted padding for smaller screens */
-  margin: 10px 0; /* Adjusted margin for smaller screens */
-  height: 10vh; /* Set the height to the full viewport height */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Style the content sections */
-.row {
-  margin: 10px 0; /* Reduced margin */
-}
-
-.col {
-  padding: 15px; /* Reduced padding */
-  border: 1px solid #ddd; /* Add a subtle border */
-  border-radius: 5px; /* Add a slight border radius */
+  margin: 20px auto;
+  padding: 20px;
   background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
-/* Style the login and register links */
-.login, .register {
-  margin-top: 10px; /* Reduced margin-top */
+.main-banner {
+  background: linear-gradient(to right, $secondary-color, $tertiary-color);
+  color: #fff;
+  padding: 40px 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.features-intro {
+  margin-bottom: 20px;
+
+  h2 {
+    margin-bottom: 10px;
+    color: $primary-color;
+  }
+
+  p {
+    color: darken($primary-color, 15%);
+  }
+}
+
+.card-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+
+  .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1 1 220px;
+    max-width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    h3 {
+      color: $secondary-color;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: $primary-color;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.cta-buttons {
+  margin-top: 30px;
 }
 
 .nav-link {
-  color: $secondary-color; /* Use secondary color for nav link text */
+  color: $secondary-color;
   text-decoration: none;
   font-weight: bold;
-  padding: 10px 20px;
-  border: 2px solid $secondary-color; /* Use secondary color for border */
-  border-radius: 5px;
+  padding: 12px 24px;
+  border: 2px solid $secondary-color;
+  border-radius: 6px;
   display: inline-block;
+  margin: 0 10px;
   transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: #fff;
+  }
 }
 
-.nav-link:hover {
-  background-color: $secondary-color;
-  color: #fff;
-}
-
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
   .main-banner {
-    padding: 20px 15px; /* Adjusted padding for even smaller screens */
-    margin: 0; /* No margin for smaller screens */
+    padding: 25px 15px;
+  }
+
+  .card-section {
+    flex-direction: column;
+    align-items: center;
   }
 }
