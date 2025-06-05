@@ -1,0 +1,28 @@
+/* Style for the app component */
+:host {
+  display: block;
+  min-height: 100vh;
+  position: relative; /* Needed for absolute positioning of children */
+}
+
+/* Style for the content container */
+.app-content {
+  padding-bottom: 10vh; /* Add padding to the bottom of the content to prevent overlap with navbar */
+  min-height: calc(100vh - 8vh); /* Ensure content takes up full height minus navbar */
+  overflow-y: auto; /* Enable scrolling if content is too tall */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .app-content {
+    padding-bottom: 12vh; /* Increase padding on smaller screens for better visibility */
+  }
+}
+
+@media (max-width: 480px) {
+  .app-content {
+    padding-bottom: 15vh; /* Further increase padding on very small screens */
+  }
+}

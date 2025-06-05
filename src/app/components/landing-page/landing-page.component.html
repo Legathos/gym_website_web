@@ -1,36 +1,66 @@
 <!-- Landing Page -->
-<div class="container text-center">
-  <div class="main-banner gradient-banner">
+
+<div class="main-banner text-center">
+  <div class="banner-content">
     <h1>FITForge</h1>
     <p>Your fitness journey, tracked and guided.</p>
   </div>
+</div>
 
-  <div class="features-intro">
-    <h2>Why FITForge?</h2>
-    <p>Manage your workouts, meals, and progress all in one place.</p>
+<div (swipeleft)="nextSlide()"
+     (swiperight)="prevSlide()"
+     (mouseenter)="stopAutoSlide()"
+     (mouseleave)="startAutoSlide()"
+     class="carousel-container">
+  <button class="carousel-nav prev" (click)="prevSlide()">❮</button>
+  <div
+    [style.transform]="'translateX(-' + currentSlide * 100 + '%)'"
+    [class.no-transition]="!isAnimating"
+    class="carousel-track"
+  >
+    <!-- Clone of last slide (for continuous loop when going backward) -->
+    <div class="carousel-slide">
+      <div class="feature-card">
+        <div class="card-icon">{{ features[features.length-1].title.split(' ')[0] }}</div>
+        <h3>{{ features[features.length-1].title.split(' ').slice(1).join(' ') }}</h3>
+        <p>{{ features[features.length-1].description }}</p>
+      </div>
+    </div>
+
+    <!-- Original slides -->
+    <div *ngFor="let feature of features" class="carousel-slide">
+      <div class="feature-card">
+        <div class="card-icon">{{ feature.title.split(' ')[0] }}</div>
+        <h3>{{ feature.title.split(' ').slice(1).join(' ') }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+    </div>
+
+    <!-- Clone of first slide (for continuous loop when going forward) -->
+    <div class="carousel-slide">
+      <div class="feature-card">
+        <div class="card-icon">{{ features[0].title.split(' ')[0] }}</div>
+        <h3>{{ features[0].title.split(' ').slice(1).join(' ') }}</h3>
+        <p>{{ features[0].description }}</p>
+      </div>
+    </div>
   </div>
+  <button class="carousel-nav next" (click)="nextSlide()">❯</button>
+</div>
 
-  <div class="card-section row">
-    <div class="col card">
-      <h3>💪 Exercise Library</h3>
-      <p>Explore a wide variety of exercises with full instructions and form tips to ensure safe and effective workouts.</p>
-    </div>
-    <div class="col card">
-      <h3>📊 Progress Tracking</h3>
-      <p>Save your routines, follow your journey, and view statistics to stay motivated and accountable.</p>
-    </div>
-    <div class="col card">
-      <h3>🥗 Nutrition Planner</h3>
-      <p>Choose from a library of foods with accurate nutritional info to help you reach your health goals.</p>
-    </div>
-    <div class="col card">
-      <h3>⚖️ Smart Goals</h3>
-      <p>Whether cutting, bulking, or maintaining — tailor your plan with smart daily tracking tools.</p>
-    </div>
-  </div>
+<div class="carousel-indicators">
+  <span
+    (click)="goToSlide(i)"
+    *ngFor="let item of features; let i = index"
+    [class.active]="i + 1 === currentSlide"
+  ></span>
+</div>
 
-<!--  <div class="cta-buttons">-->
-<!--    <a class="nav-link login" href="/login">Login</a>-->
-<!--    <a class="nav-link register" href="/register">Register</a>-->
-<!--  </div>-->
+<div class="swipe-instruction">
+  <p><i>Features will auto-slide, or use buttons/swipe to navigate</i></p>
+</div>
+
+<div class="cta-buttons">
+  <a class="btn login" href="/login">Login</a>
+  <a class="btn register" href="/register">Register</a>
 </div>

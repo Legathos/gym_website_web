@@ -1,24 +1,17 @@
-<nav>
-  <mat-toolbar>
-    <span class="title">Fit Forge</span>
-    <mat-tab-group (selectedTabChange)="tabClick($event)" mat-align-tabs="start">
-      <mat-tab label="Home"></mat-tab>
-      <mat-tab label="Food Tracker"></mat-tab>
-      <mat-tab label="Profile"></mat-tab>
-      <mat-tab label="Food"></mat-tab>
-    </mat-tab-group>
-    <span class="space"></span>
-    <button [matMenuTriggerFor]="menu" mat-button>User</button>
-    <mat-menu #menu="matMenu">
-
-      <button (click)="navigate('profile/')" mat-menu-item>
-        <mat-icon fontIcon="person"></mat-icon>
-        <span>Profile</span>
-      </button>
-
-      <button (click)="openDialog()" mat-menu-item>
-        <span>Logout</span>
-        <mat-icon fontIcon="logout"></mat-icon></button>
-    </mat-menu>
-  </mat-toolbar>
+<nav class="bottom-navbar">
+  <button mat-button routerLink="/nutrition">
+    <mat-icon>restaurant</mat-icon>
+  </button>
+  <button mat-button routerLink="/workouts">
+    <mat-icon>fitness_center</mat-icon>
+  </button>
+  <button class="center-button" mat-button routerLink="/home">
+    <mat-icon>home</mat-icon>
+  </button>
+  <button mat-button routerLink="/settings">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <button mat-button routerLink="/profile">
+    <mat-icon>person</mat-icon>
+  </button>
 </nav>

@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {MemberService} from "@domain/member";
 import {UserWeightData} from "../../../data/userweight.data";
 import { User } from '@domain/user';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +15,10 @@ export class ProfileComponent implements OnInit {
   user!: User;
   userWeightHistory!: UserWeightData[];
 
-  constructor(private memberService: MemberService) {
+  constructor(
+    private memberService: MemberService,
+    private dialog: MatDialog
+  ) {
   }
 
   ngOnInit() {
@@ -37,5 +42,11 @@ export class ProfileComponent implements OnInit {
           this.memberService.weightChart(this.userWeightHistory)
         }
       })
+  }
+
+  openDialog() {
+    this.dialog.open(DialogComponent, {
+      data: { question: 'Are you sure you want to log out?', action: 'Log out' }
+    });
   }
 }
