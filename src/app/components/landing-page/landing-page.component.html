@@ -7,15 +7,15 @@
   </div>
 </div>
 
-<div (swipeleft)="nextSlide()"
-     (swiperight)="prevSlide()"
-     (mouseenter)="stopAutoSlide()"
+<div (mouseenter)="stopAutoSlide()"
      (mouseleave)="startAutoSlide()"
+     (swipeleft)="nextSlide()"
+     (swiperight)="prevSlide()"
      class="carousel-container">
-  <button class="carousel-nav prev" (click)="prevSlide()">❮</button>
+  <button (click)="prevSlide()" class="carousel-nav prev">❮</button>
   <div
-    [style.transform]="'translateX(-' + currentSlide * 100 + '%)'"
     [class.no-transition]="!isAnimating"
+    [style.transform]="'translateX(-' + currentSlide * 100 + '%)'"
     class="carousel-track"
   >
     <!-- Clone of last slide (for continuous loop when going backward) -->
@@ -45,19 +45,14 @@
       </div>
     </div>
   </div>
-  <button class="carousel-nav next" (click)="nextSlide()">❯</button>
-</div>
-
-<div class="carousel-indicators">
+  <button (click)="nextSlide()" class="carousel-nav next">❯</button>
+  <div class="carousel-indicators">
   <span
     (click)="goToSlide(i)"
     *ngFor="let item of features; let i = index"
     [class.active]="i + 1 === currentSlide"
   ></span>
-</div>
-
-<div class="swipe-instruction">
-  <p><i>Features will auto-slide, or use buttons/swipe to navigate</i></p>
+  </div>
 </div>
 
 <div class="cta-buttons">
