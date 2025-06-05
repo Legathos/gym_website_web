@@ -16,7 +16,7 @@ import {ViewFoodItemComponent} from "./components/nutrition/view-food-item/view-
 const routes: Routes = [
   {path: 'login', component: LoginComponent,canActivate:[LoggedInGuardService]},
   {path: 'profile/:id', component: ProfileComponent,canActivate:[MemberGuardService]},
-  {path: 'landing-page', component:LandingPageComponent,canActivate:[MemberGuardService] },
+  {path: 'landing-page', component:LandingPageComponent,canActivate:[LoggedInGuardService] },
   {path: 'workouts/:id', component: WorkoutsComponent,canActivate:[MemberGuardService]},
   {path: 'current-workout/:id', component: CurrentWorkoutComponent,canActivate:[MemberGuardService]},
   {path: 'exercises', component: ExercisesComponent,canActivate:[MemberGuardService]},
@@ -24,7 +24,7 @@ const routes: Routes = [
   {path: 'view-food-item', component:ViewFoodItemComponent, canActivate:[MemberGuardService]},
   {path: 'food-tracker/:id', component: FoodTrackerComponent,canActivate:[MemberGuardService]},
   {path: 'register', component: RegisterComponent,canActivate:[LoggedInGuardService]},
-  {path: '**', redirectTo: 'login'}
+  {path: '**', redirectTo: 'landing-page'}
 ];
 
 @NgModule({
