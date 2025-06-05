@@ -12,9 +12,9 @@ export class LoggedInGuardService implements CanActivate{
     if(this.cookieService.get("auth-cookie")){
       const role = this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).roles;
       if(role === 'MEMBER'){
-        this.router.navigate(["landing-page"])
+        this.router.navigate(["profile/:id"])
       }else
-        this.router.navigate(["login"])
+        this.router.navigate(["landing-page"])
       return false;
     }
     return true;
