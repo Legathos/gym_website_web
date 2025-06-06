@@ -37,6 +37,14 @@ export class MemberService {
     return this.user.id
     }
 
+    getUsername(){
+      this.getUserData().subscribe({
+        next: (data) => {
+          this.user = data;
+        }
+      });
+    return this.user.username
+    }
 
   getUserWeightHistoryData(id: number) {
     return this.userService.getUserWeightHistory(id)
