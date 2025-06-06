@@ -43,4 +43,9 @@ export class FoodTrackerComponent implements OnInit {
       this.fats+=log.fats;
     }
   }
+
+  addItem() {
+    // Your logic to add an item goes here
+    alert("Item added!");
+  }
 }

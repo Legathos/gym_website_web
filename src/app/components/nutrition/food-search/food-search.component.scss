@@ -1,0 +1,356 @@
+// Color variables to match the app's design language
+$primary-color: #1E314A;
+$secondary-color: #256A7A;
+$tertiary-color: #C5E4E9;
+$accent-color: #BB8A2E;
+$light-bg: #f8f9fa;
+$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  gap: 12px;
+  margin: 0.5rem auto;
+  max-width: 800px;
+  border-radius: 10px;
+  background-color: $primary-color;
+  color: white;
+  box-shadow: $card-shadow;
+}
+
+.search-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+  margin: auto;
+
+  ::ng-deep .mat-form-field-wrapper {
+    margin-bottom: -1.25em;
+    width: 100%;
+  }
+
+  ::ng-deep .mat-form-field-flex {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  ::ng-deep .mat-form-field-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  ::ng-deep .mat-form-field-underline {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  ::ng-deep .mat-input-element {
+    color: white;
+  }
+}
+
+.search-results-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: $tertiary-color;
+  min-height: calc(100vh - 80px);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 30px;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: $primary-color;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: $secondary-color;
+    opacity: 0.9;
+  }
+}
+
+.search-hint, .no-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  color: $primary-color;
+  background-color: white;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: $card-shadow;
+
+  mat-icon {
+    margin-right: 10px;
+    color: $secondary-color;
+  }
+
+  span {
+    font-style: italic;
+  }
+}
+
+.results-count {
+  background-color: $light-bg;
+  color: $secondary-color;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  box-shadow: $card-shadow;
+  display: inline-block;
+}
+
+.food-item-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  padding: 0;
+  background-color: white;
+  box-shadow: $card-shadow;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; // Added for absolute positioning of the add button
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $hover-shadow;
+  }
+
+  .add-food-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    background-color: $secondary-color;
+    color: white;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+
+    mat-icon {
+      font-size: 20px;
+      line-height: 20px;
+      height: 20px;
+      width: 20px;
+    }
+  }
+
+  mat-card-header {
+    background-color: $light-bg;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 16px;
+
+    mat-card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: $primary-color;
+      margin-bottom: 5px;
+    }
+
+    mat-card-subtitle {
+      color: $secondary-color;
+      font-size: 1rem;
+
+      .header-macros {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        margin-top: 5px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        width: 100%;
+        -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+        scrollbar-width: none;  /* Hide scrollbar for Firefox */
+
+        &::-webkit-scrollbar {
+          display: none;  /* Hide scrollbar for Chrome, Safari and Opera */
+        }
+
+        .macro-item {
+          background-color: rgba(255, 255, 255, 0.6);
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-size: 0.85rem;
+          display: inline-flex;
+          align-items: center;
+          white-space: nowrap;
+
+          strong {
+            margin-right: 2px;
+            color: $primary-color;
+          }
+
+          &:nth-child(1) {
+            border-left: 3px solid $secondary-color;
+          }
+
+          &:nth-child(2) {
+            border-left: 3px solid $primary-color;
+          }
+
+          &:nth-child(3) {
+            border-left: 3px solid $accent-color;
+          }
+
+          &:nth-child(4) {
+            border-left: 3px solid darken($accent-color, 10%);
+          }
+        }
+      }
+    }
+  }
+
+  mat-card-content {
+    padding: 16px;
+  }
+}
+
+/* Removed .macros class as it's no longer needed - macronutrient information is now displayed in the card header */
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .page-header {
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .search-results-container {
+    padding: 15px;
+  }
+
+  .results-count {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .food-item-card {
+    margin-bottom: 15px;
+
+    .add-food-button {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      top: 8px;
+      right: 8px;
+
+      mat-icon {
+        font-size: 18px;
+        line-height: 18px;
+        height: 18px;
+        width: 18px;
+      }
+    }
+
+    mat-card-header {
+      padding: 12px;
+
+      mat-card-title {
+        font-size: 1.1rem;
+      }
+
+      mat-card-subtitle {
+        font-size: 0.9rem;
+
+        .header-macros {
+          gap: 6px;
+          margin-top: 4px;
+
+          .macro-item {
+            padding: 2px 6px;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+
+    mat-card-content {
+      padding: 12px;
+    }
+  }
+
+  /* Removed .macros responsive styles as they're no longer needed */
+
+  .search-hint, .no-results {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    padding: 0 10px;
+    margin: 0.3rem;
+  }
+
+  .search-results-container {
+    padding: 10px;
+  }
+
+  .page-header {
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+    }
+  }
+
+  .results-count {
+    width: 100%;
+    text-align: center;
+  }
+
+  .food-item-card {
+    .add-food-button {
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      top: 6px;
+      right: 6px;
+
+      mat-icon {
+        font-size: 16px;
+        line-height: 16px;
+        height: 16px;
+        width: 16px;
+      }
+    }
+
+    mat-card-header {
+      mat-card-subtitle {
+        .header-macros {
+          display: flex;
+          flex-wrap: nowrap;
+          gap: 4px;
+          padding-bottom: 3px;
+
+          .macro-item {
+            padding: 2px 4px;
+            font-size: 0.75rem;
+            justify-content: center;
+            flex-shrink: 0;
+          }
+        }
+      }
+    }
+  }
+
+  /* Removed .macros responsive styles for small screens as they're no longer needed */
+}

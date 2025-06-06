@@ -17,7 +17,7 @@ import { NgChartsModule } from 'ng2-charts';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {SimpleNotificationsModule} from "angular2-notifications";
-import { HttpInterceptorService } from './core/auth/http-interceptor.service';
+import { HttpInterceptorService } from '@core/auth';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,6 +33,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { HomeComponent } from './components/home/home.component';
+import { FoodSearchComponent } from './components/nutrition/food-search/food-search.component';
+import {MatInput} from "@angular/material/input";
+
 
 @NgModule({
   declarations: [
@@ -50,32 +54,35 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     NavBarComponent,
     DialogComponent,
     ViewFoodItemComponent,
+    HomeComponent,
+    FoodSearchComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        NgbModule,
-        NgOptimizedImage,
-        NgChartsModule,
-        ReactiveFormsModule,
-        SimpleNotificationsModule,
-        HttpClientModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatDialogContent,
-        MatDialogActions,
-        MatButtonModule,
-        MatDialogClose,
-        CoreModule,
-        MatDialogModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatTabsModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatMenuModule,
-        MatButtonToggleModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NgbModule,
+    NgOptimizedImage,
+    NgChartsModule,
+    ReactiveFormsModule,
+    SimpleNotificationsModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatDialogContent,
+    MatDialogActions,
+    MatButtonModule,
+    MatDialogClose,
+    CoreModule,
+    MatDialogModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
+    MatButtonToggleModule,
+    MatInput,
+  ],
   providers: [NgbActiveModal,
     {
       provide: HTTP_INTERCEPTORS,

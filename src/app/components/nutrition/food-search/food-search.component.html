@@ -1,0 +1,45 @@
+<mat-toolbar class="top-bar">
+  <button (click)="goBack()" aria-label="Go back" mat-icon-button>
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search Food Items</mat-label>
+    <input (ngModelChange)="onSearchChange($event)" [(ngModel)]="searchText" matInput placeholder="Enter food name...">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</mat-toolbar>
+
+<div class="search-results-container">
+
+  <div *ngIf="searchText.length < 3 && searchText.length > 0" class="search-hint">
+    <mat-icon>info</mat-icon>
+    <span>Type at least 3 characters to search</span>
+  </div>
+
+  <div *ngIf="foodSearchResults.length === 0 && searchText.length >= 3" class="no-results">
+    <mat-icon>search_off</mat-icon>
+    <span>No food items found matching "{{ searchText }}"</span>
+  </div>
+
+  <div *ngIf="foodSearchResults.length > 0" class="results-count">
+    Found {{ foodSearchResults.length }} item(s)
+  </div>
+
+  <mat-card *ngFor="let food of foodSearchResults" class="food-item-card">
+    <button (click)="viewFoodItem(food)" class="add-food-button" mat-mini-fab aria-label="Add food">
+      <mat-icon>add</mat-icon>
+    </button>
+    <mat-card-header>
+      <mat-card-title>{{ food.name }}</mat-card-title>
+      <mat-card-subtitle>
+        <div class="header-macros">
+          <span class="macro-item"><strong>{{ food.calories }}</strong> kcal</span>
+          <span class="macro-item"><strong>{{ food.protein }}g</strong> protein</span>
+          <span class="macro-item"><strong>{{ food.carbs }}g</strong> carbs</span>
+          <span class="macro-item"><strong>{{ food.fats }}g</strong> fat</span>
+        </div>
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>

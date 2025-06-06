@@ -9,14 +9,16 @@ import { FoodTrackerComponent} from "./components/nutrition/food-tracker/food-tr
 import { CurrentWorkoutComponent} from "./components/training/current-workout/current-workout.component";
 import { ProfileComponent} from "./components/profile/profile.component";
 import { RegisterComponent} from "./components/auth/register/register.component";
-import {LoggedInGuardService} from "./core/auth/logged-in-guard.service";
+import {LoggedInGuardService} from "@core/auth";
 import {MemberGuardService} from "@domain/member";
 import {ViewFoodItemComponent} from "./components/nutrition/view-food-item/view-food-item.component";
+import {HomeComponent} from "./components/home/home.component";
+import {FoodSearchComponent} from "./components/nutrition/food-search/food-search.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,canActivate:[LoggedInGuardService]},
   {path: 'profile/:id', component: ProfileComponent,canActivate:[MemberGuardService]},
-  {path: 'landing-page', component:LandingPageComponent,canActivate:[MemberGuardService] },
+  {path: 'landing-page', component:LandingPageComponent,canActivate:[LoggedInGuardService] },
   {path: 'workouts/:id', component: WorkoutsComponent,canActivate:[MemberGuardService]},
   {path: 'current-workout/:id', component: CurrentWorkoutComponent,canActivate:[MemberGuardService]},
   {path: 'exercises', component: ExercisesComponent,canActivate:[MemberGuardService]},
@@ -24,7 +26,9 @@ const routes: Routes = [
   {path: 'view-food-item', component:ViewFoodItemComponent, canActivate:[MemberGuardService]},
   {path: 'food-tracker/:id', component: FoodTrackerComponent,canActivate:[MemberGuardService]},
   {path: 'register', component: RegisterComponent,canActivate:[LoggedInGuardService]},
-  {path: '**', redirectTo: 'login'}
+  {path: 'home', component: HomeComponent,canActivate:[MemberGuardService]},
+  {path: 'food-search', component: FoodSearchComponent,canActivate:[MemberGuardService] },
+  {path: '**', redirectTo: 'landing-page'}
 ];
 
 @NgModule({

@@ -27,5 +27,6 @@ export const EndpointDictionary = {
   getAllFoodItems:`${apiUrl}food/get-food-items`,
   getUserWeightHistory:`${apiUrl}user/weight-history-user-`,
   checkIfUserExists:`${apiUrl}user/check-if-user-exists`,
-  getFoodTrackingByIdAndDate:`${apiUrl}logger/get-logs-for-`
+  getFoodTrackingByIdAndDate:`${apiUrl}logger/get-logs-for-`,
+  getFoodItemsByName:`${apiUrl}food/get-food-items-`
 };

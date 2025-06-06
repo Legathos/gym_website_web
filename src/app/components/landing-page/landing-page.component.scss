@@ -24,12 +24,46 @@ body {
 }
 
 .main-banner {
-  background: linear-gradient(to right, $secondary-color, $tertiary-color);
+  background: linear-gradient(135deg, $secondary-color, darken($tertiary-color, 15%));
   color: #fff;
-  padding: 40px 20px;
-  border-radius: 8px;
-  margin-bottom: 30px;
+  padding: 60px 20px;
+  border-radius: 12px;
+  margin-bottom: 60px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+    opacity: 0.1;
+    z-index: 0;
+  }
+
+  .banner-content {
+    position: relative;
+    z-index: 1;
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+  }
 }
 
 .features-intro {
@@ -78,34 +112,288 @@ body {
 }
 
 .cta-buttons {
-  margin-top: 30px;
+  margin-top: 40px;
+  text-align: center;
 }
 
-.nav-link {
-  color: $secondary-color;
+.btn {
   text-decoration: none;
-  font-weight: bold;
-  padding: 12px 24px;
-  border: 2px solid $secondary-color;
-  border-radius: 6px;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 30px;
   display: inline-block;
-  margin: 0 10px;
-  transition: background-color 0.3s, color 0.3s;
+  margin: 0 12px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+  }
 
   &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &.login {
+    background-color: transparent;
+    color: $secondary-color;
+    border: 2px solid $secondary-color;
+
+    &:hover {
+      background-color: $secondary-color;
+      color: white;
+    }
+  }
+
+  &.register {
     background-color: $secondary-color;
-    color: #fff;
+    color: white;
+    border: 2px solid $secondary-color;
+
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+      border-color: darken($secondary-color, 10%);
+    }
   }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .main-banner {
-    padding: 25px 15px;
+    padding: 40px 15px;
+    margin-bottom: 50px;
+
+    .banner-content {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
   }
 
   .card-section {
     flex-direction: column;
     align-items: center;
   }
+
+  .cta-buttons {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .btn {
+      margin: 8px 0;
+      width: 80%;
+      max-width: 250px;
+    }
+  }
+
+  .carousel-container {
+    max-width: 90%;
+  }
+
+  .carousel-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+
+    &.prev {
+      left: 5px;
+    }
+
+    &.next {
+      right: 5px;
+    }
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+    aspect-ratio: 1 / 1;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+  }
+}
+
+.carousel-container {
+  overflow: hidden;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  color: $secondary-color;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.prev {
+    left: 10px;
+  }
+
+  &.next {
+    right: 10px;
+  }
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+
+  &.no-transition {
+    transition: none;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  padding: 1rem;
+  background: #f8f9fa;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feature-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 0.5rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.5s ease-out, slideIn 0.6s ease-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  h3 {
+    color: $secondary-color;
+    margin: 0.8rem 0;
+    font-size: 1.4rem;
+  }
+
+  p {
+    color: $primary-color;
+    margin-bottom: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.carousel-indicators span {
+  width: 12px;
+  height: 12px;
+  margin: 0 6px;
+  background: #ccc;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: scale(1.2);
+    background: lighten($secondary-color, 15%);
+  }
+}
+
+.carousel-indicators span.active {
+  background: $secondary-color;
+  width: 14px;
+  height: 14px;
+  transform: scale(1.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.swipe-instruction {
+  text-align: center;
+  margin-top: 0.5rem;
+  color: lighten($primary-color, 20%);
+  font-size: 0.9rem;
 }

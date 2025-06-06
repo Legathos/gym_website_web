@@ -1,23 +1,20 @@
 import {Component, OnInit} from '@angular/core';
-import {MemberService} from "@domain/member";
+import {User} from "@domain/user";
 import {UserWeightData} from "../../../data/userweight.data";
-import { User } from '@domain/user';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
+import {MemberService} from "@domain/member";
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss'
 })
-export class ProfileComponent implements OnInit {
-  username!: string;
+export class HomeComponent implements OnInit{
+username!: string;
   user!: User;
   userWeightHistory!: UserWeightData[];
 
   constructor(
     private memberService: MemberService,
-    private dialog: MatDialog
   ) {
   }
 
@@ -44,9 +41,5 @@ export class ProfileComponent implements OnInit {
       })
   }
 
-  openDialog() {
-    this.dialog.open(DialogComponent, {
-      data: { question: 'Are you sure you want to log out?', action: 'Log out' }
-    });
-  }
+
 }

@@ -21,9 +21,10 @@ export class DialogComponent implements OnInit {
   }
 
   logout() {
-    this.cookieService.deleteAll();
+    // Delete only the authentication cookie instead of all cookies
+    this.cookieService.delete("auth-cookie", "/");
     this.router.navigateByUrl('login');
-    this.close()
+    this.close();
   }
 
   close() {

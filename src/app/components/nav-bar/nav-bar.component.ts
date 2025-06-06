@@ -15,6 +15,10 @@ import { User } from '@domain/user';
 export class NavBarComponent implements OnInit {
   username!: string;
   user!: User;
+  showNavBar = !(window.location.href.includes('login')
+    || window.location.href.includes('change-password')
+    || window.location.href.includes("register")
+    || window.location.href.includes('landing-page'));
   private userRole!: string;
 
   constructor(private router: Router,
@@ -66,4 +70,5 @@ export class NavBarComponent implements OnInit {
       data: { question: 'Are you sure you want to log out?', action: 'Log out' }
     });
   }
+
 }

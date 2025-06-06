@@ -1,44 +1,55 @@
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-
+// Dialog container styling
+.mat-dialog-container {
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Modal Content/Box */
-.modal-content {
-  background-color: black;
-  margin: 15% auto; /* 15% from the top and centered */
+// Dialog content styling
+mat-dialog-content {
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+  }
 }
 
-/* The Close Button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+// Dialog actions styling
+mat-dialog-actions {
+  padding: 12px 24px;
+  margin-bottom: 0;
+
+  button {
+    min-width: 90px;
+    text-transform: uppercase;
+    font-weight: 500;
+
+    &:first-child {
+      margin-right: 8px;
+    }
+  }
+
+  // Style for the logout button
+  button[color="warn"] {
+    background-color: #f44336;
+    color: white;
+
+    &:hover {
+      background-color: #d32f2f;
+    }
+  }
 }
 
-.close:hover,
-.close:focus {
-  text-decoration: none;
-  cursor: pointer;
+// Add a transition effect for buttons
+button {
+  transition: background-color 0.3s ease;
 }
 
+// Keep the success button style
 .mat-success {
   background-color: green;
   color: #fff;
 }
-
-

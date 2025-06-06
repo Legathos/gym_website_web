@@ -25,6 +25,10 @@ export class FoodService {
 
   }
 
+  getFoodItemsByName(name: String):Observable<any>{
+    return this.httpClient.get<FoodData[]>(`${EndpointDictionary.getFoodItemsByName}${name}`);
+  }
+
   macrosChart(protein:number, carbs:number, fats:number) {
     const data = {
       labels: [
