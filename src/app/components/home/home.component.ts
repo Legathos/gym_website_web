@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {User} from "@domain/user";
 import {UserWeightData} from "../../../data/userweight.data";
 import {MemberService} from "@domain/member";
-import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-home',
