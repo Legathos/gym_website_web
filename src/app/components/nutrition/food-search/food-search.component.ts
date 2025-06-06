@@ -54,7 +54,7 @@ export class FoodSearchComponent implements OnInit{
   }
 
   goBack() {
-    window.history.back();
+    this.router.navigate(['/food-tracker/:id']);
   }
 
   viewFoodItem(food: FoodData) {
