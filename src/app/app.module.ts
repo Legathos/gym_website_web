@@ -34,6 +34,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { HomeComponent } from './components/home/home.component';
+import { FoodSearchComponent } from './components/nutrition/food-search/food-search.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { HomeComponent } from './components/home/home.component';
     DialogComponent,
     ViewFoodItemComponent,
     HomeComponent,
+    FoodSearchComponent,
   ],
     imports: [
         BrowserModule,
