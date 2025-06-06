@@ -33,6 +33,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     NavBarComponent,
     DialogComponent,
     ViewFoodItemComponent,
+    HomeComponent,
   ],
     imports: [
         BrowserModule,
