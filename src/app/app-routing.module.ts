@@ -13,6 +13,7 @@ import {LoggedInGuardService} from "@core/auth";
 import {MemberGuardService} from "@domain/member";
 import {ViewFoodItemComponent} from "./components/nutrition/view-food-item/view-food-item.component";
 import {HomeComponent} from "./components/home/home.component";
+import {FoodSearchComponent} from "./components/nutrition/food-search/food-search.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,canActivate:[LoggedInGuardService]},
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: 'food-tracker/:id', component: FoodTrackerComponent,canActivate:[MemberGuardService]},
   {path: 'register', component: RegisterComponent,canActivate:[LoggedInGuardService]},
   {path: 'home', component: HomeComponent,canActivate:[MemberGuardService]},
+  {path: 'food-search', component: FoodSearchComponent,canActivate:[MemberGuardService] },
   {path: '**', redirectTo: 'landing-page'}
 ];
 
