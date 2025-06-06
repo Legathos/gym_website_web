@@ -17,7 +17,7 @@ import { NgChartsModule } from 'ng2-charts';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {SimpleNotificationsModule} from "angular2-notifications";
-import { HttpInterceptorService } from './core/auth/http-interceptor.service';
+import { HttpInterceptorService } from '@core/auth';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
