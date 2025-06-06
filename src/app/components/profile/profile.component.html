@@ -1,7 +1,7 @@
 <div class="container">
   <div class="profile-header">
     <h1 class="text-center">Profile</h1>
-    <p class="welcome-text">Welcome, {{this.user?.username}}!</p>
+    <p class="welcome-text">Welcome, {{this.user.username}}!</p>
   </div>
 
   <div class="profile-card">
@@ -9,23 +9,23 @@
     <div class="profile-info">
       <div class="info-item">
         <div class="info-label">Username</div>
-        <div class="info-value">{{this.user?.username}}</div>
+        <div class="info-value">{{this.user.username}}</div>
       </div>
       <div class="info-item">
         <div class="info-label">Age</div>
-        <div class="info-value">{{this.user?.age}} years</div>
+        <div class="info-value">{{this.user.age}} years</div>
       </div>
       <div class="info-item">
         <div class="info-label">Weight</div>
-        <div class="info-value">{{this.user?.weight}} kg</div>
+        <div class="info-value">{{this.user.weight}} kg</div>
       </div>
       <div class="info-item">
         <div class="info-label">Height</div>
-        <div class="info-value">{{this.user?.height}} cm</div>
+        <div class="info-value">{{this.user.height}} cm</div>
       </div>
       <div class="info-item">
         <div class="info-label">Gender</div>
-        <div class="info-value">{{this.user?.gender}}</div>
+        <div class="info-value">{{this.user.gender}}</div>
       </div>
     </div>
   </div>
@@ -39,6 +39,6 @@
   </div>
 
   <div class="logout-container">
-    <button class="logout-btn" (click)="openDialog()">Logout</button>
+    <button (click)="openDialog()" class="logout-btn">Logout</button>
   </div>
 </div>
