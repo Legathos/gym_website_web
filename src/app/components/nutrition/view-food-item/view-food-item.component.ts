@@ -2,8 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { FoodData, FoodService } from '@domain/food';
 import { Location } from '@angular/common';
-import _default from "chart.js/dist/plugins/plugin.tooltip";
-import numbers = _default.defaults.animations.numbers;
 
 @Component({
   selector: 'app-view-food-item',
