@@ -1,4 +1,5 @@
 export interface LoggerData{
+  id:number,
   user_id:number,
   date:Date,
   food_id:number,

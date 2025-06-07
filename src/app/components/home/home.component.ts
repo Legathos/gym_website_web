@@ -3,7 +3,7 @@ import {User} from "@domain/user";
 import {UserWeightData} from "../../../data/userweight.data";
 import {MemberService} from "@domain/member";
 import {FoodService} from "@domain/food";
-import {LoggerData} from "../../../data/logger.data";
+import { LoggerData} from "@domain/food/model/logger.model";
 
 @Component({
   selector: 'app-home',

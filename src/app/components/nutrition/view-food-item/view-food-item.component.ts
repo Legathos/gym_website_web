@@ -14,6 +14,8 @@ export class ViewFoodItemComponent implements OnInit{
   originalFoodItem!:FoodData;
   newWeight: number = 0;
   mealId: number = 1; // Default to breakfast
+  editMode: boolean = false;
+  logItem: any = null;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -30,6 +32,18 @@ export class ViewFoodItemComponent implements OnInit{
       // Get the meal ID from the navigation state if available
       if (history.state.mealId) {
         this.mealId = history.state.mealId;
+      }
+
+      // Check if we're in edit mode
+      if (history.state.editMode) {
+        this.editMode = history.state.editMode;
+        this.logItem = history.state.logItem;
+
+        // If we have a log item, use its weight
+        if (this.logItem) {
+          this.newWeight = this.logItem.weight;
+          this.calculateNutritionalValues();
+        }
       }
     });
   }
@@ -73,6 +87,7 @@ export class ViewFoodItemComponent implements OnInit{
     }
 
     const loggerModel = {
+      id: this.editMode && this.logItem ? this.logItem.id : 0, // Use existing ID when editing, 0 for new items
       user_id: userId,
       date: new Date(),
       food_id: this.foodItem.id,
@@ -85,11 +100,20 @@ export class ViewFoodItemComponent implements OnInit{
       fats: this.foodItem.fats
     };
 
-    // Call the service to add the logger model to the tracker
-    this.foodService.addFoodToTracker(loggerModel).subscribe(() => {
-      // Navigate back to the food tracker page
-      this.router.navigate(['/food-tracker/:id']);
-    });
+    // Call the appropriate service method based on edit mode
+    if (this.editMode && this.logItem) {
+      // Update existing log item
+      this.foodService.editFoodLog(loggerModel).subscribe(() => {
+        // Navigate back to the food tracker page
+        this.router.navigate(['/food-tracker/:id']);
+      });
+    } else {
+      // Add new log item
+      this.foodService.addFoodToTracker(loggerModel).subscribe(() => {
+        // Navigate back to the food tracker page
+        this.router.navigate(['/food-tracker/:id']);
+      });
+    }
   }
 
   onWeightChange() {

@@ -37,6 +37,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FoodSearchComponent } from './components/nutrition/food-search/food-search.component';
 import {MatInput} from "@angular/material/input";
 import { SettingsComponent } from './components/settings/settings.component';
+import { ViewLogItemComponent } from './components/nutrition/view-log-item/view-log-item.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     HomeComponent,
     FoodSearchComponent,
     SettingsComponent,
+    ViewLogItemComponent,
   ],
   imports: [
     BrowserModule,

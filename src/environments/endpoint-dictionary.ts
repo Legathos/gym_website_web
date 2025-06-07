@@ -29,5 +29,7 @@ export const EndpointDictionary = {
   checkIfUserExists:`${apiUrl}user/check-if-user-exists`,
   getFoodTrackingByIdAndDate:`${apiUrl}logger/get-logs-for-`,
   getFoodItemsByName:`${apiUrl}food/get-food-items-`,
-  addNewLog:`${apiUrl}logger/add-new-log`
+  addNewLog:`${apiUrl}logger/add-new-log`,
+  editLogItem:`${apiUrl}logger/edit-log`,
+  deleteLogItem:`${apiUrl}logger/delete-log`
 };

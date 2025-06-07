@@ -3,9 +3,9 @@
     <!-- Macronutrient bar -->
     <section class="col-md-12 macros-chart">
       <div class="macro-bar d-flex">
-        <div [style.flex]="protein" class="macro protein"></div>
-        <div [style.flex]="carbs" class="macro carbs"></div>
-        <div [style.flex]="fats" class="macro fat"></div>
+        <div [style.flex]="protein * 4" class="macro protein"></div>
+        <div [style.flex]="carbs * 4" class="macro carbs"></div>
+        <div [style.flex]="fats * 9" class="macro fat"></div>
       </div>
     </section>
   </div>
@@ -33,7 +33,7 @@
   <section class="meal-section mb-4">
     <div class="meal-header d-flex justify-content-between align-items-center mb-2">
       <h3>Breakfast</h3>
-      <button class="add-button" (click)="addItem(1)">+</button>
+      <button (click)="addItem(1)" class="add-button">+</button>
     </div>
     <!-- Breakfast Macros Summary -->
     <div class="meal-macros-summary d-flex mb-2">
@@ -69,12 +69,17 @@
             <div class="card-body p-2">
               <table class="table table-sm">
                 <tbody>
+                <tr><td>Weight</td><td>{{ f.weight | number:'1.1-1' }}g</td></tr>
                 <tr><td>Calories</td><td>{{ f.calories | number:'1.1-1' }}</td></tr>
                 <tr><td>Protein</td><td>{{ f.protein | number:'1.1-1' }}</td></tr>
                 <tr><td>Carbs</td><td>{{ f.carbs | number:'1.1-1' }}</td></tr>
                 <tr><td>Fats</td><td>{{ f.fats | number:'1.1-1' }}</td></tr>
                 </tbody>
               </table>
+              <div class="d-flex justify-content-end mt-2">
+                <button (click)="editLogItem(f)" class="btn btn-sm btn-primary me-2">Edit</button>
+                <button (click)="deleteLogItem(f)" class="btn btn-sm btn-danger">Delete</button>
+              </div>
             </div>
           </div>
         </div>
@@ -82,11 +87,12 @@
     </div>
   </section>
 
+
   <!-- Lunch Section -->
   <section class="meal-section mb-4">
     <div class="meal-header d-flex justify-content-between align-items-center mb-2">
       <h3>Lunch</h3>
-      <button class="add-button" (click)="addItem(2)">+</button>
+      <button (click)="addItem(2)" class="add-button">+</button>
     </div>
     <!-- Lunch Macros Summary -->
     <div class="meal-macros-summary d-flex mb-2">
@@ -122,12 +128,17 @@
             <div class="card-body p-2">
               <table class="table table-sm">
                 <tbody>
+                <tr><td>Weight</td><td>{{ f.weight | number:'1.1-1' }}g</td></tr>
                 <tr><td>Calories</td><td>{{ f.calories | number:'1.1-1' }}</td></tr>
                 <tr><td>Protein</td><td>{{ f.protein | number:'1.1-1' }}</td></tr>
                 <tr><td>Carbs</td><td>{{ f.carbs | number:'1.1-1' }}</td></tr>
                 <tr><td>Fats</td><td>{{ f.fats | number:'1.1-1' }}</td></tr>
                 </tbody>
               </table>
+              <div class="d-flex justify-content-end mt-2">
+                <button (click)="editLogItem(f)" class="btn btn-sm btn-primary me-2">Edit</button>
+                <button (click)="deleteLogItem(f)" class="btn btn-sm btn-danger">Delete</button>
+              </div>
             </div>
           </div>
         </div>
@@ -139,7 +150,7 @@
   <section class="meal-section mb-4">
     <div class="meal-header d-flex justify-content-between align-items-center mb-2">
       <h3>Dinner</h3>
-      <button class="add-button" (click)="addItem(3)">+</button>
+      <button (click)="addItem(3)" class="add-button">+</button>
     </div>
     <!-- Dinner Macros Summary -->
     <div class="meal-macros-summary d-flex mb-2">
@@ -175,12 +186,17 @@
             <div class="card-body p-2">
               <table class="table table-sm">
                 <tbody>
+                <tr><td>Weight</td><td>{{ f.weight | number:'1.1-1' }}g</td></tr>
                 <tr><td>Calories</td><td>{{ f.calories | number:'1.1-1' }}</td></tr>
                 <tr><td>Protein</td><td>{{ f.protein | number:'1.1-1' }}</td></tr>
                 <tr><td>Carbs</td><td>{{ f.carbs | number:'1.1-1' }}</td></tr>
                 <tr><td>Fats</td><td>{{ f.fats | number:'1.1-1' }}</td></tr>
                 </tbody>
               </table>
+              <div class="d-flex justify-content-end mt-2">
+                <button (click)="editLogItem(f)" class="btn btn-sm btn-primary me-2">Edit</button>
+                <button (click)="deleteLogItem(f)" class="btn btn-sm btn-danger">Delete</button>
+              </div>
             </div>
           </div>
         </div>
