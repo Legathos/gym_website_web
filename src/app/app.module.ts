@@ -36,6 +36,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { HomeComponent } from './components/home/home.component';
 import { FoodSearchComponent } from './components/nutrition/food-search/food-search.component';
 import {MatInput} from "@angular/material/input";
+import { SettingsComponent } from './components/settings/settings.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import {MatInput} from "@angular/material/input";
     ViewFoodItemComponent,
     HomeComponent,
     FoodSearchComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
