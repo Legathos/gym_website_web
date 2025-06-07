@@ -12,6 +12,7 @@ import { RegisterComponent} from "./components/auth/register/register.component"
 import {LoggedInGuardService} from "@core/auth";
 import {MemberGuardService} from "@domain/member";
 import {ViewFoodItemComponent} from "./components/nutrition/view-food-item/view-food-item.component";
+import {ViewLogItemComponent} from "./components/nutrition/view-log-item/view-log-item.component";
 import {HomeComponent} from "./components/home/home.component";
 import {FoodSearchComponent} from "./components/nutrition/food-search/food-search.component";
 import {SettingsComponent} from "./components/settings/settings.component";
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path: 'exercises', component: ExercisesComponent,canActivate:[MemberGuardService]},
   {path: 'food', component: FoodComponent,canActivate:[MemberGuardService]},
   {path: 'view-food-item', component:ViewFoodItemComponent, canActivate:[MemberGuardService]},
+  {path: 'view-log-item', component:ViewLogItemComponent, canActivate:[MemberGuardService]},
   {path: 'food-tracker/:id', component: FoodTrackerComponent,canActivate:[MemberGuardService]},
   {path: 'register', component: RegisterComponent,canActivate:[LoggedInGuardService]},
   {path: 'home', component: HomeComponent,canActivate:[MemberGuardService]},
