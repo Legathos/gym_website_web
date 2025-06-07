@@ -14,6 +14,7 @@ import {MemberGuardService} from "@domain/member";
 import {ViewFoodItemComponent} from "./components/nutrition/view-food-item/view-food-item.component";
 import {HomeComponent} from "./components/home/home.component";
 import {FoodSearchComponent} from "./components/nutrition/food-search/food-search.component";
+import {SettingsComponent} from "./components/settings/settings.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,canActivate:[LoggedInGuardService]},
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent,canActivate:[LoggedInGuardService]},
   {path: 'home', component: HomeComponent,canActivate:[MemberGuardService]},
   {path: 'food-search', component: FoodSearchComponent,canActivate:[MemberGuardService] },
+  {path: 'settings', component: SettingsComponent,canActivate:[MemberGuardService] },
   {path: '**', redirectTo: 'landing-page'}
 ];
 
