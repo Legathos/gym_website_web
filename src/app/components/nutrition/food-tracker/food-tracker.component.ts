@@ -18,6 +18,22 @@ export class FoodTrackerComponent implements OnInit {
   carbs = 0;
   fats = 0;
   calories = this.protein * 4 + this.carbs * 4 + this.fats * 9;
+
+  // Macros for each meal type
+  breakfastProtein = 0;
+  breakfastCarbs = 0;
+  breakfastFats = 0;
+  breakfastCalories = 0;
+
+  lunchProtein = 0;
+  lunchCarbs = 0;
+  lunchFats = 0;
+  lunchCalories = 0;
+
+  dinnerProtein = 0;
+  dinnerCarbs = 0;
+  dinnerFats = 0;
+  dinnerCalories = 0;
   date:string = new Date().toISOString().slice(0,10)
 
   constructor(
@@ -34,6 +50,10 @@ export class FoodTrackerComponent implements OnInit {
         this.groupFoodLogsByMealType();
         this.calculateTotalCalories();
         this.calculateMacros();
+        // Calculate macros for each meal type
+        this.calculateBreakfastMacros();
+        this.calculateLunchMacros();
+        this.calculateDinnerMacros();
         this.foodService.macrosChart(this.protein, this.carbs, this.fats);
       }
     });
@@ -68,6 +88,54 @@ export class FoodTrackerComponent implements OnInit {
       this.protein+=log.protein;
       this.carbs+=log.carbs;
       this.fats+=log.fats;
+    }
+  }
+
+  calculateBreakfastMacros() {
+    // Reset values
+    this.breakfastProtein = 0;
+    this.breakfastCarbs = 0;
+    this.breakfastFats = 0;
+    this.breakfastCalories = 0;
+
+    // Calculate macros for breakfast
+    for (const log of this.breakfastLogs) {
+      this.breakfastProtein += log.protein;
+      this.breakfastCarbs += log.carbs;
+      this.breakfastFats += log.fats;
+      this.breakfastCalories += log.calories;
+    }
+  }
+
+  calculateLunchMacros() {
+    // Reset values
+    this.lunchProtein = 0;
+    this.lunchCarbs = 0;
+    this.lunchFats = 0;
+    this.lunchCalories = 0;
+
+    // Calculate macros for lunch
+    for (const log of this.lunchLogs) {
+      this.lunchProtein += log.protein;
+      this.lunchCarbs += log.carbs;
+      this.lunchFats += log.fats;
+      this.lunchCalories += log.calories;
+    }
+  }
+
+  calculateDinnerMacros() {
+    // Reset values
+    this.dinnerProtein = 0;
+    this.dinnerCarbs = 0;
+    this.dinnerFats = 0;
+    this.dinnerCalories = 0;
+
+    // Calculate macros for dinner
+    for (const log of this.dinnerLogs) {
+      this.dinnerProtein += log.protein;
+      this.dinnerCarbs += log.carbs;
+      this.dinnerFats += log.fats;
+      this.dinnerCalories += log.calories;
     }
   }
 

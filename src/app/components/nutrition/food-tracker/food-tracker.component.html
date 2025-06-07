@@ -13,19 +13,19 @@
   <div class="macro-summary mb-4">
     <div class="macro-card">
       <div class="macro-label">Calories (kcal)</div>
-      <div class="macro-value">{{ this.calories }}</div>
+      <div class="macro-value">{{ this.calories | number:'1.1-1' }}</div>
     </div>
     <div class="macro-card">
       <div class="macro-label">Protein (g)</div>
-      <div class="macro-value">{{ this.protein }}</div>
+      <div class="macro-value">{{ this.protein | number:'1.1-1' }}</div>
     </div>
     <div class="macro-card">
       <div class="macro-label">Carbohydrates (g)</div>
-      <div class="macro-value">{{ this.carbs }}</div>
+      <div class="macro-value">{{ this.carbs | number:'1.1-1' }}</div>
     </div>
     <div class="macro-card">
       <div class="macro-label">Fats (g)</div>
-      <div class="macro-value">{{ this.fats }}</div>
+      <div class="macro-value">{{ this.fats | number:'1.1-1' }}</div>
     </div>
   </div>
 
@@ -34,6 +34,21 @@
     <div class="meal-header d-flex justify-content-between align-items-center mb-2">
       <h3>Breakfast</h3>
       <button class="add-button" (click)="addItem(1)">+</button>
+    </div>
+    <!-- Breakfast Macros Summary -->
+    <div class="meal-macros-summary d-flex mb-2">
+      <div class="meal-macro-item">
+        <span class="macro-icon">🔥</span> {{ breakfastCalories | number:'1.1-1' }} kcal
+      </div>
+      <div class="meal-macro-item">
+        <span class="macro-icon">🥩</span> {{ breakfastProtein | number:'1.1-1' }}g
+      </div>
+      <div class="meal-macro-item">
+        <span class="macro-icon">🍚</span> {{ breakfastCarbs | number:'1.1-1' }}g
+      </div>
+      <div class="meal-macro-item">
+        <span class="macro-icon">🥑</span> {{ breakfastFats | number:'1.1-1' }}g
+      </div>
     </div>
     <div class="food-items row">
       <div *ngFor="let f of breakfastLogs; let i = index" class="col-md-6 mb-3">
@@ -54,10 +69,10 @@
             <div class="card-body p-2">
               <table class="table table-sm">
                 <tbody>
-                <tr><td>Calories</td><td>{{ f.calories }}</td></tr>
-                <tr><td>Protein</td><td>{{ f.protein }}</td></tr>
-                <tr><td>Carbs</td><td>{{ f.carbs }}</td></tr>
-                <tr><td>Fats</td><td>{{ f.fats }}</td></tr>
+                <tr><td>Calories</td><td>{{ f.calories | number:'1.1-1' }}</td></tr>
+                <tr><td>Protein</td><td>{{ f.protein | number:'1.1-1' }}</td></tr>
+                <tr><td>Carbs</td><td>{{ f.carbs | number:'1.1-1' }}</td></tr>
+                <tr><td>Fats</td><td>{{ f.fats | number:'1.1-1' }}</td></tr>
                 </tbody>
               </table>
             </div>
@@ -72,6 +87,21 @@
     <div class="meal-header d-flex justify-content-between align-items-center mb-2">
       <h3>Lunch</h3>
       <button class="add-button" (click)="addItem(2)">+</button>
+    </div>
+    <!-- Lunch Macros Summary -->
+    <div class="meal-macros-summary d-flex mb-2">
+      <div class="meal-macro-item">
+        <span class="macro-icon">🔥</span> {{ lunchCalories | number:'1.1-1' }} kcal
+      </div>
+      <div class="meal-macro-item">
+        <span class="macro-icon">🥩</span> {{ lunchProtein | number:'1.1-1' }}g
+      </div>
+      <div class="meal-macro-item">
+        <span class="macro-icon">🍚</span> {{ lunchCarbs | number:'1.1-1' }}g
+      </div>
+      <div class="meal-macro-item">
+        <span class="macro-icon">🥑</span> {{ lunchFats | number:'1.1-1' }}g
+      </div>
     </div>
     <div class="food-items row">
       <div *ngFor="let f of lunchLogs; let i = index" class="col-md-6 mb-3">
@@ -92,10 +122,10 @@
             <div class="card-body p-2">
               <table class="table table-sm">
                 <tbody>
-                <tr><td>Calories</td><td>{{ f.calories }}</td></tr>
-                <tr><td>Protein</td><td>{{ f.protein }}</td></tr>
-                <tr><td>Carbs</td><td>{{ f.carbs }}</td></tr>
-                <tr><td>Fats</td><td>{{ f.fats }}</td></tr>
+                <tr><td>Calories</td><td>{{ f.calories | number:'1.1-1' }}</td></tr>
+                <tr><td>Protein</td><td>{{ f.protein | number:'1.1-1' }}</td></tr>
+                <tr><td>Carbs</td><td>{{ f.carbs | number:'1.1-1' }}</td></tr>
+                <tr><td>Fats</td><td>{{ f.fats | number:'1.1-1' }}</td></tr>
                 </tbody>
               </table>
             </div>
@@ -110,6 +140,21 @@
     <div class="meal-header d-flex justify-content-between align-items-center mb-2">
       <h3>Dinner</h3>
       <button class="add-button" (click)="addItem(3)">+</button>
+    </div>
+    <!-- Dinner Macros Summary -->
+    <div class="meal-macros-summary d-flex mb-2">
+      <div class="meal-macro-item">
+        <span class="macro-icon">🔥</span> {{ dinnerCalories | number:'1.1-1' }} kcal
+      </div>
+      <div class="meal-macro-item">
+        <span class="macro-icon">🥩</span> {{ dinnerProtein | number:'1.1-1' }}g
+      </div>
+      <div class="meal-macro-item">
+        <span class="macro-icon">🍚</span> {{ dinnerCarbs | number:'1.1-1' }}g
+      </div>
+      <div class="meal-macro-item">
+        <span class="macro-icon">🥑</span> {{ dinnerFats | number:'1.1-1' }}g
+      </div>
     </div>
     <div class="food-items row">
       <div *ngFor="let f of dinnerLogs; let i = index" class="col-md-6 mb-3">
@@ -130,10 +175,10 @@
             <div class="card-body p-2">
               <table class="table table-sm">
                 <tbody>
-                <tr><td>Calories</td><td>{{ f.calories }}</td></tr>
-                <tr><td>Protein</td><td>{{ f.protein }}</td></tr>
-                <tr><td>Carbs</td><td>{{ f.carbs }}</td></tr>
-                <tr><td>Fats</td><td>{{ f.fats }}</td></tr>
+                <tr><td>Calories</td><td>{{ f.calories | number:'1.1-1' }}</td></tr>
+                <tr><td>Protein</td><td>{{ f.protein | number:'1.1-1' }}</td></tr>
+                <tr><td>Carbs</td><td>{{ f.carbs | number:'1.1-1' }}</td></tr>
+                <tr><td>Fats</td><td>{{ f.fats | number:'1.1-1' }}</td></tr>
                 </tbody>
               </table>
             </div>
