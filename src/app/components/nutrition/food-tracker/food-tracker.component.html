@@ -29,35 +29,114 @@
     </div>
   </div>
 
-  <div class="button-container">
-    <button class="add-button" routerLink="/food-search">+</button>
-  </div>
-
-  <section class="food-items row">
-    <div *ngFor="let f of foodLogs; let i = index" class="col-md-6 mb-3">
-      <div class="card shadow-sm">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center">
-          <span class="fw-bold">{{ f.food_name }}</span>
-          <button
-            [attr.aria-controls]="'collapsableFoodItem' + i"
-            [attr.data-bs-target]="'#collapsableFoodItem' + i"
-            aria-expanded="false"
-            class="btn btn-sm btn-outline-secondary"
-            data-bs-toggle="collapse"
-            type="button">
-            Details
-          </button>
+  <!-- Breakfast Section -->
+  <section class="meal-section mb-4">
+    <div class="meal-header d-flex justify-content-between align-items-center mb-2">
+      <h3>Breakfast</h3>
+      <button class="add-button" (click)="addItem(1)">+</button>
+    </div>
+    <div class="food-items row">
+      <div *ngFor="let f of breakfastLogs; let i = index" class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+          <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <span class="fw-bold">{{ f.food_name }}</span>
+            <button
+              [attr.aria-controls]="'collapsableBreakfastItem' + i"
+              [attr.data-bs-target]="'#collapsableBreakfastItem' + i"
+              aria-expanded="false"
+              class="btn btn-sm btn-outline-secondary"
+              data-bs-toggle="collapse"
+              type="button">
+              Details
+            </button>
+          </div>
+          <div [attr.id]="'collapsableBreakfastItem' + i" class="collapse">
+            <div class="card-body p-2">
+              <table class="table table-sm">
+                <tbody>
+                <tr><td>Calories</td><td>{{ f.calories }}</td></tr>
+                <tr><td>Protein</td><td>{{ f.protein }}</td></tr>
+                <tr><td>Carbs</td><td>{{ f.carbs }}</td></tr>
+                <tr><td>Fats</td><td>{{ f.fats }}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div [attr.id]="'collapsableFoodItem' + i" class="collapse">
-          <div class="card-body p-2">
-            <table class="table table-sm">
-              <tbody>
-              <tr><td>Calories</td><td>{{ f.calories }}</td></tr>
-              <tr><td>Protein</td><td>{{ f.protein }}</td></tr>
-              <tr><td>Carbs</td><td>{{ f.carbs }}</td></tr>
-              <tr><td>Fats</td><td>{{ f.fats }}</td></tr>
-              </tbody>
-            </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lunch Section -->
+  <section class="meal-section mb-4">
+    <div class="meal-header d-flex justify-content-between align-items-center mb-2">
+      <h3>Lunch</h3>
+      <button class="add-button" (click)="addItem(2)">+</button>
+    </div>
+    <div class="food-items row">
+      <div *ngFor="let f of lunchLogs; let i = index" class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+          <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <span class="fw-bold">{{ f.food_name }}</span>
+            <button
+              [attr.aria-controls]="'collapsableLunchItem' + i"
+              [attr.data-bs-target]="'#collapsableLunchItem' + i"
+              aria-expanded="false"
+              class="btn btn-sm btn-outline-secondary"
+              data-bs-toggle="collapse"
+              type="button">
+              Details
+            </button>
+          </div>
+          <div [attr.id]="'collapsableLunchItem' + i" class="collapse">
+            <div class="card-body p-2">
+              <table class="table table-sm">
+                <tbody>
+                <tr><td>Calories</td><td>{{ f.calories }}</td></tr>
+                <tr><td>Protein</td><td>{{ f.protein }}</td></tr>
+                <tr><td>Carbs</td><td>{{ f.carbs }}</td></tr>
+                <tr><td>Fats</td><td>{{ f.fats }}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dinner Section -->
+  <section class="meal-section mb-4">
+    <div class="meal-header d-flex justify-content-between align-items-center mb-2">
+      <h3>Dinner</h3>
+      <button class="add-button" (click)="addItem(3)">+</button>
+    </div>
+    <div class="food-items row">
+      <div *ngFor="let f of dinnerLogs; let i = index" class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+          <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <span class="fw-bold">{{ f.food_name }}</span>
+            <button
+              [attr.aria-controls]="'collapsableDinnerItem' + i"
+              [attr.data-bs-target]="'#collapsableDinnerItem' + i"
+              aria-expanded="false"
+              class="btn btn-sm btn-outline-secondary"
+              data-bs-toggle="collapse"
+              type="button">
+              Details
+            </button>
+          </div>
+          <div [attr.id]="'collapsableDinnerItem' + i" class="collapse">
+            <div class="card-body p-2">
+              <table class="table table-sm">
+                <tbody>
+                <tr><td>Calories</td><td>{{ f.calories }}</td></tr>
+                <tr><td>Protein</td><td>{{ f.protein }}</td></tr>
+                <tr><td>Carbs</td><td>{{ f.carbs }}</td></tr>
+                <tr><td>Fats</td><td>{{ f.fats }}</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
