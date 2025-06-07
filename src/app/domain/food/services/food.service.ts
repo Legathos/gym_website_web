@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
 import { FoodData } from '@domain/food';
-import {LoggerData} from "../../../../data/logger.data";
+import {LoggerData} from "@domain/food/model/logger.model";
 import {MemberService} from "@domain/member";
 import {Chart} from "chart.js";
 
@@ -40,6 +40,22 @@ export class FoodService {
     return this.httpClient.get<FoodData[]>(`${EndpointDictionary.getFoodItemsByName}${name}`);
   }
 
+  getFoodById(id: number): Observable<FoodData> {
+    return this.httpClient.get<FoodData>(`${EndpointDictionary.getFoodItemById}${id}`);
+  }
+
+  addFoodToTracker(loggerModel: LoggerData): Observable<any> {
+    return this.httpClient.post<any>(EndpointDictionary.addNewLog, loggerModel);
+  }
+
+  editFoodLog(loggerModel: LoggerData): Observable<any> {
+    return this.httpClient.put<any>(EndpointDictionary.editLogItem, loggerModel);
+  }
+
+  deleteFoodLog(loggerModel: LoggerData): Observable<any> {
+    return this.httpClient.delete<any>(EndpointDictionary.deleteLogItem, { body: loggerModel });
+  }
+
   macrosChart(protein:number, carbs:number, fats:number) {
     const data = {
       labels: [
@@ -59,24 +75,24 @@ export class FoodService {
       }]
     };
 
-    new Chart(
-      <HTMLCanvasElement>document.getElementById('macros-chart'),
-      {
-        type: 'doughnut',
-        data: data,
-        options: {
-          cutout: "60%",
-          plugins: {
-            legend: {
-              display: false
+    const chartElement = document.getElementById('macros-chart');
+    if (chartElement) {
+      new Chart(
+        <HTMLCanvasElement>chartElement,
+        {
+          type: 'doughnut',
+          data: data,
+          options: {
+            cutout: "60%",
+            plugins: {
+              legend: {
+                display: false
+              }
             }
           }
-        }
-      })
-  }
-
-  addFoodToTracker(loggerModel: LoggerData): Observable<any> {
-    // Send the LoggerDto directly to the backend
-    return this.httpClient.post<any>(EndpointDictionary.addNewLog, loggerModel);
+        });
+    } else {
+      console.warn('Element with ID "macros-chart" not found. Chart could not be rendered.');
+    }
   }
 }

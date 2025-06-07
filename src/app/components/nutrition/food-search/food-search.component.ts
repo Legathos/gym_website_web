@@ -15,17 +15,23 @@ export class FoodSearchComponent implements OnInit{
   foodSearchResults: FoodData[] = [];
   private searchTerms = new Subject<string>();
   mealId: number = 1; // Default to breakfast
+  editMode: boolean = false;
+  logItem: any = null; // Will store the log item data when editing
 
   constructor(
     private foodService: FoodService,
     private router: Router
   ) {
-    // Get the meal ID from the navigation state if available
+    // Get the meal ID and edit mode from the navigation state if available
     const navigation = this.router.getCurrentNavigation();
     if (navigation && navigation.extras.state) {
-      const state = navigation.extras.state as { mealId: number };
+      const state = navigation.extras.state as { mealId: number, editMode: boolean, logItem: any };
       if (state.mealId) {
         this.mealId = state.mealId;
+      }
+      if (state.editMode) {
+        this.editMode = state.editMode;
+        this.logItem = state.logItem;
       }
     }
   }
@@ -70,7 +76,9 @@ export class FoodSearchComponent implements OnInit{
     this.router.navigate(['/view-food-item'], {
       state: {
         foodItem: food,
-        mealId: this.mealId
+        mealId: this.mealId,
+        editMode: this.editMode,
+        logItem: this.logItem
       }
     });
   }

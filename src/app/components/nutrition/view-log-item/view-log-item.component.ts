@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { FoodService } from '@domain/food';
 import { Location } from '@angular/common';
-import { LoggerData } from "../../../../data/logger.data";
+import { LoggerData} from "@domain/food/model/logger.model";
 
 @Component({
   selector: 'app-view-log-item',

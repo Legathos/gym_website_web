@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FoodService} from "@domain/food";
-import {LoggerData} from "../../../../data/logger.data";
+import { LoggerData} from "@domain/food/model/logger.model";
 import {Router} from "@angular/router";
 
 @Component({
@@ -54,7 +54,6 @@ export class FoodTrackerComponent implements OnInit {
         this.calculateBreakfastMacros();
         this.calculateLunchMacros();
         this.calculateDinnerMacros();
-        this.foodService.macrosChart(this.protein, this.carbs, this.fats);
       }
     });
   }
@@ -142,5 +141,44 @@ export class FoodTrackerComponent implements OnInit {
   addItem(meal: number) {
     // Navigate to food search with meal ID parameter
     this.router.navigate(['/food-search'], { state: { mealId: meal } });
+  }
+
+  editLogItem(logItem: LoggerData) {
+    // Navigate to view-log-item page with the log item data for viewing/editing
+    this.router.navigate(['/view-log-item'], {
+      state: {
+        logItem: logItem
+      }
+    });
+  }
+
+  deleteLogItem(logItem: LoggerData) {
+    if (confirm('Are you sure you want to delete this food log?')) {
+      this.foodService.deleteFoodLog(logItem).subscribe({
+        next: () => {
+          // Refresh the food logs after deletion
+          this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe(data => {
+            this.foodLogs = data;
+            // Reset all values
+            this.protein = 0;
+            this.carbs = 0;
+            this.fats = 0;
+            this.calories = 0;
+
+            // Recalculate everything
+            this.groupFoodLogsByMealType();
+            this.calculateTotalCalories();
+            this.calculateMacros();
+            this.calculateBreakfastMacros();
+            this.calculateLunchMacros();
+            this.calculateDinnerMacros();
+          });
+        },
+        error: (error) => {
+          console.error('Error deleting food log:', error);
+          alert('Failed to delete food log. Please try again.');
+        }
+      });
+    }
   }
 }
