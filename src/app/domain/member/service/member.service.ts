@@ -29,22 +29,56 @@ export class MemberService {
   }
 
   getUserId(){
-      this.getUserData().subscribe({
-        next: (data) => {
-          this.user = data;
-        }
-      });
-    return this.user.id
+    // Check if user is already loaded
+    if (!this.user) {
+      // If not, try to get from localStorage as a fallback
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        this.user = JSON.parse(userJson);
+      }
     }
 
-    getUsername(){
+    // If we still don't have a user, trigger the async load for next time
+    // but return a default value for now
+    if (!this.user) {
       this.getUserData().subscribe({
         next: (data) => {
           this.user = data;
+          // Store in localStorage for future use
+          localStorage.setItem('user', JSON.stringify(data));
         }
       });
-    return this.user.username
+      return 0; // Return a default value or handle the error case
     }
+
+    return this.user.id;
+  }
+
+  getUsername(){
+    // Check if user is already loaded
+    if (!this.user) {
+      // If not, try to get from localStorage as a fallback
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        this.user = JSON.parse(userJson);
+      }
+    }
+
+    // If we still don't have a user, trigger the async load for next time
+    // but return a default value for now
+    if (!this.user) {
+      this.getUserData().subscribe({
+        next: (data) => {
+          this.user = data;
+          // Store in localStorage for future use
+          localStorage.setItem('user', JSON.stringify(data));
+        }
+      });
+      return ''; // Return a default value or handle the error case
+    }
+
+    return this.user.username;
+  }
 
   getUserWeightHistoryData(id: number) {
     return this.userService.getUserWeightHistory(id)

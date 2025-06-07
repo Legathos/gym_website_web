@@ -63,6 +63,28 @@ body {
   color: #222;
 }
 
+.meal-section {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+}
+
+.meal-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.meal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1E314A;
+}
+
 .button-container {
   display: flex;
   justify-content: flex-end;
@@ -70,25 +92,26 @@ body {
 }
 
 .add-button {
-  width: 56px;
-  height: 56px;
+  width: 40px;
+  height: 40px;
   background-color: #1E314A;
   color: white;
   border: none;
   border-radius: 50%;
-  padding: 12px 24px;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  line-height: 1;
 }
 
 .add-button:hover {
-  background-color: #1E314A;
+  background-color: #2a4365;
   transform: translateY(-2px);
 }
 

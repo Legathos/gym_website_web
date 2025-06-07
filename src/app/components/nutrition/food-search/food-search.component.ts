@@ -14,11 +14,20 @@ export class FoodSearchComponent implements OnInit{
   searchText: string = '';
   foodSearchResults: FoodData[] = [];
   private searchTerms = new Subject<string>();
+  mealId: number = 1; // Default to breakfast
 
   constructor(
     private foodService: FoodService,
     private router: Router
   ) {
+    // Get the meal ID from the navigation state if available
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation && navigation.extras.state) {
+      const state = navigation.extras.state as { mealId: number };
+      if (state.mealId) {
+        this.mealId = state.mealId;
+      }
+    }
   }
 
   ngOnInit() {
@@ -58,7 +67,12 @@ export class FoodSearchComponent implements OnInit{
   }
 
   viewFoodItem(food: FoodData) {
-    this.router.navigate(['/view-food-item'], { state: { foodItem: food } });
+    this.router.navigate(['/view-food-item'], {
+      state: {
+        foodItem: food,
+        mealId: this.mealId
+      }
+    });
   }
 
 }
