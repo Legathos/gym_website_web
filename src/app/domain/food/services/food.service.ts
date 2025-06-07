@@ -65,10 +65,10 @@ export class FoodService {
         type: 'doughnut',
         data: data,
         options: {
-          cutout: "80%",
+          cutout: "60%",
           plugins: {
             legend: {
-              position: 'right',
+              display: false
             }
           }
         }

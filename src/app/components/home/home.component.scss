@@ -43,18 +43,53 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 .inner-box {
   flex: 1; /* equal height */
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid #1E314A;
   background-color: #f9f9f9;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  margin-top: 0.5rem;
-  border-radius: 0.5rem;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+  margin-top: 0.3rem;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
 }
 
 .inner-box:last-child {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.macro-label {
+  font-weight: 500;
+  color: #555;
+  font-size: 0.7rem;
+  margin-bottom: 0.15rem;
+}
+
+.macro-value {
+  font-weight: 600;
+  color: #222;
+  font-size: 0.7rem;
+}
+
+.protein-value {
+  color: rgb(200, 0, 200);
+}
+
+.carbs-value {
+  color: rgb(54, 182, 235);
+}
+
+.fats-value {
+  color: rgb(255, 205, 86);
+}
+
+.donut-chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: white;
 }
 
 .full-width-box {
