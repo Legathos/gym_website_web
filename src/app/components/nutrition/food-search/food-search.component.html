@@ -22,12 +22,19 @@
     <span>No food items found matching "{{ searchText }}"</span>
   </div>
 
-  <div *ngIf="foodSearchResults.length > 0" class="results-count">
-    Found {{ foodSearchResults.length }} item(s)
+  <div class="scan-bar">
+    <button mat-raised-button class="scan-button scan-food-button" (click)="navigateToAiEstimator()">
+      <mat-icon>photo_camera</mat-icon>
+      <span>Scan Food</span>
+    </button>
+    <button mat-raised-button class="scan-button scan-barcode-button" (click)="navigateToBarcodeScanner()">
+      <mat-icon>qr_code_scanner</mat-icon>
+      <span>Scan Barcode</span>
+    </button>
   </div>
 
   <mat-card *ngFor="let food of foodSearchResults" class="food-item-card">
-    <button (click)="viewFoodItem(food)" class="add-food-button" mat-mini-fab aria-label="Add food">
+    <button (click)="viewFoodItem(food)" aria-label="Add food" class="add-food-button" mat-mini-fab>
       <mat-icon>add</mat-icon>
     </button>
     <mat-card-header>

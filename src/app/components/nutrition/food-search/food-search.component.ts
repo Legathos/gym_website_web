@@ -83,4 +83,23 @@ export class FoodSearchComponent implements OnInit{
     });
   }
 
+  navigateToAiEstimator() {
+    this.router.navigate(['/ai-estimator'], {
+      state: {
+        mealId: this.mealId,
+        editMode: this.editMode,
+        logItem: this.logItem
+      }
+    });
+  }
+
+  navigateToBarcodeScanner() {
+    this.router.navigate(['/barcode-scanner'], {
+      state: {
+        mealId: this.mealId,
+        editMode: this.editMode,
+        logItem: this.logItem
+      }
+    });
+  }
 }
