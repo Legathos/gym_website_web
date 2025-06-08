@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Location } from '@angular/common';
-import { FoodService } from '@domain/food/services/food.service';
 import { FoodData } from '@domain/food';
 
 @Component({
@@ -11,26 +10,30 @@ import { FoodData } from '@domain/food';
 export class BarcodeScannerComponent implements OnInit {
   // This will be populated when a barcode is scanned
   scannedFood: FoodData | null = null;
+  @ViewChild('video', {static: true}) videoElement!: ElementRef<HTMLVideoElement>;
+  stream: MediaStream | null = null;
 
-  // For testing purposes only - remove in production
-  mockFoodData: FoodData = {
-    id: 1,
-    name: 'Chicken Breast',
-    calories: 165,
-    protein: 31,
-    carbs: 0,
-    fats: 3.6,
-    weight: 100
-  };
 
   constructor(
     private location: Location,
   ) {}
 
-  ngOnInit(): void {
-    // For testing purposes only - remove in production
-    // Uncomment the line below to see the food details card
-    // this.scannedFood = this.mockFoodData;
+  async ngOnInit() {
+    await this.startCamera();
+  }
+  ngOnDestroy() {
+    // Clean up the stream
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+    }
+  }
+  async startCamera() {
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      this.videoElement.nativeElement.srcObject = this.stream;
+    } catch (err) {
+      console.error('Error accessing camera:', err);
+    }
   }
 
   // Navigate back to the previous page
@@ -48,17 +51,4 @@ export class BarcodeScannerComponent implements OnInit {
     }
   }
 
-  // This method will be called when a barcode is scanned (to be implemented later)
-  onBarcodeScanned(barcode: string): void {
-    // Mock implementation - in the future, this will call an API to get food data by barcode
-    console.log('Barcode scanned:', barcode);
-
-    // For now, we'll just set some mock data for testing
-    this.scannedFood = this.mockFoodData;
-
-    // In a real implementation, we would call the food service to get the data
-    // this.foodService.getFoodByBarcode(barcode).subscribe(food => {
-    //   this.scannedFood = food;
-    // });
-  }
 }
