@@ -1,6 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Location } from '@angular/common';
-import { FoodService } from '@domain/food/services/food.service';
 import { FoodData } from '@domain/food';
 
 @Component({
@@ -13,16 +12,7 @@ export class BarcodeScannerComponent implements OnInit {
   scannedFood: FoodData | null = null;
   @ViewChild('video', {static: true}) videoElement!: ElementRef<HTMLVideoElement>;
   stream: MediaStream | null = null;
-  // For testing purposes only - remove in production
-  mockFoodData: FoodData = {
-    id: 1,
-    name: 'Chicken Breast',
-    calories: 165,
-    protein: 31,
-    carbs: 0,
-    fats: 3.6,
-    weight: 100
-  };
+
 
   constructor(
     private location: Location,
@@ -30,9 +20,6 @@ export class BarcodeScannerComponent implements OnInit {
 
   async ngOnInit() {
     await this.startCamera();
-    // For testing purposes only - remove in production
-    // Uncomment the line below to see the food details card
-    // this.scannedFood = this.mockFoodData;
   }
   ngOnDestroy() {
     // Clean up the stream
