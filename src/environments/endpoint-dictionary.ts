@@ -31,5 +31,6 @@ export const EndpointDictionary = {
   getFoodItemsByName:`${apiUrl}food/get-food-items-`,
   addNewLog:`${apiUrl}logger/add-new-log`,
   editLogItem:`${apiUrl}logger/edit-log`,
-  deleteLogItem:`${apiUrl}logger/delete-log`
+  deleteLogItem:`${apiUrl}logger/delete-log`,
+  getFoodItemByBarcode:`${apiUrl}food/get-food-item-barcode-`,
 };

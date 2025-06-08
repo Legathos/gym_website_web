@@ -53,17 +53,58 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   justify-content: center;
   color: white;
   box-shadow: $card-shadow;
+  position: relative;
+  overflow: hidden; /* Ensure video doesn't overflow */
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the container while maintaining aspect ratio */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  /* Removed the box overlay to allow full-screen scanning */
+
+  /* Full-width scanning line animation */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: $accent-color;
+    z-index: 3;
+    animation: scan 3s infinite ease-in-out;
+  }
+
+  @keyframes scan {
+    0% {
+      top: 10%;
+    }
+    50% {
+      top: 90%;
+    }
+    100% {
+      top: 10%;
+    }
+  }
 
   .camera-icon {
     font-size: 48px;
     height: 48px;
     width: 48px;
     margin-bottom: 16px;
+    z-index: 2; /* Ensure it's above the video */
   }
 
   p {
     font-size: 1.2rem;
     opacity: 0.8;
+    z-index: 2; /* Ensure it's above the video */
   }
 }
 
@@ -171,14 +212,22 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   mat-card-actions {
     padding: 16px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 10px;
 
     button {
-      width: 100%;
+      flex: 1;
       padding: 8px 0;
       font-weight: 500;
-      background-color: $secondary-color;
       color: white;
+    }
+
+    button[color="primary"] {
+      background-color: $secondary-color;
+    }
+
+    button[color="accent"] {
+      background-color: $accent-color;
     }
   }
 }
@@ -205,6 +254,14 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     font-size: 1.2rem;
     color: $primary-color;
     text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .scan-tip {
+    font-size: 0.9rem;
+    color: $secondary-color;
+    opacity: 0.8;
+    margin-top: 0;
   }
 }
 
@@ -226,6 +283,13 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
   .camera-placeholder {
     height: 325px; /* Increased by 1.3 times from 250px */
+
+    /* Removed tablet-specific box overlay */
+
+    &::before {
+      left: 12.5%;
+      width: 75%;
+    }
 
     .camera-icon {
       font-size: 40px;
@@ -275,6 +339,12 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
     mat-card-actions {
       padding: 12px;
+      gap: 8px;
+
+      button {
+        padding: 6px 0;
+        font-size: 0.9rem;
+      }
     }
   }
 
@@ -290,6 +360,11 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
     p {
       font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
+    .scan-tip {
+      font-size: 0.85rem;
     }
   }
 }
@@ -311,6 +386,14 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
   .camera-placeholder {
     height: 260px; /* Increased by 1.3 times from 200px */
+
+    /* Removed mobile-specific box overlay */
+
+    &::before {
+      left: 10%;
+      width: 80%;
+      height: 1px; /* Thinner scanning line for mobile */
+    }
 
     .camera-icon {
       font-size: 36px;
@@ -358,6 +441,13 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
     mat-card-actions {
       padding: 10px;
+      gap: 6px;
+      flex-direction: column;
+
+      button {
+        padding: 5px 0;
+        font-size: 0.85rem;
+      }
     }
   }
 
@@ -373,6 +463,11 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
     p {
       font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .scan-tip {
+      font-size: 0.8rem;
     }
   }
 }

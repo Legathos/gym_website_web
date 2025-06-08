@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
 import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
 import { FoodData } from '@domain/food';
 import {LoggerData} from "@domain/food/model/logger.model";
@@ -56,6 +56,29 @@ export class FoodService {
     return this.httpClient.delete<any>(EndpointDictionary.deleteLogItem, { body: loggerModel });
   }
 
+  getFoodDataFromBarcode(barcode: string): Observable<FoodData> {
+    return this.httpClient.get<any>(`${EndpointDictionary.getFoodItemByBarcode}${barcode}`).pipe(
+      map(response => {
+        const data = typeof response === 'string' ? JSON.parse(response) : response;
+
+        if (data.status === 0) {
+          throw new Error('Product not found');
+        }
+
+        const nutriments = data.product?.nutriments;
+
+        return {
+          id: 0,
+          name:data.product?.brands + " " + (data.product?.product_name || data.product?.product_name_en || 'Unknown'),
+          weight: 100,
+          calories: nutriments['energy-kcal_100g'] || 0,
+          carbs: nutriments['carbohydrates_100g'] || 0,
+          fats: nutriments['fat_100g'] || 0,
+          protein: nutriments['proteins_100g'] || 0,
+        } as FoodData;
+      })
+    );
+  }
   macrosChart(protein:number, carbs:number, fats:number) {
     const data = {
       labels: [
@@ -64,7 +87,7 @@ export class FoodService {
         'Fats'
       ],
       datasets: [{
-        label: 'My First Dataset',
+        label: '',
         data: [protein * 4, carbs * 4, fats * 9],
         backgroundColor: [
           'rgb(200, 0, 200)',
