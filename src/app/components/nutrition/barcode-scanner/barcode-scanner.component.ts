@@ -25,7 +25,6 @@ export class BarcodeScannerComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private foodService: FoodService
   ) {}
 
   ngOnInit(): void {
