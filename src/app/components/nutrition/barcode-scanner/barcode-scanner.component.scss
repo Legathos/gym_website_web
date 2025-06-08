@@ -98,42 +98,72 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     padding: 16px;
 
     .nutrition-details {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
       gap: 12px;
 
-      .nutrition-item {
+      .nutrition-box {
         display: flex;
-        justify-content: space-between;
-        padding: 8px 12px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
         background-color: $light-bg;
         border-radius: 8px;
+        text-align: center;
 
-        .label {
+        .box-label {
           font-weight: 500;
           color: $primary-color;
+          font-size: 0.9rem;
+          margin-bottom: 4px;
         }
 
-        .value {
+        .box-value {
           font-weight: 600;
           color: $secondary-color;
+          font-size: 1.2rem;
+          margin-bottom: 2px;
         }
 
-        &:nth-child(1) {
-          border-left: 3px solid $secondary-color;
+        .box-unit {
+          font-size: 0.8rem;
+          color: $primary-color;
+          opacity: 0.7;
         }
 
-        &:nth-child(2) {
-          border-left: 3px solid $primary-color;
+        .box-subtitle {
+          font-size: 0.8rem;
+          color: $primary-color;
+          opacity: 0.7;
+          margin-top: 4px;
         }
+      }
 
-        &:nth-child(3) {
-          border-left: 3px solid $accent-color;
-        }
+      .name-box {
+        grid-column: 1 / -1;
+        border-left: 3px solid $secondary-color;
 
-        &:nth-child(4) {
-          border-left: 3px solid darken($accent-color, 10%);
+        .box-value {
+          font-size: 1.3rem;
         }
+      }
+
+      .calories-box {
+        border-left: 3px solid $primary-color;
+      }
+
+      .protein-box {
+        border-left: 3px solid $accent-color;
+      }
+
+      .carbs-box {
+        border-left: 3px solid darken($accent-color, 5%);
+      }
+
+      .fats-box {
+        border-left: 3px solid darken($accent-color, 10%);
       }
     }
   }
@@ -210,27 +240,35 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
 
   .food-details-card {
-    mat-card-header {
-      padding: 12px;
-
-      mat-card-title {
-        font-size: 1.2rem;
-      }
-
-      mat-card-subtitle {
-        font-size: 0.9rem;
-      }
-    }
-
     mat-card-content {
       padding: 12px;
 
       .nutrition-details {
         gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
 
-        .nutrition-item {
-          padding: 6px 10px;
-          font-size: 0.9rem;
+        .nutrition-box {
+          padding: 8px;
+
+          .box-label {
+            font-size: 0.85rem;
+          }
+
+          .box-value {
+            font-size: 1.1rem;
+          }
+
+          .box-unit, .box-subtitle {
+            font-size: 0.75rem;
+          }
+        }
+
+        .name-box {
+          grid-column: 1 / -1;
+
+          .box-value {
+            font-size: 1.2rem;
+          }
         }
       }
     }
@@ -287,27 +325,33 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
 
   .food-details-card {
-    mat-card-header {
-      padding: 10px;
-
-      mat-card-title {
-        font-size: 1.1rem;
-      }
-
-      mat-card-subtitle {
-        font-size: 0.85rem;
-      }
-    }
-
     mat-card-content {
       padding: 10px;
 
       .nutrition-details {
         gap: 8px;
+        grid-template-columns: 1fr;
 
-        .nutrition-item {
-          padding: 5px 8px;
-          font-size: 0.85rem;
+        .nutrition-box {
+          padding: 6px;
+
+          .box-label {
+            font-size: 0.8rem;
+          }
+
+          .box-value {
+            font-size: 1rem;
+          }
+
+          .box-unit, .box-subtitle {
+            font-size: 0.7rem;
+          }
+        }
+
+        .name-box {
+          .box-value {
+            font-size: 1.1rem;
+          }
         }
       }
     }

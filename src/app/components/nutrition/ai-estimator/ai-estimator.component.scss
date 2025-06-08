@@ -1,0 +1,378 @@
+// Color variables to match the app's design language
+$primary-color: #1E314A;
+$secondary-color: #256A7A;
+$tertiary-color: #C5E4E9;
+$accent-color: #BB8A2E;
+$light-bg: #f8f9fa;
+$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  margin: 0 auto;
+  max-width: 800px;
+  background-color: $primary-color;
+  color: white;
+  box-shadow: $card-shadow;
+  height: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.scanner-container {
+  max-width: 800px;
+  margin: 0;
+  padding: 20px;
+  background-color: $tertiary-color;
+  min-height: calc(100vh - 64px); /* Adjusted to account for navbar height */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: calc(100vh - 64px); /* Adjusted to account for navbar height */
+  position: absolute;
+  top: 64px; /* Position right below the navbar */
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.camera-placeholder {
+  background-color: $primary-color;
+  border-radius: 12px;
+  height: 450px; /* Increased from 390px for a bigger camera view */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: $card-shadow;
+
+  .camera-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+  }
+}
+
+.food-details-card {
+  border-radius: 12px;
+  padding: 0;
+  background-color: white;
+  box-shadow: $card-shadow;
+  flex: 1; /* Make the card take up the remaining space */
+  overflow-y: auto; /* Add scrolling if content is too large */
+
+  mat-card-header {
+    background-color: $light-bg;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 16px;
+
+    mat-card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: $primary-color;
+      margin-bottom: 5px;
+    }
+
+    mat-card-subtitle {
+      color: $secondary-color;
+      font-size: 1rem;
+    }
+  }
+
+  mat-card-content {
+    padding: 16px;
+
+    .nutrition-details {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 12px;
+
+      .nutrition-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        background-color: $light-bg;
+        border-radius: 8px;
+        text-align: center;
+
+        .box-label {
+          font-weight: 500;
+          color: $primary-color;
+          font-size: 0.9rem;
+          margin-bottom: 4px;
+        }
+
+        .box-value {
+          font-weight: 600;
+          color: $secondary-color;
+          font-size: 1.2rem;
+          margin-bottom: 2px;
+        }
+
+        .box-unit {
+          font-size: 0.8rem;
+          color: $primary-color;
+          opacity: 0.7;
+        }
+
+        .box-subtitle {
+          font-size: 0.8rem;
+          color: $primary-color;
+          opacity: 0.7;
+          margin-top: 4px;
+        }
+      }
+
+      .name-box {
+        grid-column: 1 / -1;
+        border-left: 3px solid $secondary-color;
+
+        .box-value {
+          font-size: 1.3rem;
+        }
+      }
+
+      .calories-box {
+        border-left: 3px solid $primary-color;
+      }
+
+      .protein-box {
+        border-left: 3px solid $accent-color;
+      }
+
+      .carbs-box {
+        border-left: 3px solid darken($accent-color, 5%);
+      }
+
+      .fats-box {
+        border-left: 3px solid darken($accent-color, 10%);
+      }
+    }
+  }
+
+  mat-card-actions {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+
+    button {
+      width: 100%;
+      padding: 8px 0;
+      font-weight: 500;
+      background-color: $secondary-color;
+      color: white;
+    }
+  }
+}
+
+.no-scan-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: $card-shadow;
+
+  mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    margin-bottom: 16px;
+    color: $secondary-color;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: $primary-color;
+    text-align: center;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 0 12px;
+    margin: 0 auto;
+    height: 56px; /* Smaller navbar height for tablets */
+  }
+
+  .scanner-container {
+    padding: 15px;
+    gap: 15px;
+    top: 56px; /* Adjusted for smaller navbar */
+    height: calc(100vh - 56px); /* Adjusted for smaller navbar */
+    min-height: calc(100vh - 56px); /* Adjusted for smaller navbar */
+  }
+
+  .camera-placeholder {
+    height: 375px; /* Increased from 325px for a bigger camera view */
+
+    .camera-icon {
+      font-size: 40px;
+      height: 40px;
+      width: 40px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+  }
+
+  .food-details-card {
+    mat-card-content {
+      padding: 12px;
+
+      .nutrition-details {
+        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
+
+        .nutrition-box {
+          padding: 8px;
+
+          .box-label {
+            font-size: 0.85rem;
+          }
+
+          .box-value {
+            font-size: 1.1rem;
+          }
+
+          .box-unit, .box-subtitle {
+            font-size: 0.75rem;
+          }
+        }
+
+        .name-box {
+          grid-column: 1 / -1;
+
+          .box-value {
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+
+    mat-card-actions {
+      padding: 12px;
+    }
+  }
+
+  .no-scan-message {
+    padding: 24px;
+
+    mat-icon {
+      font-size: 40px;
+      height: 40px;
+      width: 40px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    padding: 0 10px;
+    margin: 0 auto;
+    height: 48px; /* Even smaller navbar height for mobile */
+  }
+
+  .scanner-container {
+    padding: 10px;
+    gap: 12px;
+    top: 48px; /* Adjusted for smaller navbar */
+    height: calc(100vh - 48px); /* Adjusted for smaller navbar */
+    min-height: calc(100vh - 48px); /* Adjusted for smaller navbar */
+  }
+
+  .camera-placeholder {
+    height: 300px; /* Increased from 260px for a bigger camera view */
+
+    .camera-icon {
+      font-size: 36px;
+      height: 36px;
+      width: 36px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .food-details-card {
+    mat-card-content {
+      padding: 10px;
+
+      .nutrition-details {
+        gap: 8px;
+        grid-template-columns: 1fr;
+
+        .nutrition-box {
+          padding: 6px;
+
+          .box-label {
+            font-size: 0.8rem;
+          }
+
+          .box-value {
+            font-size: 1rem;
+          }
+
+          .box-unit, .box-subtitle {
+            font-size: 0.7rem;
+          }
+        }
+
+        .name-box {
+          .box-value {
+            font-size: 1.1rem;
+          }
+        }
+      }
+    }
+
+    mat-card-actions {
+      padding: 10px;
+    }
+  }
+
+  .no-scan-message {
+    padding: 20px;
+
+    mat-icon {
+      font-size: 36px;
+      height: 36px;
+      width: 36px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+}
