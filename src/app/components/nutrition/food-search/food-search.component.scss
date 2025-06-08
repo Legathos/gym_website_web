@@ -110,6 +110,44 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   display: inline-block;
 }
 
+.scan-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 20px 0;
+
+  .scan-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: white;
+    box-shadow: $card-shadow;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: $hover-shadow;
+    }
+
+    mat-icon {
+      margin-right: 4px;
+    }
+  }
+
+  .scan-food-button {
+    background-color: $secondary-color;
+  }
+
+  .scan-barcode-button {
+    background-color: $primary-color;
+  }
+}
+
 .food-item-card {
   margin-bottom: 20px;
   border-radius: 12px;
@@ -290,6 +328,22 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     padding: 12px;
     font-size: 0.9rem;
   }
+
+  .scan-bar {
+    gap: 12px;
+    margin: 15px 0;
+
+    .scan-button {
+      padding: 10px 12px;
+      font-size: 0.9rem;
+
+      mat-icon {
+        font-size: 20px;
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
 }
 
 @media (max-width: 480px) {
@@ -315,6 +369,23 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   .results-count {
     width: 100%;
     text-align: center;
+  }
+
+  .scan-bar {
+    flex-direction: column;
+    gap: 10px;
+    margin: 12px 0;
+
+    .scan-button {
+      padding: 8px 10px;
+      font-size: 0.85rem;
+
+      mat-icon {
+        font-size: 18px;
+        height: 18px;
+        width: 18px;
+      }
+    }
   }
 
   .food-item-card {

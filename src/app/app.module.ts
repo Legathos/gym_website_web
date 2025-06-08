@@ -38,6 +38,8 @@ import { FoodSearchComponent } from './components/nutrition/food-search/food-sea
 import {MatInput} from "@angular/material/input";
 import { SettingsComponent } from './components/settings/settings.component';
 import { ViewLogItemComponent } from './components/nutrition/view-log-item/view-log-item.component';
+import { AiEstimatorComponent } from './components/nutrition/ai-estimator/ai-estimator.component';
+import { BarcodeScannerComponent } from './components/nutrition/barcode-scanner/barcode-scanner.component';
 
 
 @NgModule({
@@ -60,6 +62,8 @@ import { ViewLogItemComponent } from './components/nutrition/view-log-item/view-
     FoodSearchComponent,
     SettingsComponent,
     ViewLogItemComponent,
+    AiEstimatorComponent,
+    BarcodeScannerComponent,
   ],
   imports: [
     BrowserModule,
