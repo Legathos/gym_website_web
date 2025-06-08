@@ -1,0 +1,334 @@
+// Color variables to match the app's design language
+$primary-color: #1E314A;
+$secondary-color: #256A7A;
+$tertiary-color: #C5E4E9;
+$accent-color: #BB8A2E;
+$light-bg: #f8f9fa;
+$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  margin: 0 auto;
+  max-width: 800px;
+  background-color: $primary-color;
+  color: white;
+  box-shadow: $card-shadow;
+  height: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.scanner-container {
+  max-width: 800px;
+  margin: 0;
+  padding: 20px;
+  background-color: $tertiary-color;
+  min-height: calc(100vh - 64px); /* Adjusted to account for navbar height */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: calc(100vh - 64px); /* Adjusted to account for navbar height */
+  position: absolute;
+  top: 64px; /* Position right below the navbar */
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.camera-placeholder {
+  background-color: $primary-color;
+  border-radius: 12px;
+  height: 390px; /* Increased by 1.3 times from 300px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: $card-shadow;
+
+  .camera-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+  }
+}
+
+.food-details-card {
+  border-radius: 12px;
+  padding: 0;
+  background-color: white;
+  box-shadow: $card-shadow;
+  flex: 1; /* Make the card take up the remaining space */
+  overflow-y: auto; /* Add scrolling if content is too large */
+
+  mat-card-header {
+    background-color: $light-bg;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 16px;
+
+    mat-card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: $primary-color;
+      margin-bottom: 5px;
+    }
+
+    mat-card-subtitle {
+      color: $secondary-color;
+      font-size: 1rem;
+    }
+  }
+
+  mat-card-content {
+    padding: 16px;
+
+    .nutrition-details {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .nutrition-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background-color: $light-bg;
+        border-radius: 8px;
+
+        .label {
+          font-weight: 500;
+          color: $primary-color;
+        }
+
+        .value {
+          font-weight: 600;
+          color: $secondary-color;
+        }
+
+        &:nth-child(1) {
+          border-left: 3px solid $secondary-color;
+        }
+
+        &:nth-child(2) {
+          border-left: 3px solid $primary-color;
+        }
+
+        &:nth-child(3) {
+          border-left: 3px solid $accent-color;
+        }
+
+        &:nth-child(4) {
+          border-left: 3px solid darken($accent-color, 10%);
+        }
+      }
+    }
+  }
+
+  mat-card-actions {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+
+    button {
+      width: 100%;
+      padding: 8px 0;
+      font-weight: 500;
+      background-color: $secondary-color;
+      color: white;
+    }
+  }
+}
+
+.no-scan-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: $card-shadow;
+
+  mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    margin-bottom: 16px;
+    color: $secondary-color;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: $primary-color;
+    text-align: center;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 0 12px;
+    margin: 0 auto;
+    height: 56px; /* Smaller navbar height for tablets */
+  }
+
+  .scanner-container {
+    padding: 15px;
+    gap: 15px;
+    top: 56px; /* Adjusted for smaller navbar */
+    height: calc(100vh - 56px); /* Adjusted for smaller navbar */
+    min-height: calc(100vh - 56px); /* Adjusted for smaller navbar */
+  }
+
+  .camera-placeholder {
+    height: 325px; /* Increased by 1.3 times from 250px */
+
+    .camera-icon {
+      font-size: 40px;
+      height: 40px;
+      width: 40px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+  }
+
+  .food-details-card {
+    mat-card-header {
+      padding: 12px;
+
+      mat-card-title {
+        font-size: 1.2rem;
+      }
+
+      mat-card-subtitle {
+        font-size: 0.9rem;
+      }
+    }
+
+    mat-card-content {
+      padding: 12px;
+
+      .nutrition-details {
+        gap: 10px;
+
+        .nutrition-item {
+          padding: 6px 10px;
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    mat-card-actions {
+      padding: 12px;
+    }
+  }
+
+  .no-scan-message {
+    padding: 24px;
+
+    mat-icon {
+      font-size: 40px;
+      height: 40px;
+      width: 40px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    padding: 0 10px;
+    margin: 0 auto;
+    height: 48px; /* Even smaller navbar height for mobile */
+  }
+
+  .scanner-container {
+    padding: 10px;
+    gap: 12px;
+    top: 48px; /* Adjusted for smaller navbar */
+    height: calc(100vh - 48px); /* Adjusted for smaller navbar */
+    min-height: calc(100vh - 48px); /* Adjusted for smaller navbar */
+  }
+
+  .camera-placeholder {
+    height: 260px; /* Increased by 1.3 times from 200px */
+
+    .camera-icon {
+      font-size: 36px;
+      height: 36px;
+      width: 36px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .food-details-card {
+    mat-card-header {
+      padding: 10px;
+
+      mat-card-title {
+        font-size: 1.1rem;
+      }
+
+      mat-card-subtitle {
+        font-size: 0.85rem;
+      }
+    }
+
+    mat-card-content {
+      padding: 10px;
+
+      .nutrition-details {
+        gap: 8px;
+
+        .nutrition-item {
+          padding: 5px 8px;
+          font-size: 0.85rem;
+        }
+      }
+    }
+
+    mat-card-actions {
+      padding: 10px;
+    }
+  }
+
+  .no-scan-message {
+    padding: 20px;
+
+    mat-icon {
+      font-size: 36px;
+      height: 36px;
+      width: 36px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+}

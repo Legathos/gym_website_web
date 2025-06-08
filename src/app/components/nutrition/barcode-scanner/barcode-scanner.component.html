@@ -1,1 +1,51 @@
-<p>barcode-scanner works!</p>
+<mat-toolbar class="top-bar">
+  <button (click)="goBack()" aria-label="Go back" mat-icon-button>
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>Barcode Scanner</span>
+</mat-toolbar>
+
+<div class="scanner-container">
+  <!-- Camera feed placeholder - to be implemented later -->
+  <div class="camera-placeholder">
+    <mat-icon class="camera-icon">photo_camera</mat-icon>
+    <p>Camera feed will be displayed here</p>
+  </div>
+
+  <!-- Scanned food details card -->
+  <mat-card class="food-details-card" *ngIf="scannedFood">
+    <mat-card-header>
+      <mat-card-title>{{ scannedFood.name }}</mat-card-title>
+      <mat-card-subtitle>Details for 100g</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="nutrition-details">
+        <div class="nutrition-item">
+          <span class="label">Calories:</span>
+          <span class="value">{{ scannedFood.calories }} kcal</span>
+        </div>
+        <div class="nutrition-item">
+          <span class="label">Protein:</span>
+          <span class="value">{{ scannedFood.protein }}g</span>
+        </div>
+        <div class="nutrition-item">
+          <span class="label">Carbs:</span>
+          <span class="value">{{ scannedFood.carbs }}g</span>
+        </div>
+        <div class="nutrition-item">
+          <span class="label">Fats:</span>
+          <span class="value">{{ scannedFood.fats }}g</span>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="addToMeal()">Add to Meal</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Message when no barcode is scanned -->
+  <div class="no-scan-message" *ngIf="!scannedFood">
+    <mat-icon>qr_code_scanner</mat-icon>
+    <p>Scan a barcode to see food details</p>
+  </div>
+</div>
