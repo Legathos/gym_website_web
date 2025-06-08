@@ -53,12 +53,14 @@
     </mat-card-content>
     <mat-card-actions>
       <button (click)="addToMeal()" color="primary" mat-raised-button>Add to Meal</button>
+      <button (click)="restartScanning()" color="accent" mat-raised-button>Scan Another</button>
     </mat-card-actions>
   </mat-card>
 
   <!-- Message when no barcode is scanned -->
   <div *ngIf="!scannedFood" class="no-scan-message">
     <mat-icon>qr_code_scanner</mat-icon>
-    <p>Scan a barcode to see food details</p>
+    <p>Position barcode within the rectangle</p>
+    <p class="scan-tip">Hold steady and ensure good lighting</p>
   </div>
 </div>
