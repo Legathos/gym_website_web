@@ -139,10 +139,22 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     padding: 16px;
 
     .nutrition-details {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto auto;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
+
+      .horizontal-nutrition-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+
+        .nutrition-box {
+          flex: 1;
+          min-width: 0; /* Allows boxes to shrink below content size if needed */
+        }
+      }
 
       .nutrition-box {
         display: flex;
@@ -309,7 +321,11 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
       .nutrition-details {
         gap: 10px;
-        grid-template-columns: repeat(2, 1fr);
+
+        .horizontal-nutrition-info {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
 
         .nutrition-box {
           padding: 8px;
@@ -413,7 +429,15 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
       .nutrition-details {
         gap: 8px;
-        grid-template-columns: 1fr;
+
+        .horizontal-nutrition-info {
+          flex-wrap: wrap;
+          gap: 8px;
+
+          .nutrition-box {
+            flex: 1 1 calc(50% - 4px); /* Two boxes per row on very small screens */
+          }
+        }
 
         .nutrition-box {
           padding: 6px;

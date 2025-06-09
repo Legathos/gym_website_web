@@ -69,7 +69,7 @@ export class FoodService {
 
         return {
           id: 0,
-          name:data.product?.brands + " " + (data.product?.product_name || data.product?.product_name_en || 'Unknown'),
+          name:data.product?.product_name || data.product?.product_name_en || 'Unknown',
           weight: 100,
           calories: nutriments['energy-kcal_100g'] || 0,
           carbs: nutriments['carbohydrates_100g'] || 0,

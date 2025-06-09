@@ -22,38 +22,41 @@
           <div class="box-subtitle">Details for 100g</div>
         </div>
 
-        <!-- Calories Box -->
-        <div class="nutrition-box calories-box">
-          <div class="box-label">Calories</div>
-          <div class="box-value">{{ scannedFood.calories }}</div>
-          <div class="box-unit">kcal</div>
-        </div>
+        <!-- Horizontal nutrition info -->
+        <div class="horizontal-nutrition-info">
+          <!-- Calories Box -->
+          <div class="nutrition-box calories-box">
+            <div class="box-label">Calories</div>
+            <div class="box-value">{{ scannedFood.calories }}</div>
+            <div class="box-unit">kcal</div>
+          </div>
 
-        <!-- Protein Box -->
-        <div class="nutrition-box protein-box">
-          <div class="box-label">Protein</div>
-          <div class="box-value">{{ scannedFood.protein }}</div>
-          <div class="box-unit">g</div>
-        </div>
+          <!-- Protein Box -->
+          <div class="nutrition-box protein-box">
+            <div class="box-label">Protein</div>
+            <div class="box-value">{{ scannedFood.protein }}</div>
+            <div class="box-unit">g</div>
+          </div>
 
-        <!-- Carbs Box -->
-        <div class="nutrition-box carbs-box">
-          <div class="box-label">Carbs</div>
-          <div class="box-value">{{ scannedFood.carbs }}</div>
-          <div class="box-unit">g</div>
-        </div>
+          <!-- Carbs Box -->
+          <div class="nutrition-box carbs-box">
+            <div class="box-label">Carbs</div>
+            <div class="box-value">{{ scannedFood.carbs }}</div>
+            <div class="box-unit">g</div>
+          </div>
 
-        <!-- Fats Box -->
-        <div class="nutrition-box fats-box">
-          <div class="box-label">Fats</div>
-          <div class="box-value">{{ scannedFood.fats }}</div>
-          <div class="box-unit">g</div>
+          <!-- Fats Box -->
+          <div class="nutrition-box fats-box">
+            <div class="box-label">Fats</div>
+            <div class="box-value">{{ scannedFood.fats }}</div>
+            <div class="box-unit">g</div>
+          </div>
         </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
       <button (click)="addToMeal()" color="primary" mat-raised-button>Add to Meal</button>
-      <button (click)="restartScanning()" color="accent" mat-raised-button>Scan Another</button>
+      <button (click)="restartScanning()" color="accent" mat-raised-button>Rescan</button>
     </mat-card-actions>
   </mat-card>
 
