@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Location } from '@angular/common';
 import { FoodData, FoodService } from '@domain/food';
 import {BarcodeFormat, BrowserMultiFormatReader, IScannerControls} from "@zxing/browser";
@@ -9,7 +9,7 @@ import { Result } from '@zxing/library';
   templateUrl: './barcode-scanner.component.html',
   styleUrl: './barcode-scanner.component.scss'
 })
-export class BarcodeScannerComponent implements OnInit {
+export class BarcodeScannerComponent implements OnInit, OnDestroy{
   // This will be populated when a barcode is scanned
   scannedFood: FoodData | null = null;
   @ViewChild('video', {static: true}) videoElement!: ElementRef<HTMLVideoElement>;

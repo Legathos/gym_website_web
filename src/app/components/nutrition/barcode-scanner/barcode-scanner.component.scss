@@ -1,11 +1,20 @@
 // Color variables to match the app's design language
 $primary-color: #1E314A;
 $secondary-color: #256A7A;
-$tertiary-color: #C5E4E9;
+$tertiary-color: #EBF5F7; // Lighter background for a cleaner look
 $accent-color: #BB8A2E;
 $light-bg: #f8f9fa;
-$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-$hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+$card-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+$hover-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+
+// Modern UI variables
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$transition-speed: 0.3s;
+$gradient-primary: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+$gradient-secondary: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
+$gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
 
 .top-bar {
   display: flex;
@@ -14,7 +23,7 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   gap: 12px;
   margin: 0 auto;
   max-width: 800px;
-  background-color: $primary-color;
+  background: $gradient-primary;
   color: white;
   box-shadow: $card-shadow;
   height: 64px;
@@ -23,6 +32,24 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   left: 0;
   right: 0;
   z-index: 100;
+  transition: all $transition-speed ease;
+
+  button {
+    transition: transform $transition-speed ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  span {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
 }
 
 .scanner-container {
@@ -41,12 +68,13 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   right: 0;
   margin-left: auto;
   margin-right: auto;
+  transition: all $transition-speed ease;
 }
 
 .camera-placeholder {
   background-color: $primary-color;
-  border-radius: 12px;
-  height: 390px; /* Increased by 1.3 times from 300px */
+  border-radius: $border-radius-lg;
+  height: 390px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,6 +83,20 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   box-shadow: $card-shadow;
   position: relative;
   overflow: hidden; /* Ensure video doesn't overflow */
+  transition: all $transition-speed ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: $border-radius-lg;
+    z-index: 2;
+    pointer-events: none;
+  }
 
   video {
     width: 100%;
@@ -66,9 +108,7 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     z-index: 1;
   }
 
-  /* Removed the box overlay to allow full-screen scanning */
-
-  /* Full-width scanning line animation */
+  /* Modern scanning animation with corner brackets */
   &::before {
     content: '';
     position: absolute;
@@ -76,20 +116,67 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: $accent-color;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba($accent-color, 0.3) 20%,
+      $accent-color 50%,
+      rgba($accent-color, 0.3) 80%,
+      transparent 100%);
+    box-shadow: 0 0 8px rgba($accent-color, 0.6);
     z-index: 3;
-    animation: scan 3s infinite ease-in-out;
+    animation: scan 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Corner brackets for a modern scanner look */
+  .corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: rgba(255, 255, 255, 0.7);
+    border-style: solid;
+    z-index: 4;
+
+    &.top-left {
+      top: 15px;
+      left: 15px;
+      border-width: 3px 0 0 3px;
+      border-top-left-radius: 4px;
+    }
+
+    &.top-right {
+      top: 15px;
+      right: 15px;
+      border-width: 3px 3px 0 0;
+      border-top-right-radius: 4px;
+    }
+
+    &.bottom-left {
+      bottom: 15px;
+      left: 15px;
+      border-width: 0 0 3px 3px;
+      border-bottom-left-radius: 4px;
+    }
+
+    &.bottom-right {
+      bottom: 15px;
+      right: 15px;
+      border-width: 0 3px 3px 0;
+      border-bottom-right-radius: 4px;
+    }
   }
 
   @keyframes scan {
     0% {
       top: 10%;
+      opacity: 1;
     }
     50% {
       top: 90%;
+      opacity: 0.8;
     }
     100% {
       top: 10%;
+      opacity: 1;
     }
   }
 
@@ -99,27 +186,36 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     width: 48px;
     margin-bottom: 16px;
     z-index: 2; /* Ensure it's above the video */
+    opacity: 0.9;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
   }
 
   p {
     font-size: 1.2rem;
-    opacity: 0.8;
+    opacity: 0.9;
     z-index: 2; /* Ensure it's above the video */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: 500;
   }
 }
 
 .food-details-card {
-  border-radius: 12px;
+  border-radius: $border-radius-lg;
   padding: 0;
   background-color: white;
   box-shadow: $card-shadow;
   flex: 1; /* Make the card take up the remaining space */
   overflow-y: auto; /* Add scrolling if content is too large */
+  transition: all $transition-speed ease;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
 
   mat-card-header {
     background-color: $light-bg;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    border-top-left-radius: $border-radius-lg;
+    border-top-right-radius: $border-radius-lg;
     padding: 16px;
 
     mat-card-title {
@@ -136,98 +232,169 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
 
   mat-card-content {
-    padding: 16px;
+    padding: 20px;
 
     .nutrition-details {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto auto;
-      gap: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .horizontal-nutrition-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
+
+        .nutrition-box {
+          flex: 1;
+          min-width: 0; /* Allows boxes to shrink below content size if needed */
+        }
+      }
 
       .nutrition-box {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 12px;
+        padding: 16px;
         background-color: $light-bg;
-        border-radius: 8px;
+        border-radius: $border-radius-md;
         text-align: center;
+        transition: all $transition-speed ease;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 4px;
+          height: 100%;
+          background: linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.1));
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
 
         .box-label {
           font-weight: 500;
           color: $primary-color;
           font-size: 0.9rem;
-          margin-bottom: 4px;
+          margin-bottom: 6px;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          opacity: 0.8;
         }
 
         .box-value {
-          font-weight: 600;
+          font-weight: 700;
           color: $secondary-color;
-          font-size: 1.2rem;
-          margin-bottom: 2px;
+          font-size: 1.4rem;
+          margin-bottom: 4px;
         }
 
         .box-unit {
           font-size: 0.8rem;
           color: $primary-color;
           opacity: 0.7;
+          font-weight: 500;
         }
 
         .box-subtitle {
           font-size: 0.8rem;
           color: $primary-color;
           opacity: 0.7;
-          margin-top: 4px;
+          margin-top: 6px;
+          font-style: italic;
         }
       }
 
       .name-box {
         grid-column: 1 / -1;
-        border-left: 3px solid $secondary-color;
+        border-left: none;
+        background: linear-gradient(to right, rgba($secondary-color, 0.05), transparent);
+
+        &::before {
+          background: $gradient-secondary;
+        }
 
         .box-value {
-          font-size: 1.3rem;
+          font-size: 1.5rem;
+          font-weight: 600;
         }
       }
 
       .calories-box {
-        border-left: 3px solid $primary-color;
+        border-left: none;
+
+        &::before {
+          background: $gradient-primary;
+        }
       }
 
       .protein-box {
-        border-left: 3px solid $accent-color;
+        border-left: none;
+
+        &::before {
+          background: $gradient-accent;
+        }
       }
 
       .carbs-box {
-        border-left: 3px solid darken($accent-color, 5%);
+        border-left: none;
+
+        &::before {
+          background: linear-gradient(to bottom, $accent-color, darken($accent-color, 10%));
+        }
       }
 
       .fats-box {
-        border-left: 3px solid darken($accent-color, 10%);
+        border-left: none;
+
+        &::before {
+          background: linear-gradient(to bottom, darken($accent-color, 5%), darken($accent-color, 15%));
+        }
       }
     }
   }
 
   mat-card-actions {
-    padding: 16px;
+    padding: 16px 20px 20px;
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: center;
+    gap: 16px;
 
     button {
-      flex: 1;
-      padding: 8px 0;
+      flex: 0 1 auto;
+      padding: 10px 24px;
       font-weight: 500;
       color: white;
+      border-radius: $border-radius-sm;
+      transition: all $transition-speed ease;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
     }
 
     button[color="primary"] {
-      background-color: $secondary-color;
+      background: $gradient-secondary;
     }
 
     button[color="accent"] {
-      background-color: $accent-color;
+      background: $gradient-accent;
     }
   }
 }
@@ -237,31 +404,71 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  padding: 40px;
   background-color: white;
-  border-radius: 12px;
+  border-radius: $border-radius-lg;
   box-shadow: $card-shadow;
+  transition: all $transition-speed ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: $gradient-secondary;
+    opacity: 0.8;
+  }
+
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
 
   mat-icon {
-    font-size: 48px;
-    height: 48px;
-    width: 48px;
-    margin-bottom: 16px;
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    margin-bottom: 24px;
     color: $secondary-color;
+    opacity: 0.9;
+    transition: all $transition-speed ease;
+    animation: pulse 2s infinite ease-in-out;
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.9;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.9;
+      }
+    }
   }
 
   p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: $primary-color;
     text-align: center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
   }
 
   .scan-tip {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: $secondary-color;
     opacity: 0.8;
     margin-top: 0;
+    max-width: 80%;
+    line-height: 1.5;
   }
 }
 
@@ -282,20 +489,43 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
 
   .camera-placeholder {
-    height: 325px; /* Increased by 1.3 times from 250px */
+    height: 325px; /* Adjusted height for tablets */
+    border-radius: $border-radius-md;
 
-    /* Removed tablet-specific box overlay */
-
-    &::before {
-      left: 12.5%;
-      width: 75%;
+    &::after {
+      border-radius: $border-radius-md;
     }
 
-    .camera-icon {
-      font-size: 40px;
-      height: 40px;
-      width: 40px;
-      margin-bottom: 12px;
+    /* Adjust scanning line */
+    &::before {
+      left: 0;
+      width: 100%;
+    }
+
+    /* Adjust corner brackets */
+    .corner {
+      width: 16px;
+      height: 16px;
+
+      &.top-left {
+        top: 12px;
+        left: 12px;
+      }
+
+      &.top-right {
+        top: 12px;
+        right: 12px;
+      }
+
+      &.bottom-left {
+        bottom: 12px;
+        left: 12px;
+      }
+
+      &.bottom-right {
+        bottom: 12px;
+        right: 12px;
+      }
     }
 
     p {
@@ -304,22 +534,35 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
 
   .food-details-card {
+    border-radius: $border-radius-md;
+
+    mat-card-header {
+      border-top-left-radius: $border-radius-md;
+      border-top-right-radius: $border-radius-md;
+    }
+
     mat-card-content {
-      padding: 12px;
+      padding: 16px;
 
       .nutrition-details {
-        gap: 10px;
-        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+
+        .horizontal-nutrition-info {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
 
         .nutrition-box {
-          padding: 8px;
+          padding: 12px;
+          border-radius: $border-radius-sm;
 
           .box-label {
             font-size: 0.85rem;
+            margin-bottom: 4px;
           }
 
           .box-value {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
           }
 
           .box-unit, .box-subtitle {
@@ -328,43 +571,43 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
         .name-box {
-          grid-column: 1 / -1;
-
           .box-value {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
           }
         }
       }
     }
 
     mat-card-actions {
-      padding: 12px;
-      gap: 8px;
+      padding: 12px 16px 16px;
+      gap: 12px;
 
       button {
-        padding: 6px 0;
-        font-size: 0.9rem;
+        padding: 8px 20px;
+        font-size: 0.85rem;
       }
     }
   }
 
   .no-scan-message {
-    padding: 24px;
+    padding: 30px;
+    border-radius: $border-radius-md;
 
     mat-icon {
-      font-size: 40px;
-      height: 40px;
-      width: 40px;
-      margin-bottom: 12px;
+      font-size: 56px;
+      height: 56px;
+      width: 56px;
+      margin-bottom: 20px;
     }
 
     p {
-      font-size: 1.1rem;
-      margin-bottom: 6px;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
     }
 
     .scan-tip {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
+      max-width: 90%;
     }
   }
 }
@@ -385,21 +628,44 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
 
   .camera-placeholder {
-    height: 260px; /* Increased by 1.3 times from 200px */
+    height: 260px; /* Adjusted height for mobile */
+    border-radius: $border-radius-sm;
 
-    /* Removed mobile-specific box overlay */
-
-    &::before {
-      left: 10%;
-      width: 80%;
-      height: 1px; /* Thinner scanning line for mobile */
+    &::after {
+      border-radius: $border-radius-sm;
     }
 
-    .camera-icon {
-      font-size: 36px;
-      height: 36px;
-      width: 36px;
-      margin-bottom: 10px;
+    /* Adjust scanning line */
+    &::before {
+      height: 1px; /* Thinner scanning line for mobile */
+      box-shadow: 0 0 6px rgba($accent-color, 0.5);
+    }
+
+    /* Adjust corner brackets */
+    .corner {
+      width: 14px;
+      height: 14px;
+      border-width: 2px;
+
+      &.top-left {
+        top: 10px;
+        left: 10px;
+      }
+
+      &.top-right {
+        top: 10px;
+        right: 10px;
+      }
+
+      &.bottom-left {
+        bottom: 10px;
+        left: 10px;
+      }
+
+      &.bottom-right {
+        bottom: 10px;
+        right: 10px;
+      }
     }
 
     p {
@@ -408,66 +674,102 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
 
   .food-details-card {
+    border-radius: $border-radius-sm;
+
+    mat-card-header {
+      border-top-left-radius: $border-radius-sm;
+      border-top-right-radius: $border-radius-sm;
+    }
+
     mat-card-content {
-      padding: 10px;
+      padding: 12px;
 
       .nutrition-details {
-        gap: 8px;
-        grid-template-columns: 1fr;
+        gap: 10px;
+
+        .horizontal-nutrition-info {
+          flex-wrap: wrap;
+          gap: 10px;
+
+          .nutrition-box {
+            flex: 1 1 calc(50% - 5px); /* Two boxes per row on very small screens */
+          }
+        }
 
         .nutrition-box {
-          padding: 6px;
+          padding: 10px;
+
+          &::before {
+            width: 3px; /* Slightly smaller accent bar */
+          }
 
           .box-label {
             font-size: 0.8rem;
+            margin-bottom: 3px;
           }
 
           .box-value {
-            font-size: 1rem;
+            font-size: 1.1rem;
           }
 
           .box-unit, .box-subtitle {
             font-size: 0.7rem;
           }
+
+          &:hover {
+            transform: none; /* Disable hover effect on mobile */
+          }
         }
 
         .name-box {
           .box-value {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
           }
         }
       }
     }
 
     mat-card-actions {
-      padding: 10px;
-      gap: 6px;
+      padding: 10px 12px 12px;
+      gap: 8px;
       flex-direction: column;
 
       button {
-        padding: 5px 0;
-        font-size: 0.85rem;
+        padding: 10px 16px;
+        font-size: 0.8rem;
+        width: 100%; /* Make buttons full width in column layout */
+
+        &:hover {
+          transform: none; /* Disable hover effect on mobile */
+          box-shadow: none;
+        }
       }
     }
   }
 
   .no-scan-message {
-    padding: 20px;
+    padding: 24px;
+    border-radius: $border-radius-sm;
 
     mat-icon {
-      font-size: 36px;
-      height: 36px;
-      width: 36px;
-      margin-bottom: 10px;
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+      margin-bottom: 16px;
     }
 
     p {
-      font-size: 1rem;
-      margin-bottom: 4px;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
     }
 
     .scan-tip {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
+      max-width: 100%;
+    }
+
+    &:hover {
+      box-shadow: $card-shadow; /* Disable hover effect on mobile */
     }
   }
 }
