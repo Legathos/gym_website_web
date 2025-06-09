@@ -13,10 +13,10 @@ export class FoodSearchComponent implements OnInit{
 
   searchText: string = '';
   foodSearchResults: FoodData[] = [];
-  private searchTerms = new Subject<string>();
   mealId: number = 1; // Default to breakfast
   editMode: boolean = false;
   logItem: any = null; // Will store the log item data when editing
+  private searchTerms = new Subject<string>();
 
   constructor(
     private foodService: FoodService,
@@ -95,6 +95,17 @@ export class FoodSearchComponent implements OnInit{
 
   navigateToBarcodeScanner() {
     this.router.navigate(['/barcode-scanner'], {
+      state: {
+        mealId: this.mealId,
+        editMode: this.editMode,
+        logItem: this.logItem
+      }
+    });
+  }
+
+  // Method to navigate to the Add Food component
+  navigateToAddFood() {
+    this.router.navigate(['/add-food'], {
       state: {
         mealId: this.mealId,
         editMode: this.editMode,

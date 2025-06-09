@@ -21,6 +21,10 @@ export class FoodComponent implements OnInit{
     this.router.navigate(['view-food-item'], { state: { foodItem } });
   }
 
+  navigateToAddFood() {
+    this.router.navigate(['add-food']);
+  }
+
   getAllFoodItems(){
       this.foodService.getAllFoodItems()
         .subscribe({

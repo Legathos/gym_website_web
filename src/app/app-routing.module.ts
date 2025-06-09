@@ -18,6 +18,7 @@ import {FoodSearchComponent} from "./components/nutrition/food-search/food-searc
 import {SettingsComponent} from "./components/settings/settings.component";
 import {AiEstimatorComponent} from "./components/nutrition/ai-estimator/ai-estimator.component";
 import {BarcodeScannerComponent} from "./components/nutrition/barcode-scanner/barcode-scanner.component";
+import {AddFoodComponent} from "./components/nutrition/add-food/add-food.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,canActivate:[LoggedInGuardService]},
@@ -36,6 +37,7 @@ const routes: Routes = [
   {path: 'settings', component: SettingsComponent,canActivate:[MemberGuardService] },
   {path: 'ai-estimator', component: AiEstimatorComponent,canActivate:[MemberGuardService] },
   {path: 'barcode-scanner', component: BarcodeScannerComponent,canActivate:[MemberGuardService] },
+  {path: 'add-food', component: AddFoodComponent,canActivate:[MemberGuardService] },
   {path: '**', redirectTo: 'landing-page'}
 ];
 

@@ -23,13 +23,17 @@
   </div>
 
   <div class="scan-bar">
-    <button mat-raised-button class="scan-button scan-food-button" (click)="navigateToAiEstimator()">
+    <button (click)="navigateToAiEstimator()" class="scan-button scan-food-button" mat-raised-button>
       <mat-icon>photo_camera</mat-icon>
       <span>Scan Food</span>
     </button>
-    <button mat-raised-button class="scan-button scan-barcode-button" (click)="navigateToBarcodeScanner()">
+    <button (click)="navigateToBarcodeScanner()" class="scan-button scan-barcode-button" mat-raised-button>
       <mat-icon>qr_code_scanner</mat-icon>
       <span>Scan Barcode</span>
+    </button>
+    <button (click)="navigateToAddFood()" class="scan-button add-food-button" mat-raised-button>
+      <mat-icon>add_circle</mat-icon>
+      <span>Add Food</span>
     </button>
   </div>
 

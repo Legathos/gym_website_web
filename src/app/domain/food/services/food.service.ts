@@ -44,6 +44,10 @@ export class FoodService {
     return this.httpClient.get<FoodData>(`${EndpointDictionary.getFoodItemById}${id}`);
   }
 
+  addFoodItemToDatabase(foodData: FoodData): Observable<any> {
+    return this.httpClient.post<any>(EndpointDictionary.addFoodItem, foodData);
+  }
+
   addFoodToTracker(loggerModel: LoggerData): Observable<any> {
     return this.httpClient.post<any>(EndpointDictionary.addNewLog, loggerModel);
   }

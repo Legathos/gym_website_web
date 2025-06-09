@@ -40,6 +40,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { ViewLogItemComponent } from './components/nutrition/view-log-item/view-log-item.component';
 import { AiEstimatorComponent } from './components/nutrition/ai-estimator/ai-estimator.component';
 import { BarcodeScannerComponent } from './components/nutrition/barcode-scanner/barcode-scanner.component';
+import { AddFoodComponent } from './components/nutrition/add-food/add-food.component';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { BarcodeScannerComponent } from './components/nutrition/barcode-scanner/
     ViewLogItemComponent,
     AiEstimatorComponent,
     BarcodeScannerComponent,
+    AddFoodComponent,
   ],
   imports: [
     BrowserModule,

@@ -146,6 +146,10 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   .scan-barcode-button {
     background-color: $primary-color;
   }
+
+  .add-food-button {
+    background-color: $accent-color;
+  }
 }
 
 .food-item-card {
