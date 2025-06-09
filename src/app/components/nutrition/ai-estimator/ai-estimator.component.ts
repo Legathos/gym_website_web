@@ -11,25 +11,12 @@ export class AiEstimatorComponent implements OnInit {
   // This will be populated when a food is estimated by AI
   estimatedFood: FoodData | null = null;
 
-  // For testing purposes only - remove in production
-  mockFoodData: FoodData = {
-    id: 2,
-    name: 'Grilled Salmon',
-    calories: 206,
-    protein: 22.1,
-    carbs: 0,
-    fats: 13.4,
-    weight: 100
-  };
-
   constructor(
     private location: Location,
   ) {}
 
   ngOnInit(): void {
-    // For testing purposes only - remove in production
-    // Uncomment the line below to see the food details card
-    // this.estimatedFood = this.mockFoodData;
+
   }
 
   // Navigate back to the previous page

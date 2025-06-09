@@ -20,7 +20,7 @@ export const EndpointDictionary = {
   getExercisesByCategory:`${apiUrl}get-exercises-by-`,
   deleteExerciseById:`${apiUrl}delete-exercise-`,
   editExercise:`${apiUrl}edit-exercise`,
-  addFoodItem:`${apiUrl}add-food-item`,
+  addFoodItem:`${apiUrl}food/add-food-item`,
   editFoodItem:`${apiUrl}edit-food-item`,
   deleteFoodItem:`${apiUrl}delete-food-item-`,
   getFoodItemById:`${apiUrl}get-food-item-`,
@@ -32,5 +32,6 @@ export const EndpointDictionary = {
   addNewLog:`${apiUrl}logger/add-new-log`,
   editLogItem:`${apiUrl}logger/edit-log`,
   deleteLogItem:`${apiUrl}logger/delete-log`,
-  getFoodItemByBarcode:`${apiUrl}food/get-food-item-barcode-`,
+  getFoodItemByBarcodeFromApi:`${apiUrl}food/get-food-item-barcode-`,
+  getFoodItemByBarcodeFromDatabase:`${apiUrl}food/get-food-item-by-barcode-`,
 };
