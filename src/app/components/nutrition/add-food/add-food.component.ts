@@ -12,6 +12,7 @@ export class AddFoodComponent implements OnInit {
 
   foodItem: FoodData = {
     id: 0,
+    barcode: undefined,
     name: '',
     weight: 100,
     calories: 0,
@@ -27,7 +28,13 @@ export class AddFoodComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Initialize with default values
+    // Check if food data was passed from barcode scanner
+    const state = history.state;
+    if (state && state.foodData) {
+      // Use the passed food data
+      this.foodItem = { ...state.foodData };
+      console.log('Food data received from barcode scanner:', this.foodItem);
+    }
   }
 
   goBack() {

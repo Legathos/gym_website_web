@@ -60,8 +60,12 @@ export class FoodService {
     return this.httpClient.delete<any>(EndpointDictionary.deleteLogItem, { body: loggerModel });
   }
 
+  getFoodDataFromBarcodeFromDatabase(barcode: number):Observable<any>{
+    return this.httpClient.get<FoodData>(`${EndpointDictionary.getFoodItemByBarcodeFromDatabase}${barcode}`);
+  }
+
   getFoodDataFromBarcode(barcode: string): Observable<FoodData> {
-    return this.httpClient.get<any>(`${EndpointDictionary.getFoodItemByBarcode}${barcode}`).pipe(
+    return this.httpClient.get<any>(`${EndpointDictionary.getFoodItemByBarcodeFromApi}${barcode}`).pipe(
       map(response => {
         const data = typeof response === 'string' ? JSON.parse(response) : response;
 
@@ -73,6 +77,7 @@ export class FoodService {
 
         return {
           id: 0,
+          barcode: data.product?.code || undefined,
           name:data.product?.product_name || data.product?.product_name_en || 'Unknown',
           weight: 100,
           calories: nutriments['energy-kcal_100g'] || 0,

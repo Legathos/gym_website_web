@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Location } from '@angular/common';
 import { FoodData, FoodService } from '@domain/food';
+import { Router } from '@angular/router';
 import {BarcodeFormat, BrowserMultiFormatReader, IScannerControls} from "@zxing/browser";
 import { Result } from '@zxing/library';
 
@@ -20,7 +21,8 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
 
   constructor(
     private location: Location,
-    private foodService: FoodService
+    private foodService: FoodService,
+    private router: Router
   ) {
     // Set the possible barcode formats to scan for
     this.scanner.possibleFormats = [
@@ -97,13 +99,46 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
 
   onBarcodeScanned(code: string): void {
     console.log('Barcode scanned:', code);
+
+    // First check if the barcode exists in the database
+    const barcodeNumber = parseInt(code, 10);
+    if (!isNaN(barcodeNumber)) {
+      this.foodService.getFoodDataFromBarcodeFromDatabase(barcodeNumber).subscribe({
+        next: (foodData: FoodData) => {
+          if (foodData) {
+            console.log('Food data found in database:', foodData);
+            // Navigate to view-food-item page with the found food data
+            this.router.navigate(['/view-food-item'], {
+              state: {
+                foodItem: foodData
+              }
+            });
+          } else {
+            // If not found in database, search from API
+            this.searchFoodFromApi(code);
+          }
+        },
+        error: (error) => {
+          console.error('Error checking database for barcode:', error);
+          // If error occurs when checking database, try API
+          this.searchFoodFromApi(code);
+        }
+      });
+    } else {
+      // If barcode is not a valid number, try API directly
+      this.searchFoodFromApi(code);
+    }
+  }
+
+  // Helper method to search food from API
+  private searchFoodFromApi(code: string): void {
     this.foodService.getFoodDataFromBarcode(code).subscribe({
       next: (foodData: FoodData) => {
         this.scannedFood = foodData;
-        console.log('Food data fetched from barcode:', foodData);
+        console.log('Food data fetched from API:', foodData);
       },
       error: (error) => {
-        console.error('Error fetching food data from barcode:', error);
+        console.error('Error fetching food data from API:', error);
         this.restartScanning();
       }
     });
@@ -131,7 +166,12 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
   // Add the scanned food to the meal tracker
   addToMeal(): void {
     if (this.scannedFood) {
-      this.goBack();
+      // Navigate to add-food component with scanned food data
+      this.router.navigate(['/add-food'], {
+        state: {
+          foodData: this.scannedFood
+        }
+      });
     }
   }
 

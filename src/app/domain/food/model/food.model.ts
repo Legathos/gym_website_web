@@ -1,5 +1,6 @@
 export interface FoodData{
     id:number,
+    barcode:number | undefined,
     name:string,
     weight:number,
     calories:number,
@@ -7,4 +8,3 @@ export interface FoodData{
     fats:number,
     protein:number,
   }
-  
