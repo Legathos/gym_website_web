@@ -6,9 +6,14 @@
 </mat-toolbar>
 
 <div class="scanner-container">
-  <!-- Camera feed placeholder - to be implemented later -->
+  <!-- Camera feed placeholder with modern scanner UI -->
   <div class="camera-placeholder">
     <video #video autoplay height="auto" playsinline width="100%"></video>
+    <!-- Corner brackets for modern scanner look -->
+    <div class="corner top-left"></div>
+    <div class="corner top-right"></div>
+    <div class="corner bottom-left"></div>
+    <div class="corner bottom-right"></div>
   </div>
 
   <!-- Scanned food details card -->
