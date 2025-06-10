@@ -34,7 +34,7 @@ export class FoodTrackerComponent implements OnInit {
   dinnerCarbs = 0;
   dinnerFats = 0;
   dinnerCalories = 0;
-  date:string = new Date().toISOString().slice(0,10)
+  date:string = this.getTodayDate()
 
   constructor(
     private foodService: FoodService,
@@ -180,5 +180,17 @@ export class FoodTrackerComponent implements OnInit {
         }
       });
     }
+  }
+
+  /**
+   * Returns today's date in the format YYYY-MM-DD using local timezone
+   */
+  getTodayDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(today.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   }
 }

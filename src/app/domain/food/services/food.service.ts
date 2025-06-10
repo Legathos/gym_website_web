@@ -33,7 +33,6 @@ export class FoodService {
             observer.complete();
           });
         }
-
         return this.httpClient.get<LoggerData[]>(EndpointDictionary.getFoodTrackingByIdAndDate + id + `/` + date);
       })
     );
