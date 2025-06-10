@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { FoodData, FoodService } from '@domain/food';
 import { Location } from '@angular/common';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-food-item',
@@ -75,45 +76,45 @@ export class ViewFoodItemComponent implements OnInit{
   logFoodItemToTracker() {
     this.calculateNutritionalValues();
 
-    const userId = this.foodService.getUserId();
+    this.foodService.getUserId().subscribe(userId => {
+      // Check if we have a valid user ID
+      if (userId <= 0) {
+        console.error('User ID not available. Please log in again.');
+        // You could show an error message to the user here
+        // For example, using a toast notification or alert
+        alert('Please log in to add food to your tracker.');
+        return;
+      }
 
-    // Check if we have a valid user ID
-    if (userId <= 0) {
-      console.error('User ID not available. Please log in again.');
-      // You could show an error message to the user here
-      // For example, using a toast notification or alert
-      alert('Please log in to add food to your tracker.');
-      return;
-    }
+      const loggerModel = {
+        id: undefined,
+        user_id: userId,
+        date: new Date(),
+        food_id: this.foodItem.id,
+        food_name: this.foodItem.name,
+        meal: this.mealId,
+        weight: this.foodItem.weight,
+        calories: this.foodItem.calories,
+        carbs: this.foodItem.carbs,
+        protein: this.foodItem.protein,
+        fats: this.foodItem.fats
+      };
 
-    const loggerModel = {
-      id: this.editMode && this.logItem ? this.logItem.id : 0, // Use existing ID when editing, 0 for new items
-      user_id: userId,
-      date: new Date(),
-      food_id: this.foodItem.id,
-      food_name: this.foodItem.name,
-      meal: this.mealId,
-      weight: this.foodItem.weight,
-      calories: this.foodItem.calories,
-      carbs: this.foodItem.carbs,
-      protein: this.foodItem.protein,
-      fats: this.foodItem.fats
-    };
-
-    // Call the appropriate service method based on edit mode
-    if (this.editMode && this.logItem) {
-      // Update existing log item
-      this.foodService.editFoodLog(loggerModel).subscribe(() => {
-        // Navigate back to the food tracker page
-        this.router.navigate(['/food-tracker/:id']);
-      });
-    } else {
-      // Add new log item
-      this.foodService.addFoodToTracker(loggerModel).subscribe(() => {
-        // Navigate back to the food tracker page
-        this.router.navigate(['/food-tracker/:id']);
-      });
-    }
+      // Call the appropriate service method based on edit mode
+      if (this.editMode && this.logItem) {
+        // Update existing log item
+        this.foodService.editFoodLog(loggerModel).subscribe(() => {
+          // Navigate back to the food tracker page
+          this.router.navigate(['/food-tracker/:id']);
+        });
+      } else {
+        // Add new log item
+        this.foodService.addFoodToTracker(loggerModel).subscribe(() => {
+          // Navigate back to the food tracker page
+          this.router.navigate(['/food-tracker/:id']);
+        });
+      }
+    });
   }
 
   onWeightChange() {

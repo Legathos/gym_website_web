@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FoodService } from '@domain/food';
 import { Location } from '@angular/common';
 import { LoggerData} from "@domain/food/model/logger.model";
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-log-item',
@@ -65,19 +66,19 @@ export class ViewLogItemComponent implements OnInit {
   updateLogItem() {
     this.calculateNutritionalValues();
 
-    const userId = this.foodService.getUserId();
+    this.foodService.getUserId().subscribe(userId => {
+      // Check if we have a valid user ID
+      if (userId <= 0) {
+        console.error('User ID not available. Please log in again.');
+        alert('Please log in to update your food log.');
+        return;
+      }
 
-    // Check if we have a valid user ID
-    if (userId <= 0) {
-      console.error('User ID not available. Please log in again.');
-      alert('Please log in to update your food log.');
-      return;
-    }
-
-    // Update existing log item
-    this.foodService.editFoodLog(this.logItem).subscribe(() => {
-      // Navigate back to the food tracker page
-      this.router.navigate(['/food-tracker/:id']);
+      // Update existing log item
+      this.foodService.editFoodLog(this.logItem).subscribe(() => {
+        // Navigate back to the food tracker page
+        this.router.navigate(['/food-tracker/:id']);
+      });
     });
   }
 

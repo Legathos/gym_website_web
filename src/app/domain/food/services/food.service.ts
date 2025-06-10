@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {map, Observable} from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
 import { FoodData } from '@domain/food';
 import {LoggerData} from "@domain/food/model/logger.model";
@@ -12,7 +13,7 @@ export class FoodService {
 
   constructor( private httpClient: HttpClient, private memberService: MemberService) { }
 
-  getUserId(): number {
+  getUserId(): Observable<number> {
     return this.memberService.getUserId();
   }
 
@@ -21,19 +22,21 @@ export class FoodService {
   }
 
   getFoodTrackingByIdAndDate(date: String): Observable<any> {
-    let id = this.memberService.getUserId();
+    return this.memberService.getUserId().pipe(
+      switchMap(id => {
+        // Check if we have a valid user ID
+        if (id <= 0) {
+          console.error('User ID not available for food tracking. Please log in again.');
+          // Return an empty array as Observable
+          return new Observable(observer => {
+            observer.next([]);
+            observer.complete();
+          });
+        }
 
-    // Check if we have a valid user ID
-    if (id <= 0) {
-      console.error('User ID not available for food tracking. Please log in again.');
-      // Return an empty array as Observable
-      return new Observable(observer => {
-        observer.next([]);
-        observer.complete();
-      });
-    }
-
-    return this.httpClient.get<LoggerData[]>(EndpointDictionary.getFoodTrackingByIdAndDate + id + `/` + date);
+        return this.httpClient.get<LoggerData[]>(EndpointDictionary.getFoodTrackingByIdAndDate + id + `/` + date);
+      })
+    );
   }
 
   getFoodItemsByName(name: String):Observable<any>{
