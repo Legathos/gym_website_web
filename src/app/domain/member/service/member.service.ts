@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 import {EndpointDictionary} from "../../../../environments/endpoint-dictionary";
 import {JwtService} from "@core/auth";
 import {CookieService} from "ngx-cookie-service";
@@ -28,57 +29,18 @@ export class MemberService {
     return this.userService.getUserByUsername(username);
   }
 
-  getUserId(){
-    // Check if user is already loaded
-    if (!this.user) {
-      // If not, try to get from localStorage as a fallback
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.user = JSON.parse(userJson);
-      }
-    }
-
-    // If we still don't have a user, trigger the async load for next time
-    // but return a default value for now
-    if (!this.user) {
-      this.getUserData().subscribe({
-        next: (data) => {
-          this.user = data;
-          // Store in localStorage for future use
-          localStorage.setItem('user', JSON.stringify(data));
-        }
-      });
-      return 0; // Return a default value or handle the error case
-    }
-
-    return this.user.id;
+  getUserId(): Observable<number> {
+    return this.getUserData().pipe(
+      map((data) => {
+        this.user = data;
+        return this.user.id;
+      })
+    );
   }
 
   getUsername(){
-    // Check if user is already loaded
-    if (!this.user) {
-      // If not, try to get from localStorage as a fallback
-      const userJson = localStorage.getItem('user');
-      if (userJson) {
-        this.user = JSON.parse(userJson);
-      }
+    return this.jwtService.parseJwt(this.cookieService.get("auth-cookie")).username;
     }
-
-    // If we still don't have a user, trigger the async load for next time
-    // but return a default value for now
-    if (!this.user) {
-      this.getUserData().subscribe({
-        next: (data) => {
-          this.user = data;
-          // Store in localStorage for future use
-          localStorage.setItem('user', JSON.stringify(data));
-        }
-      });
-      return ''; // Return a default value or handle the error case
-    }
-
-    return this.user.username;
-  }
 
   getUserWeightHistoryData(id: number) {
     return this.userService.getUserWeightHistory(id)

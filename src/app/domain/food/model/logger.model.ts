@@ -1,5 +1,5 @@
 export interface LoggerData{
-  id:number,
+  id:number | undefined,
   user_id:number,
   date:Date,
   food_id:number,
