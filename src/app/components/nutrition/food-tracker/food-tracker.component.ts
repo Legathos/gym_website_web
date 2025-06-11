@@ -2,6 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {FoodService} from "@domain/food";
 import { LoggerData} from "@domain/food/model/logger.model";
 import {Router} from "@angular/router";
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
+
+// Declare the bootstrap global variable for TypeScript
+declare global {
+  interface Window {
+    bootstrap: any;
+  }
+}
+const bootstrap = window.bootstrap;
 
 @Component({
   selector: 'app-food-tracker',
@@ -34,11 +44,15 @@ export class FoodTrackerComponent implements OnInit {
   dinnerCarbs = 0;
   dinnerFats = 0;
   dinnerCalories = 0;
-  date:string = new Date().toISOString().slice(0,10)
+  date:string = this.getTodayDate()
+
+  // Track the currently expanded item
+  currentlyExpandedItem: string | null = null;
 
   constructor(
     private foodService: FoodService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
   }
 
@@ -153,32 +167,85 @@ export class FoodTrackerComponent implements OnInit {
   }
 
   deleteLogItem(logItem: LoggerData) {
-    if (confirm('Are you sure you want to delete this food log?')) {
-      this.foodService.deleteFoodLog(logItem).subscribe({
-        next: () => {
-          // Refresh the food logs after deletion
-          this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe(data => {
-            this.foodLogs = data;
-            // Reset all values
-            this.protein = 0;
-            this.carbs = 0;
-            this.fats = 0;
-            this.calories = 0;
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { question: 'Are you sure you want to delete this food log?', action: 'Delete' }
+    });
 
-            // Recalculate everything
-            this.groupFoodLogsByMealType();
-            this.calculateTotalCalories();
-            this.calculateMacros();
-            this.calculateBreakfastMacros();
-            this.calculateLunchMacros();
-            this.calculateDinnerMacros();
-          });
-        },
-        error: (error) => {
-          console.error('Error deleting food log:', error);
-          alert('Failed to delete food log. Please try again.');
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.foodService.deleteFoodLog(logItem).subscribe({
+          next: () => {
+            // Refresh the food logs after deletion
+            this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe(data => {
+              this.foodLogs = data;
+              // Reset all values
+              this.protein = 0;
+              this.carbs = 0;
+              this.fats = 0;
+              this.calories = 0;
+
+              // Recalculate everything
+              this.groupFoodLogsByMealType();
+              this.calculateTotalCalories();
+              this.calculateMacros();
+              this.calculateBreakfastMacros();
+              this.calculateLunchMacros();
+              this.calculateDinnerMacros();
+            });
+          },
+          error: (error) => {
+            console.error('Error deleting food log:', error);
+            alert('Failed to delete food log. Please try again.');
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * Returns today's date in the format YYYY-MM-DD using local timezone
+   */
+  getTodayDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(today.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
+  /**
+   * Toggles the expansion state of a food item detail section.
+   * Ensures only one item is expanded at a time by collapsing the previously expanded item.
+   * @param itemId The ID of the item to toggle
+   */
+  toggleItemDetails(itemId: string): void {
+    // If the clicked item is already expanded, collapse it
+    if (this.currentlyExpandedItem === itemId) {
+      this.currentlyExpandedItem = null;
+      // Use Bootstrap's collapse API to hide the element
+      const collapseElement = document.getElementById(itemId);
+      if (collapseElement) {
+        const bsCollapse = new bootstrap.Collapse(collapseElement, { toggle: false });
+        bsCollapse.hide();
+      }
+    } else {
+      // If another item is currently expanded, collapse it first
+      if (this.currentlyExpandedItem) {
+        const previousElement = document.getElementById(this.currentlyExpandedItem);
+        if (previousElement) {
+          const bsCollapse = new bootstrap.Collapse(previousElement, { toggle: false });
+          bsCollapse.hide();
         }
-      });
+      }
+
+      // Expand the clicked item
+      this.currentlyExpandedItem = itemId;
+      const newElement = document.getElementById(itemId);
+      if (newElement) {
+        const bsCollapse = new bootstrap.Collapse(newElement, { toggle: false });
+        bsCollapse.show();
+      }
     }
   }
 }
