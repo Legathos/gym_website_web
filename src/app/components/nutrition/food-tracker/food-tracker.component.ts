@@ -5,6 +5,14 @@ import {Router} from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
 
+// Declare the bootstrap global variable for TypeScript
+declare global {
+  interface Window {
+    bootstrap: any;
+  }
+}
+const bootstrap = window.bootstrap;
+
 @Component({
   selector: 'app-food-tracker',
   templateUrl: './food-tracker.component.html',
@@ -37,6 +45,9 @@ export class FoodTrackerComponent implements OnInit {
   dinnerFats = 0;
   dinnerCalories = 0;
   date:string = this.getTodayDate()
+
+  // Track the currently expanded item
+  currentlyExpandedItem: string | null = null;
 
   constructor(
     private foodService: FoodService,
@@ -201,5 +212,40 @@ export class FoodTrackerComponent implements OnInit {
     const day = String(today.getDate()).padStart(2, '0');
 
     return `${year}-${month}-${day}`;
+  }
+
+  /**
+   * Toggles the expansion state of a food item detail section.
+   * Ensures only one item is expanded at a time by collapsing the previously expanded item.
+   * @param itemId The ID of the item to toggle
+   */
+  toggleItemDetails(itemId: string): void {
+    // If the clicked item is already expanded, collapse it
+    if (this.currentlyExpandedItem === itemId) {
+      this.currentlyExpandedItem = null;
+      // Use Bootstrap's collapse API to hide the element
+      const collapseElement = document.getElementById(itemId);
+      if (collapseElement) {
+        const bsCollapse = new bootstrap.Collapse(collapseElement, { toggle: false });
+        bsCollapse.hide();
+      }
+    } else {
+      // If another item is currently expanded, collapse it first
+      if (this.currentlyExpandedItem) {
+        const previousElement = document.getElementById(this.currentlyExpandedItem);
+        if (previousElement) {
+          const bsCollapse = new bootstrap.Collapse(previousElement, { toggle: false });
+          bsCollapse.hide();
+        }
+      }
+
+      // Expand the clicked item
+      this.currentlyExpandedItem = itemId;
+      const newElement = document.getElementById(itemId);
+      if (newElement) {
+        const bsCollapse = new bootstrap.Collapse(newElement, { toggle: false });
+        bsCollapse.show();
+      }
+    }
   }
 }
