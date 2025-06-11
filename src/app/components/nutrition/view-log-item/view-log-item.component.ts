@@ -4,6 +4,8 @@ import { FoodService } from '@domain/food';
 import { Location } from '@angular/common';
 import { LoggerData} from "@domain/food/model/logger.model";
 import { switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-view-log-item',
@@ -21,7 +23,8 @@ export class ViewLogItemComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private foodService: FoodService
+    private foodService: FoodService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -87,16 +90,22 @@ export class ViewLogItemComponent implements OnInit {
   }
 
   deleteLogItem() {
-    if (confirm('Are you sure you want to delete this food log?')) {
-      this.foodService.deleteFoodLog(this.logItem).subscribe({
-        next: () => {
-          this.router.navigate(['/food-tracker/:id']);
-        },
-        error: (error) => {
-          console.error('Error deleting food log:', error);
-          alert('Failed to delete food log. Please try again.');
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { question: 'Are you sure you want to delete this food log?', action: 'Delete' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.foodService.deleteFoodLog(this.logItem).subscribe({
+          next: () => {
+            this.router.navigate(['/food-tracker/:id']);
+          },
+          error: (error) => {
+            console.error('Error deleting food log:', error);
+            alert('Failed to delete food log. Please try again.');
+          }
+        });
+      }
+    });
   }
 }

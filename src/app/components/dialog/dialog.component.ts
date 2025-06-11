@@ -27,7 +27,13 @@ export class DialogComponent implements OnInit {
     this.close();
   }
 
+  delete() {
+    // Close the dialog and return true to indicate confirmation
+    this.dialogRef.close(true);
+  }
+
   close() {
-    this.dialogRef.close();
+    // Close the dialog and return false to indicate cancellation
+    this.dialogRef.close(false);
   }
 }

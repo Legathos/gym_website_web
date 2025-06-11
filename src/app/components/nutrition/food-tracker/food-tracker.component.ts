@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FoodService} from "@domain/food";
 import { LoggerData} from "@domain/food/model/logger.model";
 import {Router} from "@angular/router";
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-food-tracker',
@@ -38,7 +40,8 @@ export class FoodTrackerComponent implements OnInit {
 
   constructor(
     private foodService: FoodService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
   }
 
@@ -153,33 +156,39 @@ export class FoodTrackerComponent implements OnInit {
   }
 
   deleteLogItem(logItem: LoggerData) {
-    if (confirm('Are you sure you want to delete this food log?')) {
-      this.foodService.deleteFoodLog(logItem).subscribe({
-        next: () => {
-          // Refresh the food logs after deletion
-          this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe(data => {
-            this.foodLogs = data;
-            // Reset all values
-            this.protein = 0;
-            this.carbs = 0;
-            this.fats = 0;
-            this.calories = 0;
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { question: 'Are you sure you want to delete this food log?', action: 'Delete' }
+    });
 
-            // Recalculate everything
-            this.groupFoodLogsByMealType();
-            this.calculateTotalCalories();
-            this.calculateMacros();
-            this.calculateBreakfastMacros();
-            this.calculateLunchMacros();
-            this.calculateDinnerMacros();
-          });
-        },
-        error: (error) => {
-          console.error('Error deleting food log:', error);
-          alert('Failed to delete food log. Please try again.');
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.foodService.deleteFoodLog(logItem).subscribe({
+          next: () => {
+            // Refresh the food logs after deletion
+            this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe(data => {
+              this.foodLogs = data;
+              // Reset all values
+              this.protein = 0;
+              this.carbs = 0;
+              this.fats = 0;
+              this.calories = 0;
+
+              // Recalculate everything
+              this.groupFoodLogsByMealType();
+              this.calculateTotalCalories();
+              this.calculateMacros();
+              this.calculateBreakfastMacros();
+              this.calculateLunchMacros();
+              this.calculateDinnerMacros();
+            });
+          },
+          error: (error) => {
+            console.error('Error deleting food log:', error);
+            alert('Failed to delete food log. Please try again.');
+          }
+        });
+      }
+    });
   }
 
   /**
