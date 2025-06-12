@@ -57,14 +57,13 @@ username!: string;
     this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe({
       next: (data) => {
         this.foodLogs = data;
-        if (this.foodLogs) {
-          this.calculateTotalCalories();
-          this.calculateMacros();
-          // Create the donut chart for macros
-          setTimeout(() => {
-            this.foodService.macrosChart(this.protein, this.carbs, this.fats);
-          }, 100);
-        }
+        // Always calculate values and create chart, even if there's no data
+        this.calculateTotalCalories();
+        this.calculateMacros();
+        // Create the donut chart for macros
+        setTimeout(() => {
+          this.foodService.macrosChart(this.protein, this.carbs, this.fats);
+        }, 100);
       }
     });
   }

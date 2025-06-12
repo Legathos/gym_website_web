@@ -3,9 +3,14 @@
     <!-- Macronutrient bar -->
     <section class="col-md-12 macros-chart">
       <div class="macro-bar d-flex">
-        <div [style.flex]="protein * 4" class="macro protein"></div>
-        <div [style.flex]="carbs * 4" class="macro carbs"></div>
-        <div [style.flex]="fats * 9" class="macro fat"></div>
+        <ng-container *ngIf="protein > 0 || carbs > 0 || fats > 0; else emptyBar">
+          <div [style.flex]="protein * 4" class="macro protein"></div>
+          <div [style.flex]="carbs * 4" class="macro carbs"></div>
+          <div [style.flex]="fats * 9" class="macro fat"></div>
+        </ng-container>
+        <ng-template #emptyBar>
+          <div class="macro empty-bar"></div>
+        </ng-template>
       </div>
     </section>
   </div>

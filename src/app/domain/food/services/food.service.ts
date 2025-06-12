@@ -91,6 +91,9 @@ export class FoodService {
     );
   }
   macrosChart(protein:number, carbs:number, fats:number) {
+    // Check if there's any food data
+    const hasData = protein > 0 || carbs > 0 || fats > 0;
+
     const data = {
       labels: [
         'Protein',
@@ -99,12 +102,13 @@ export class FoodService {
       ],
       datasets: [{
         label: '',
-        data: [protein * 4, carbs * 4, fats * 9],
-        backgroundColor: [
+        // If there's no data, use [1] to create a full circle with a single color
+        data: hasData ? [protein * 4, carbs * 4, fats * 9] : [1],
+        backgroundColor: hasData ? [
           'rgb(200, 0, 200)',
           'rgb(54, 182, 235)',
           'rgb(255, 205, 86)'
-        ],
+        ] : ['rgb(224, 224, 224)'], // Light grey for empty chart
         hoverOffset: 4
       }]
     };
