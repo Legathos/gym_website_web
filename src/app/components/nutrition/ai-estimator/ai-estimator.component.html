@@ -6,14 +6,29 @@
 </mat-toolbar>
 
 <div class="scanner-container">
-  <!-- Camera feed placeholder - to be implemented later -->
+  <!-- Camera feed with modern scanner UI -->
   <div class="camera-placeholder">
-    <mat-icon class="camera-icon">photo_camera</mat-icon>
-    <p>Camera feed will be displayed here</p>
+    <!-- Video feed when camera is active -->
+    <video #video [style.display]="capturedImage ? 'none' : 'block'" autoplay height="auto" playsinline width="100%"></video>
+
+    <!-- Display captured image when available -->
+    <img *ngIf="capturedImage" [src]="capturedImage" alt="Captured food" height="auto" width="100%">
+
+    <!-- Corner brackets for modern scanner look (only when camera is active) -->
+    <div [style.display]="capturedImage ? 'none' : 'block'" class="corner top-left"></div>
+    <div [style.display]="capturedImage ? 'none' : 'block'" class="corner top-right"></div>
+    <div [style.display]="capturedImage ? 'none' : 'block'" class="corner bottom-left"></div>
+    <div [style.display]="capturedImage ? 'none' : 'block'" class="corner bottom-right"></div>
+
+    <!-- Take photo button (only when camera is active) -->
+    <button (click)="takePhoto()" [style.display]="capturedImage ? 'none' : 'block'" class="take-photo-button" color="primary" mat-fab>
+      <mat-icon>photo_camera</mat-icon>
+    </button>
+
   </div>
 
   <!-- Estimated food details card -->
-  <mat-card class="food-details-card" *ngIf="estimatedFood">
+  <mat-card *ngIf="estimatedFood" class="food-details-card">
     <mat-card-content>
       <div class="nutrition-details">
         <!-- Name Box -->
@@ -23,42 +38,49 @@
           <div class="box-subtitle">Estimated details for 100g</div>
         </div>
 
-        <!-- Calories Box -->
-        <div class="nutrition-box calories-box">
-          <div class="box-label">Calories</div>
-          <div class="box-value">{{ estimatedFood.calories }}</div>
-          <div class="box-unit">kcal</div>
+        <!-- First row of nutrition info -->
+        <div class="horizontal-nutrition-info">
+          <!-- Calories Box -->
+          <div class="nutrition-box calories-box">
+            <div class="box-label">Calories</div>
+            <div class="box-value">{{ estimatedFood.calories }}</div>
+            <div class="box-unit">kcal</div>
+          </div>
+
+          <!-- Protein Box -->
+          <div class="nutrition-box protein-box">
+            <div class="box-label">Protein</div>
+            <div class="box-value">{{ estimatedFood.protein }}</div>
+            <div class="box-unit">g</div>
+          </div>
         </div>
 
-        <!-- Protein Box -->
-        <div class="nutrition-box protein-box">
-          <div class="box-label">Protein</div>
-          <div class="box-value">{{ estimatedFood.protein }}</div>
-          <div class="box-unit">g</div>
-        </div>
+        <!-- Second row of nutrition info -->
+        <div class="horizontal-nutrition-info">
+          <!-- Carbs Box -->
+          <div class="nutrition-box carbs-box">
+            <div class="box-label">Carbs</div>
+            <div class="box-value">{{ estimatedFood.carbs }}</div>
+            <div class="box-unit">g</div>
+          </div>
 
-        <!-- Carbs Box -->
-        <div class="nutrition-box carbs-box">
-          <div class="box-label">Carbs</div>
-          <div class="box-value">{{ estimatedFood.carbs }}</div>
-          <div class="box-unit">g</div>
-        </div>
-
-        <!-- Fats Box -->
-        <div class="nutrition-box fats-box">
-          <div class="box-label">Fats</div>
-          <div class="box-value">{{ estimatedFood.fats }}</div>
-          <div class="box-unit">g</div>
+          <!-- Fats Box -->
+          <div class="nutrition-box fats-box">
+            <div class="box-label">Fats</div>
+            <div class="box-value">{{ estimatedFood.fats }}</div>
+            <div class="box-unit">g</div>
+          </div>
         </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="addToMeal()">Add to Meal</button>
+      <button (click)="addToMeal()" color="primary" mat-raised-button>Add to Meal</button>
+      <button (click)="retakePhoto()" color="accent" mat-raised-button>Retake Photo</button>
     </mat-card-actions>
   </mat-card>
 
   <!-- Message when no food is estimated -->
-  <div class="no-scan-message" *ngIf="!estimatedFood">
+  <div *ngIf="!estimatedFood" class="no-scan-message">
     <mat-icon>camera_enhance</mat-icon>
     <p>Take a photo of your food to get nutritional estimates</p>
   </div>
