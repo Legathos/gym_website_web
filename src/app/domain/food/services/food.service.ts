@@ -133,4 +133,16 @@ export class FoodService {
       console.warn('Element with ID "macros-chart" not found. Chart could not be rendered.');
     }
   }
+
+  estimateFoodFromImage(imageDataUrl: string): Observable<FoodData> {
+    // Extract the base64 data from the data URL
+    const base64Image = imageDataUrl.split(',')[1];
+    console.log(base64Image);
+
+    // Create the proper request body structure
+    const requestBody = {
+      image_base64: base64Image
+    };
+    return this.httpClient.post<FoodData>(EndpointDictionary.estimateFoodFromImage, requestBody);
+  }
 }

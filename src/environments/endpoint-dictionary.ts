@@ -34,4 +34,5 @@ export const EndpointDictionary = {
   deleteLogItem:`${apiUrl}logger/delete-log`,
   getFoodItemByBarcodeFromApi:`${apiUrl}food/get-food-item-barcode-`,
   getFoodItemByBarcodeFromDatabase:`${apiUrl}food/get-food-item-by-barcode-`,
+  estimateFoodFromImage:`http://localhost:5000/predict`,
 };

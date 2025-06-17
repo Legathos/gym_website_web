@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { FoodData } from '@domain/food';
+import { FoodData, FoodService } from '@domain/food';
 
 @Component({
   selector: 'app-ai-estimator',
@@ -17,6 +17,7 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
 
   constructor(
     private location: Location,
+    private foodService: FoodService
   ) {}
 
   ngOnInit(): void {
@@ -106,11 +107,8 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
         // Stop the camera after taking the photo
         this.stopCamera();
 
-        // For demo purposes, simulate AI analysis with a mock food item
-        // In a real implementation, you would send the image to an AI service
-        setTimeout(() => {
-          this.simulateAiAnalysis();
-        }, 1000);
+        // Send the image to the backend for AI analysis
+        this.analyzeImageWithAI();
       }
     } catch (err) {
       console.error('Error taking photo:', err);
@@ -134,13 +132,33 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
 
   // This method will be called when a photo is taken and analyzed
   onFoodEstimated(foodData: FoodData): void {
-    // In a real implementation, this would receive data from an AI service
-    console.log('Food estimated:', foodData);
     this.estimatedFood = foodData;
   }
 
-  // Simulate AI analysis with a mock food item (for demo purposes)
+  // Send the captured image to the backend for AI analysis
+  private analyzeImageWithAI(): void {
+    if (!this.capturedImage) {
+      console.error('No image captured');
+      return;
+    }
+
+    // Send the image to the backend for analysis
+    this.foodService.estimateFoodFromImage(this.capturedImage).subscribe({
+      next: (foodData: FoodData) => {
+        console.log('Food estimated from image:', foodData);
+        this.onFoodEstimated(foodData);
+      },
+      error: (error) => {
+        console.error('Error estimating food from image:', error);
+        // Fallback to mock data if the API call fails
+        this.simulateAiAnalysis();
+      }
+    });
+  }
+
+  // Simulate AI analysis with a mock food item (for demo/fallback purposes)
   private simulateAiAnalysis(): void {
+    console.warn('Using mock food data as fallback');
     // Mock food data that would normally come from an AI service
     const mockFoodData: FoodData = {
       id: 1,
