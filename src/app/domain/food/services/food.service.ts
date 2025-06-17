@@ -143,6 +143,47 @@ export class FoodService {
     const requestBody = {
       image_base64: base64Image
     };
-    return this.httpClient.post<FoodData>(EndpointDictionary.estimateFoodFromImage, requestBody);
+    return this.httpClient.post<any>(EndpointDictionary.estimateFoodFromImage, requestBody).pipe(
+      map(response => {
+        // Handle different response formats
+        const data = typeof response === 'string' ? JSON.parse(response) : response;
+
+        // Log the response for debugging
+        console.log('AI response:', data);
+
+        // Extract data from the nested structure: {prediction:{...}, nutrition:{...}, top_prediction: {...}}
+        const nutrition = data.nutrition || {};
+        const topPrediction = data.top_prediction || {};
+
+        // Helper function to extract numeric value from string with suffix
+        const extractNumericValue = (value: any): number => {
+          if (typeof value === 'number') return value;
+          if (!value) return 0;
+
+          // Convert to string and extract numeric part
+          const valueStr = String(value);
+          const numericMatch = valueStr.match(/^([-+]?[0-9]*\.?[0-9]+)/);
+          return numericMatch ? parseFloat(numericMatch[0]) : 0;
+        };
+
+        // Transform the response to match FoodData interface
+        // Replace underscores with spaces in the food name if present
+        let foodName = topPrediction || 'Unknown Food';
+        if (foodName && foodName.includes('_')) {
+          foodName = foodName.replace(/_/g, ' ');
+        }
+
+        return {
+          id: data.id || 0,
+          barcode: data.barcode || undefined,
+          name: foodName,
+          weight: data.weight || 100,
+          calories: extractNumericValue(nutrition.calories || data.calories || 0),
+          carbs: extractNumericValue(nutrition.carbohydrates || data.carbs || 0),
+          fats: extractNumericValue(nutrition.fat || data.fats || 0),
+          protein: extractNumericValue(nutrition.protein || data.protein || 0),
+        } as FoodData;
+      })
+    );
   }
 }
