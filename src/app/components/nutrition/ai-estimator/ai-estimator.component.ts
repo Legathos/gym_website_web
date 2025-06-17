@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { FoodData, FoodService } from '@domain/food';
 
 @Component({
@@ -11,14 +12,27 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
   // This will be populated when a food is estimated by AI
   estimatedFood: FoodData | null = null;
 
+  // Meal ID (1=breakfast, 2=lunch, 3=dinner)
+  mealId: number = 1; // Default to breakfast
+
   @ViewChild('video', {static: true}) videoElement!: ElementRef<HTMLVideoElement>;
   stream: MediaStream | null = null;
   capturedImage: string | null = null;
 
   constructor(
     private location: Location,
+    private router: Router,
     private foodService: FoodService
-  ) {}
+  ) {
+    // Get the meal ID from the navigation state if available
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation && navigation.extras.state) {
+      const state = navigation.extras.state as { mealId: number };
+      if (state.mealId) {
+        this.mealId = state.mealId;
+      }
+    }
+  }
 
   ngOnInit(): void {
     this.startCamera();
@@ -75,10 +89,51 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
   // Add the estimated food to the meal tracker
   addToMeal(): void {
     if (this.estimatedFood) {
-      // This functionality will be implemented later
-      console.log('Adding to meal:', this.estimatedFood);
-      // Navigate back or to the food tracker
-      this.goBack();
+      // Get the current date in the format expected by the backend
+      const currentDate = new Date();
+
+      // Get the user ID and add the food to the tracker
+      this.foodService.getUserId().subscribe({
+        next: (userId: number) => {
+          if (userId <= 0) {
+            console.error('User ID not available. Please log in again.');
+            return;
+          }
+
+          // Create the logger data object
+          const loggerData = {
+            id: undefined,
+            user_id: userId,
+            date: currentDate,
+            food_id: this.estimatedFood!.id,
+            food_name: this.estimatedFood!.name,
+            meal: this.mealId, // Use the meal ID from the router state
+            weight: this.estimatedFood!.weight,
+            calories: this.estimatedFood!.calories,
+            carbs: this.estimatedFood!.carbs,
+            fats: this.estimatedFood!.fats,
+            protein: this.estimatedFood!.protein
+          };
+
+          // Add the food to the tracker
+          this.foodService.addFoodToTracker(loggerData).subscribe({
+            next: (response) => {
+              console.log('Food added to tracker successfully:', response);
+              // Navigate to the food tracker
+              this.router.navigate(['/food-tracker/:id']);
+            },
+            error: (error) => {
+              console.error('Error adding food to tracker:', error);
+              // Still navigate back to avoid user being stuck
+              this.goBack();
+            }
+          });
+        },
+        error: (error) => {
+          console.error('Error getting user ID:', error);
+          this.goBack();
+        }
+      });
     }
   }
 
