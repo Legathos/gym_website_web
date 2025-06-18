@@ -32,7 +32,13 @@
   <!-- Calories History Chart -->
   <div class="profile-card mt-4">
     <h2 class="card-title">Calories Intake History</h2>
-    <div class="history-chart-container" style="height: 200px;">
+    <div class="history-chart-container" style="height: 200px; position: relative;">
+      <!-- Loading spinner -->
+      <div *ngIf="isCaloriesLoading" class="chart-loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
       <canvas #caloriesHistoryChart></canvas>
     </div>
     <div class="d-flex justify-content-center mt-3">
@@ -42,6 +48,7 @@
                 class="btn btn-sm"
                 [class.btn-primary]="caloriesSelectedPeriod === option.days"
                 [class.btn-outline-primary]="caloriesSelectedPeriod !== option.days"
+                [disabled]="isCaloriesLoading"
                 (click)="changePeriod(option.days, 'calories')">
           {{ option.label }}
         </button>
@@ -52,7 +59,13 @@
   <!-- Protein History Chart -->
   <div class="profile-card mt-4">
     <h2 class="card-title">Protein Intake History</h2>
-    <div class="history-chart-container" style="height: 200px;">
+    <div class="history-chart-container" style="height: 200px; position: relative;">
+      <!-- Loading spinner -->
+      <div *ngIf="isProteinLoading" class="chart-loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
       <canvas #proteinHistoryChart></canvas>
     </div>
     <div class="d-flex justify-content-center mt-3">
@@ -62,6 +75,7 @@
                 class="btn btn-sm"
                 [class.btn-primary]="proteinSelectedPeriod === option.days"
                 [class.btn-outline-primary]="proteinSelectedPeriod !== option.days"
+                [disabled]="isProteinLoading"
                 (click)="changePeriod(option.days, 'protein')">
           {{ option.label }}
         </button>
@@ -72,7 +86,13 @@
   <!-- Carbs History Chart -->
   <div class="profile-card mt-4">
     <h2 class="card-title">Carbs Intake History</h2>
-    <div class="history-chart-container" style="height: 200px;">
+    <div class="history-chart-container" style="height: 200px; position: relative;">
+      <!-- Loading spinner -->
+      <div *ngIf="isCarbsLoading" class="chart-loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
       <canvas #carbsHistoryChart></canvas>
     </div>
     <div class="d-flex justify-content-center mt-3">
@@ -82,6 +102,7 @@
                 class="btn btn-sm"
                 [class.btn-primary]="carbsSelectedPeriod === option.days"
                 [class.btn-outline-primary]="carbsSelectedPeriod !== option.days"
+                [disabled]="isCarbsLoading"
                 (click)="changePeriod(option.days, 'carbs')">
           {{ option.label }}
         </button>
@@ -92,7 +113,13 @@
   <!-- Fat History Chart -->
   <div class="profile-card mt-4">
     <h2 class="card-title">Fat Intake History</h2>
-    <div class="history-chart-container" style="height: 200px;">
+    <div class="history-chart-container" style="height: 200px; position: relative;">
+      <!-- Loading spinner -->
+      <div *ngIf="isFatLoading" class="chart-loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
       <canvas #fatHistoryChart></canvas>
     </div>
     <div class="d-flex justify-content-center mt-3">
@@ -102,6 +129,7 @@
                 class="btn btn-sm"
                 [class.btn-primary]="fatSelectedPeriod === option.days"
                 [class.btn-outline-primary]="fatSelectedPeriod !== option.days"
+                [disabled]="isFatLoading"
                 (click)="changePeriod(option.days, 'fat')">
           {{ option.label }}
         </button>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {forkJoin, map, Observable} from 'rxjs';
+import {forkJoin, map, Observable, of, shareReplay} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
 import { FoodData } from '@domain/food';
@@ -10,6 +10,16 @@ import {Chart} from "chart.js";
 
 @Injectable()
 export class FoodService {
+  // Cache for food tracking data to reduce API calls
+  private foodTrackingCache: Map<string, Observable<LoggerData[]>> = new Map();
+  // Cache for history data to avoid recalculating for the same period
+  private proteinHistoryCache: Map<number, Observable<{date: string, protein: number}[]>> = new Map();
+  private caloriesHistoryCache: Map<number, Observable<{date: string, calories: number}[]>> = new Map();
+  private carbsHistoryCache: Map<number, Observable<{date: string, carbs: number}[]>> = new Map();
+  private fatHistoryCache: Map<number, Observable<{date: string, fat: number}[]>> = new Map();
+
+  // Maximum number of concurrent requests to make for longer periods
+  private readonly MAX_CONCURRENT_REQUESTS = 10;
 
   constructor( private httpClient: HttpClient, private memberService: MemberService) { }
 
@@ -28,12 +38,29 @@ export class FoodService {
         if (id <= 0) {
           console.error('User ID not available for food tracking. Please log in again.');
           // Return an empty array as Observable
-          return new Observable<LoggerData[]>(observer => {
-            observer.next([]);
-            observer.complete();
-          });
+          return of([]);
         }
-        return this.httpClient.get<LoggerData[]>(EndpointDictionary.getFoodTrackingByIdAndDate + id + `/` + date);
+
+        // Create a cache key using user ID and date
+        const cacheKey = `${id}-${date}`;
+
+        // Check if we have cached data for this date
+        if (this.foodTrackingCache.has(cacheKey)) {
+          return this.foodTrackingCache.get(cacheKey)!;
+        }
+
+        // If not in cache, make the API call and cache the result
+        const request = this.httpClient.get<LoggerData[]>(
+          EndpointDictionary.getFoodTrackingByIdAndDate + id + `/` + date
+        ).pipe(
+          // Use shareReplay to cache the result and share it with multiple subscribers
+          shareReplay(1)
+        );
+
+        // Store in cache
+        this.foodTrackingCache.set(cacheKey, request);
+
+        return request;
       })
     );
   }
@@ -68,14 +95,16 @@ export class FoodService {
    * @returns Observable with an array of objects containing date and protein intake
    */
   getProteinIntakeHistory(days: number = 7): Observable<{date: string, protein: number}[]> {
-    return this.memberService.getUserId().pipe(
+    // Check if we have cached data for this period
+    if (this.proteinHistoryCache.has(days)) {
+      return this.proteinHistoryCache.get(days)!;
+    }
+
+    const result = this.memberService.getUserId().pipe(
       switchMap(userId => {
         if (userId <= 0) {
           console.error('User ID not available for protein history. Please log in again.');
-          return new Observable<{date: string, protein: number}[]>(observer => {
-            observer.next([]);
-            observer.complete();
-          });
+          return of([]);
         }
 
         // Generate dates for the past N days
@@ -89,21 +118,98 @@ export class FoodService {
           dates.push(formattedDate);
         }
 
-        // Create an array of observables for each date
-        const requests = dates.map(date =>
+        // For longer periods, batch the requests to reduce load
+        if (days > 30) {
+          return this.batchProcessDates(dates, (date, logs) => {
+            const totalProtein = logs.reduce((sum, log) => sum + log.protein, 0);
+            return { date, protein: totalProtein };
+          });
+        } else {
+          // For shorter periods, use the original approach but with cached data
+          const requests = dates.map(date =>
+            this.getFoodTrackingByIdAndDate(date).pipe(
+              map(logs => {
+                const totalProtein = logs.reduce((sum, log) => sum + log.protein, 0);
+                return { date, protein: totalProtein };
+              })
+            )
+          );
+
+          return forkJoin(requests);
+        }
+      }),
+      // Cache the result
+      shareReplay(1)
+    );
+
+    // Store in cache
+    this.proteinHistoryCache.set(days, result);
+
+    return result;
+  }
+
+  /**
+   * Processes dates in batches to reduce the number of concurrent API calls
+   * @param dates Array of date strings to process
+   * @param mapFn Function to map the logs for each date to the desired output format
+   * @returns Observable with processed results for all dates
+   */
+  private batchProcessDates<T>(
+    dates: string[],
+    mapFn: (date: string, logs: LoggerData[]) => T
+  ): Observable<T[]> {
+    // Calculate batch size based on number of dates
+    const batchSize = Math.max(
+      1,
+      Math.min(
+        this.MAX_CONCURRENT_REQUESTS,
+        Math.ceil(dates.length / 10)
+      )
+    );
+
+    // Split dates into batches
+    const batches: string[][] = [];
+    for (let i = 0; i < dates.length; i += batchSize) {
+      batches.push(dates.slice(i, i + batchSize));
+    }
+
+    // Process each batch sequentially
+    return new Observable<T[]>(observer => {
+      const results: T[] = [];
+
+      // Process batches one at a time
+      const processBatch = (index: number) => {
+        if (index >= batches.length) {
+          // All batches processed, return results sorted by date
+          observer.next(results.sort((a: any, b: any) =>
+            new Date(a.date).getTime() - new Date(b.date).getTime()
+          ));
+          observer.complete();
+          return;
+        }
+
+        // Process current batch
+        const batch = batches[index];
+        const batchRequests = batch.map(date =>
           this.getFoodTrackingByIdAndDate(date).pipe(
-            map(logs => {
-              // Calculate total protein for this date
-              const totalProtein = logs.reduce((sum, log) => sum + log.protein, 0);
-              return { date, protein: totalProtein };
-            })
+            map(logs => mapFn(date, logs))
           )
         );
 
-        // Combine all requests and return the results
-        return forkJoin(requests);
-      })
-    );
+        forkJoin(batchRequests).subscribe({
+          next: (batchResults) => {
+            // Add batch results to overall results
+            results.push(...batchResults);
+            // Process next batch
+            processBatch(index + 1);
+          },
+          error: (err) => observer.error(err)
+        });
+      };
+
+      // Start processing with first batch
+      processBatch(0);
+    });
   }
 
   /**
@@ -112,14 +218,16 @@ export class FoodService {
    * @returns Observable with an array of objects containing date and calories intake
    */
   getCaloriesIntakeHistory(days: number = 7): Observable<{date: string, calories: number}[]> {
-    return this.memberService.getUserId().pipe(
+    // Check if we have cached data for this period
+    if (this.caloriesHistoryCache.has(days)) {
+      return this.caloriesHistoryCache.get(days)!;
+    }
+
+    const result = this.memberService.getUserId().pipe(
       switchMap(userId => {
         if (userId <= 0) {
           console.error('User ID not available for calories history. Please log in again.');
-          return new Observable<{date: string, calories: number}[]>(observer => {
-            observer.next([]);
-            observer.complete();
-          });
+          return of([]);
         }
 
         // Generate dates for the past N days
@@ -133,21 +241,34 @@ export class FoodService {
           dates.push(formattedDate);
         }
 
-        // Create an array of observables for each date
-        const requests = dates.map(date =>
-          this.getFoodTrackingByIdAndDate(date).pipe(
-            map(logs => {
-              // Calculate total calories for this date
-              const totalCalories = logs.reduce((sum, log) => sum + log.calories, 0);
-              return { date, calories: totalCalories };
-            })
-          )
-        );
+        // For longer periods, batch the requests to reduce load
+        if (days > 30) {
+          return this.batchProcessDates(dates, (date, logs) => {
+            const totalCalories = logs.reduce((sum, log) => sum + log.calories, 0);
+            return { date, calories: totalCalories };
+          });
+        } else {
+          // For shorter periods, use the original approach but with cached data
+          const requests = dates.map(date =>
+            this.getFoodTrackingByIdAndDate(date).pipe(
+              map(logs => {
+                const totalCalories = logs.reduce((sum, log) => sum + log.calories, 0);
+                return { date, calories: totalCalories };
+              })
+            )
+          );
 
-        // Combine all requests and return the results
-        return forkJoin(requests);
-      })
+          return forkJoin(requests);
+        }
+      }),
+      // Cache the result
+      shareReplay(1)
     );
+
+    // Store in cache
+    this.caloriesHistoryCache.set(days, result);
+
+    return result;
   }
 
   /**
@@ -156,14 +277,16 @@ export class FoodService {
    * @returns Observable with an array of objects containing date and carbs intake
    */
   getCarbsIntakeHistory(days: number = 7): Observable<{date: string, carbs: number}[]> {
-    return this.memberService.getUserId().pipe(
+    // Check if we have cached data for this period
+    if (this.carbsHistoryCache.has(days)) {
+      return this.carbsHistoryCache.get(days)!;
+    }
+
+    const result = this.memberService.getUserId().pipe(
       switchMap(userId => {
         if (userId <= 0) {
           console.error('User ID not available for carbs history. Please log in again.');
-          return new Observable<{date: string, carbs: number}[]>(observer => {
-            observer.next([]);
-            observer.complete();
-          });
+          return of([]);
         }
 
         // Generate dates for the past N days
@@ -177,21 +300,34 @@ export class FoodService {
           dates.push(formattedDate);
         }
 
-        // Create an array of observables for each date
-        const requests = dates.map(date =>
-          this.getFoodTrackingByIdAndDate(date).pipe(
-            map(logs => {
-              // Calculate total carbs for this date
-              const totalCarbs = logs.reduce((sum, log) => sum + log.carbs, 0);
-              return { date, carbs: totalCarbs };
-            })
-          )
-        );
+        // For longer periods, batch the requests to reduce load
+        if (days > 30) {
+          return this.batchProcessDates(dates, (date, logs) => {
+            const totalCarbs = logs.reduce((sum, log) => sum + log.carbs, 0);
+            return { date, carbs: totalCarbs };
+          });
+        } else {
+          // For shorter periods, use the original approach but with cached data
+          const requests = dates.map(date =>
+            this.getFoodTrackingByIdAndDate(date).pipe(
+              map(logs => {
+                const totalCarbs = logs.reduce((sum, log) => sum + log.carbs, 0);
+                return { date, carbs: totalCarbs };
+              })
+            )
+          );
 
-        // Combine all requests and return the results
-        return forkJoin(requests);
-      })
+          return forkJoin(requests);
+        }
+      }),
+      // Cache the result
+      shareReplay(1)
     );
+
+    // Store in cache
+    this.carbsHistoryCache.set(days, result);
+
+    return result;
   }
 
   /**
@@ -200,14 +336,16 @@ export class FoodService {
    * @returns Observable with an array of objects containing date and fat intake
    */
   getFatIntakeHistory(days: number = 7): Observable<{date: string, fat: number}[]> {
-    return this.memberService.getUserId().pipe(
+    // Check if we have cached data for this period
+    if (this.fatHistoryCache.has(days)) {
+      return this.fatHistoryCache.get(days)!;
+    }
+
+    const result = this.memberService.getUserId().pipe(
       switchMap(userId => {
         if (userId <= 0) {
           console.error('User ID not available for fat history. Please log in again.');
-          return new Observable<{date: string, fat: number}[]>(observer => {
-            observer.next([]);
-            observer.complete();
-          });
+          return of([]);
         }
 
         // Generate dates for the past N days
@@ -221,21 +359,34 @@ export class FoodService {
           dates.push(formattedDate);
         }
 
-        // Create an array of observables for each date
-        const requests = dates.map(date =>
-          this.getFoodTrackingByIdAndDate(date).pipe(
-            map(logs => {
-              // Calculate total fat for this date
-              const totalFat = logs.reduce((sum, log) => sum + log.fats, 0);
-              return { date, fat: totalFat };
-            })
-          )
-        );
+        // For longer periods, batch the requests to reduce load
+        if (days > 30) {
+          return this.batchProcessDates(dates, (date, logs) => {
+            const totalFat = logs.reduce((sum, log) => sum + log.fats, 0);
+            return { date, fat: totalFat };
+          });
+        } else {
+          // For shorter periods, use the original approach but with cached data
+          const requests = dates.map(date =>
+            this.getFoodTrackingByIdAndDate(date).pipe(
+              map(logs => {
+                const totalFat = logs.reduce((sum, log) => sum + log.fats, 0);
+                return { date, fat: totalFat };
+              })
+            )
+          );
 
-        // Combine all requests and return the results
-        return forkJoin(requests);
-      })
+          return forkJoin(requests);
+        }
+      }),
+      // Cache the result
+      shareReplay(1)
     );
+
+    // Store in cache
+    this.fatHistoryCache.set(days, result);
+
+    return result;
   }
 
   /**

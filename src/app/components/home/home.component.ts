@@ -54,6 +54,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   carbsSelectedPeriod: number = 7; // Default to 1 week (7 days)
   fatSelectedPeriod: number = 7; // Default to 1 week (7 days)
 
+  // Loading state for each chart
+  isCaloriesLoading: boolean = false;
+  isProteinLoading: boolean = false;
+  isCarbsLoading: boolean = false;
+  isFatLoading: boolean = false;
+
   periodOptions = [
     { label: '1 Week', days: 7 },
     { label: '2 Weeks', days: 14 },
@@ -152,6 +158,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * Loads calories intake history for the selected period
    */
   loadCaloriesHistory(): void {
+    // Set loading state
+    this.isCaloriesLoading = true;
+
     this.foodService.getCaloriesIntakeHistory(this.caloriesSelectedPeriod).subscribe({
       next: (data) => {
         // Sort data by date (oldest to newest)
@@ -163,9 +172,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (this.caloriesHistoryChartRef) {
           this.createCaloriesHistoryChart();
         }
+
+        // Clear loading state
+        this.isCaloriesLoading = false;
       },
       error: (error) => {
         console.error('Error loading calories history:', error);
+        // Clear loading state on error
+        this.isCaloriesLoading = false;
       }
     });
   }
@@ -174,6 +188,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * Loads protein intake history for the selected period
    */
   loadProteinHistory(): void {
+    // Set loading state
+    this.isProteinLoading = true;
+
     this.foodService.getProteinIntakeHistory(this.proteinSelectedPeriod).subscribe({
       next: (data) => {
         // Sort data by date (oldest to newest)
@@ -185,9 +202,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (this.proteinHistoryChartRef) {
           this.createProteinHistoryChart();
         }
+
+        // Clear loading state
+        this.isProteinLoading = false;
       },
       error: (error) => {
         console.error('Error loading protein history:', error);
+        // Clear loading state on error
+        this.isProteinLoading = false;
       }
     });
   }
@@ -196,6 +218,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * Loads carbs intake history for the selected period
    */
   loadCarbsHistory(): void {
+    // Set loading state
+    this.isCarbsLoading = true;
+
     this.foodService.getCarbsIntakeHistory(this.carbsSelectedPeriod).subscribe({
       next: (data) => {
         // Sort data by date (oldest to newest)
@@ -207,9 +232,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (this.carbsHistoryChartRef) {
           this.createCarbsHistoryChart();
         }
+
+        // Clear loading state
+        this.isCarbsLoading = false;
       },
       error: (error) => {
         console.error('Error loading carbs history:', error);
+        // Clear loading state on error
+        this.isCarbsLoading = false;
       }
     });
   }
@@ -218,6 +248,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * Loads fat intake history for the selected period
    */
   loadFatHistory(): void {
+    // Set loading state
+    this.isFatLoading = true;
+
     this.foodService.getFatIntakeHistory(this.fatSelectedPeriod).subscribe({
       next: (data) => {
         // Sort data by date (oldest to newest)
@@ -229,9 +262,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (this.fatHistoryChartRef) {
           this.createFatHistoryChart();
         }
+
+        // Clear loading state
+        this.isFatLoading = false;
       },
       error: (error) => {
         console.error('Error loading fat history:', error);
+        // Clear loading state on error
+        this.isFatLoading = false;
       }
     });
   }
