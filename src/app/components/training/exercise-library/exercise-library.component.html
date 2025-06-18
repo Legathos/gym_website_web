@@ -1,1 +1,71 @@
-<p>exercise-library works!</p>
+<div class="exercise-library-container">
+  <mat-toolbar class="top-bar">
+    <button (click)="goBack()" aria-label="Go back" mat-icon-button>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1 class="page-title">Exercise Library</h1>
+  </mat-toolbar>
+
+  <div class="content-container">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <input
+          (input)="searchExercises()"
+          [(ngModel)]="searchTerm"
+          class="search-input"
+          placeholder="Search exercises..."
+          type="text"
+        >
+        <button aria-label="Search" class="search-button">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="controls-bar">
+      <!-- Category selector -->
+      <div class="category-selector-container">
+        <div class="category-label">
+          <mat-icon>filter_list</mat-icon>
+          <span>Sort by:</span>
+        </div>
+        <mat-button-toggle-group (change)="sortExercises()" [(value)]="sortOption" [class.category-selected]="sortOption === 'category'" [class.name-selected]="sortOption === 'name'" class="category-toggle-group">
+          <mat-button-toggle value="name">
+            <mat-icon>sort_by_alpha</mat-icon>
+            <span>Name</span>
+          </mat-button-toggle>
+          <mat-button-toggle value="category">
+            <mat-icon>category</mat-icon>
+            <span>Category</span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <!-- Add exercise button -->
+      <button (click)="addExercise()" class="add-button" color="accent" mat-raised-button>
+        <mat-icon>add_circle</mat-icon>
+        <span>Add Exercise</span>
+      </button>
+    </div>
+
+    <!-- No results message -->
+    <div *ngIf="filteredExercises.length === 0 && searchTerm.length > 0" class="no-results">
+      <mat-icon>search_off</mat-icon>
+      <span>No exercises found matching "{{ searchTerm }}"</span>
+    </div>
+
+    <!-- Exercise list -->
+    <div class="exercise-list">
+      <mat-card *ngFor="let exercise of filteredExercises" class="exercise-card">
+        <mat-card-header>
+          <mat-card-title>{{ exercise.name }}</mat-card-title>
+          <mat-card-subtitle>
+            <div class="category-badge">{{ exercise.category }}</div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ exercise.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

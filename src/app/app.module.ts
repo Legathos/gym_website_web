@@ -35,6 +35,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { HomeComponent } from './components/home/home.component';
 import { FoodSearchComponent } from './components/nutrition/food-search/food-search.component';
 import {MatInput} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
 import { SettingsComponent } from './components/settings/settings.component';
 import { ViewLogItemComponent } from './components/nutrition/view-log-item/view-log-item.component';
 import { AiEstimatorComponent } from './components/nutrition/ai-estimator/ai-estimator.component';
@@ -92,6 +93,7 @@ import { ExerciseLibraryComponent } from './components/training/exercise-library
     MatMenuModule,
     MatButtonToggleModule,
     MatInput,
+    MatSelectModule,
   ],
   providers: [NgbActiveModal,
     {
