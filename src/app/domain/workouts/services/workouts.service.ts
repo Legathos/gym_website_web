@@ -8,30 +8,25 @@ import { EndpointDictionary } from '../../../../environments/endpoint-dictionary
   providedIn: 'root'
 })
 export class WorkoutsService {
-  private exercises: ExerciseData[] = [
-    {
-      id: 1,
-      name: 'Bench Press',
-      category: 'Chest',
-      description: 'A compound exercise that primarily targets the pectoralis major, anterior deltoids, and triceps.'
-    },
-    {
-      id: 2,
-      name: 'Squat',
-      category: 'Legs',
-      description: 'A compound exercise that primarily targets the quadriceps, hamstrings, and glutes.'
-    },
-    {
-      id: 3,
-      name: 'Deadlift',
-      category: 'Back',
-      description: 'A compound exercise that primarily targets the back, glutes, and hamstrings.'
-    }
-  ];
+  private exercises: ExerciseData[] = [];
+  private exercisesSubject = new BehaviorSubject<ExerciseData[]>([]);
 
-  private exercisesSubject = new BehaviorSubject<ExerciseData[]>(this.exercises);
+  constructor(private httpClient: HttpClient) {
+    this.loadExercises();
+  }
 
-  constructor(private httpClient: HttpClient) { }
+  private loadExercises(): void {
+    this.httpClient.get<ExerciseData[]>(EndpointDictionary.getAllExercises)
+      .subscribe({
+        next: (exercises) => {
+          this.exercises = exercises;
+          this.exercisesSubject.next(this.exercises);
+        },
+        error: (error) => {
+          console.error('Error fetching exercises:', error);
+        }
+      });
+  }
 
   getExercises(): Observable<ExerciseData[]> {
     return this.exercisesSubject.asObservable();
