@@ -119,6 +119,17 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
           this.foodService.addFoodToTracker(loggerData).subscribe({
             next: (response) => {
               console.log('Food added to tracker successfully:', response);
+
+              // Get today's date in the format YYYY-MM-DD
+              const today = new Date();
+              const year = today.getFullYear();
+              const month = String(today.getMonth() + 1).padStart(2, '0');
+              const day = String(today.getDate()).padStart(2, '0');
+              const todayFormatted = `${year}-${month}-${day}`;
+
+              // Clear the food tracking cache for today to ensure fresh data
+              this.foodService.clearFoodTrackingCache(todayFormatted);
+
               // Navigate to the food tracker
               this.router.navigate(['/food-tracker/:id']);
             },
