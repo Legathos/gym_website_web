@@ -28,3 +28,83 @@
       <canvas id="weight-chart"></canvas>
     </div>
   </div>
+
+  <!-- Calories History Chart -->
+  <div class="profile-card mt-4">
+    <h2 class="card-title">Calories Intake History</h2>
+    <div class="history-chart-container" style="height: 200px;">
+      <canvas #caloriesHistoryChart></canvas>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <div class="period-selector btn-group" role="group" aria-label="Calories period selection">
+        <button *ngFor="let option of periodOptions"
+                type="button"
+                class="btn btn-sm"
+                [class.btn-primary]="caloriesSelectedPeriod === option.days"
+                [class.btn-outline-primary]="caloriesSelectedPeriod !== option.days"
+                (click)="changePeriod(option.days, 'calories')">
+          {{ option.label }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Protein History Chart -->
+  <div class="profile-card mt-4">
+    <h2 class="card-title">Protein Intake History</h2>
+    <div class="history-chart-container" style="height: 200px;">
+      <canvas #proteinHistoryChart></canvas>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <div class="period-selector btn-group" role="group" aria-label="Protein period selection">
+        <button *ngFor="let option of periodOptions"
+                type="button"
+                class="btn btn-sm"
+                [class.btn-primary]="proteinSelectedPeriod === option.days"
+                [class.btn-outline-primary]="proteinSelectedPeriod !== option.days"
+                (click)="changePeriod(option.days, 'protein')">
+          {{ option.label }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carbs History Chart -->
+  <div class="profile-card mt-4">
+    <h2 class="card-title">Carbs Intake History</h2>
+    <div class="history-chart-container" style="height: 200px;">
+      <canvas #carbsHistoryChart></canvas>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <div class="period-selector btn-group" role="group" aria-label="Carbs period selection">
+        <button *ngFor="let option of periodOptions"
+                type="button"
+                class="btn btn-sm"
+                [class.btn-primary]="carbsSelectedPeriod === option.days"
+                [class.btn-outline-primary]="carbsSelectedPeriod !== option.days"
+                (click)="changePeriod(option.days, 'carbs')">
+          {{ option.label }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fat History Chart -->
+  <div class="profile-card mt-4">
+    <h2 class="card-title">Fat Intake History</h2>
+    <div class="history-chart-container" style="height: 200px;">
+      <canvas #fatHistoryChart></canvas>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <div class="period-selector btn-group" role="group" aria-label="Fat period selection">
+        <button *ngFor="let option of periodOptions"
+                type="button"
+                class="btn btn-sm"
+                [class.btn-primary]="fatSelectedPeriod === option.days"
+                [class.btn-outline-primary]="fatSelectedPeriod !== option.days"
+                (click)="changePeriod(option.days, 'fat')">
+          {{ option.label }}
+        </button>
+      </div>
+    </div>
+  </div>
