@@ -353,8 +353,55 @@ $danger: #dc3545;
 
     .card-text {
       color: #666;
-      margin-bottom: 0;
+      margin-bottom: 16px;
       line-height: 1.5;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 16px;
+
+      .action-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 50%;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          transform: translateY(-2px) scale(1.05);
+          box-shadow: $hover-shadow;
+        }
+
+        i {
+          font-size: 16px;
+        }
+      }
+
+      .edit-btn {
+        background-color: $secondary-color;
+        color: white;
+
+        &:hover {
+          background-color: darken($secondary-color, 5%);
+        }
+      }
+
+      .delete-btn {
+        background-color: $danger;
+        color: white;
+
+        &:hover {
+          background-color: darken($danger, 5%);
+        }
+      }
     }
   }
 }
@@ -504,6 +551,21 @@ $danger: #dc3545;
 
     .card-body {
       padding: 12px;
+
+      .card-actions {
+        justify-content: flex-end;
+        gap: 8px;
+        margin-bottom: 12px;
+
+        .action-btn {
+          width: 36px;
+          height: 36px;
+
+          i {
+            font-size: 14px;
+          }
+        }
+      }
     }
   }
 }

@@ -71,6 +71,11 @@
             <div class="category-badge">{{ exercise.category }}</div>
           </div>
           <div class="card-body">
+            <div class="card-actions">
+              <button (click)="deleteExercise(exercise)" class="btn btn-danger action-btn delete-btn">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
             <p class="card-text">{{ exercise.description }}</p>
           </div>
         </div>

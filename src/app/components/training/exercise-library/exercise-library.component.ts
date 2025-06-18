@@ -3,6 +3,10 @@ import { ExerciseData } from '@domain/workouts/model/exercise.model';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { WorkoutsService } from '@domain/workouts/services/workouts.service';
+import { finalize } from 'rxjs/operators';
+import { MemberService } from '@domain/member';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-exercise-library',
@@ -14,11 +18,14 @@ export class ExerciseLibraryComponent implements OnInit {
   filteredExercises: ExerciseData[] = [];
   searchTerm: string = '';
   sortOption: string = 'name';
+  isDeleting: boolean = false;
 
   constructor(
     private router: Router,
     private location: Location,
-    private workoutsService: WorkoutsService
+    private workoutsService: WorkoutsService,
+    private memberService: MemberService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -30,9 +37,11 @@ export class ExerciseLibraryComponent implements OnInit {
     });
   }
 
-  // Navigate back to previous page
+  // Navigate back to workouts page
   goBack(): void {
-    this.location.back();
+    this.memberService.getUserId().subscribe(userId => {
+      this.router.navigate(['/workouts', userId]);
+    });
   }
 
   // Search exercises by name or description
@@ -66,5 +75,44 @@ export class ExerciseLibraryComponent implements OnInit {
   // Navigate to add exercise page
   addExercise(): void {
     this.router.navigate(['/add-exercise']);
+  }
+
+
+  // Delete exercise after confirmation
+  deleteExercise(exercise: ExerciseData): void {
+    if (!exercise.id) {
+      console.error('Cannot delete exercise without ID');
+      return;
+    }
+
+    // Open confirmation dialog
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '350px',
+      data: {
+        question: `Are you sure you want to delete "${exercise.name}"?`,
+        action: 'Delete'
+      }
+    });
+
+    // Handle dialog result
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.isDeleting = true;
+
+        this.workoutsService.deleteExercise(exercise.id)
+          .pipe(finalize(() => this.isDeleting = false))
+          .subscribe({
+            next: () => {
+              // Success message could be shown here
+              console.log(`Exercise "${exercise.name}" deleted successfully`);
+            },
+            error: (error) => {
+              console.error('Error deleting exercise:', error);
+              // Error message could be shown here
+              alert('Failed to delete exercise. Please try again.');
+            }
+          });
+      }
+    });
   }
 }
