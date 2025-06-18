@@ -64,4 +64,15 @@ export class WorkoutsService {
       'Other'
     ];
   }
+
+
+  deleteExercise(id: number): Observable<any> {
+    return this.httpClient.delete<any>(`${EndpointDictionary.deleteExerciseById}${id}`).pipe(
+      tap(() => {
+        // Remove the exercise from the local array
+        this.exercises = this.exercises.filter(e => e.id !== id);
+        this.exercisesSubject.next(this.exercises);
+      })
+    );
+  }
 }

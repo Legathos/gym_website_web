@@ -1,5 +1,5 @@
 export interface ExerciseData {
-  id?: number;
+  id: number;
   name: string;
   category: string;
   description: string;
