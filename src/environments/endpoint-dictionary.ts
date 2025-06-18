@@ -14,7 +14,7 @@ export const EndpointDictionary = {
   getWorkoutByUserId:`${apiUrl}get-workouts-by-userid-`,
   editWorkout:`${apiUrl}edit-workout`,
   deleteWorkout:`${apiUrl}delete-workout-`,
-  addExercise:`${apiUrl}add-exercise`,
+  addExercise:`${apiUrl}exercises/add-exercise`,
   getExerciseById:`${apiUrl}get-exercise-`,
   getAllExercises:`${apiUrl}get-all-exercises/`,
   getExercisesByCategory:`${apiUrl}get-exercises-by-`,

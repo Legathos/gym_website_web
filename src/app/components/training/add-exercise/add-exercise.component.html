@@ -1,1 +1,96 @@
-<p>add-exercise works!</p>
+<div class="add-exercise-container">
+  <!-- Bootstrap Navbar instead of mat-toolbar -->
+  <nav class="navbar top-bar">
+    <div class="container-fluid">
+      <button class="btn btn-back" (click)="goBack()" aria-label="Go back">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <h1 class="page-title">Add New Exercise</h1>
+      <div></div> <!-- Empty div for flex spacing -->
+    </div>
+  </nav>
+
+  <div class="content-container">
+    <!-- Error message alert -->
+    <div *ngIf="errorMessage" class="alert alert-danger mb-3" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {{ errorMessage }}
+    </div>
+
+    <!-- Loading spinner -->
+    <div *ngIf="isLoading" class="text-center my-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Saving exercise...</p>
+    </div>
+
+    <form [formGroup]="exerciseForm" (ngSubmit)="onSubmit()" class="exercise-form" [class.disabled-form]="isLoading">
+      <!-- Exercise Name Field -->
+      <div class="mb-3 form-field">
+        <label for="exerciseName" class="form-label">Exercise Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="exerciseName"
+          formControlName="name"
+          placeholder="E.g., Bench Press, Squat, Deadlift"
+          [disabled]="isLoading"
+          [ngClass]="{'is-invalid': exerciseForm.get('name')?.invalid && exerciseForm.get('name')?.touched}">
+        <div class="invalid-feedback" *ngIf="exerciseForm.get('name')?.hasError('required')">
+          Exercise name is required
+        </div>
+        <div class="invalid-feedback" *ngIf="exerciseForm.get('name')?.hasError('minlength')">
+          Exercise name must be at least 3 characters
+        </div>
+      </div>
+
+      <!-- Category Dropdown -->
+      <div class="mb-3 form-field">
+        <label for="exerciseCategory" class="form-label">Category</label>
+        <select
+          class="form-select"
+          id="exerciseCategory"
+          formControlName="category"
+          [disabled]="isLoading"
+          [ngClass]="{'is-invalid': exerciseForm.get('category')?.invalid && exerciseForm.get('category')?.touched}">
+          <option value="" disabled selected>Select a muscle group category</option>
+          <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="exerciseForm.get('category')?.hasError('required')">
+          Category is required
+        </div>
+      </div>
+
+      <!-- Description Field -->
+      <div class="mb-3 form-field">
+        <label for="exerciseDescription" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="exerciseDescription"
+          formControlName="description"
+          placeholder="Describe the exercise technique, muscles targeted, and any important form cues"
+          rows="5"
+          [disabled]="isLoading"
+          [ngClass]="{'is-invalid': exerciseForm.get('description')?.invalid && exerciseForm.get('description')?.touched}"></textarea>
+        <div class="invalid-feedback" *ngIf="exerciseForm.get('description')?.hasError('required')">
+          Description is required
+        </div>
+        <div class="invalid-feedback" *ngIf="exerciseForm.get('description')?.hasError('minlength')">
+          Description must be at least 10 characters
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="button-container">
+        <button type="button" class="btn btn-outline-danger" (click)="goBack()" [disabled]="isLoading">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          {{ isLoading ? 'Saving...' : 'Confirm' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

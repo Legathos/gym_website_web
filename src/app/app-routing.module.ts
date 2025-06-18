@@ -19,6 +19,7 @@ import {AiEstimatorComponent} from "./components/nutrition/ai-estimator/ai-estim
 import {BarcodeScannerComponent} from "./components/nutrition/barcode-scanner/barcode-scanner.component";
 import {AddFoodComponent} from "./components/nutrition/add-food/add-food.component";
 import {ExerciseLibraryComponent} from "./components/training/exercise-library/exercise-library.component";
+import {AddExerciseComponent} from "./components/training/add-exercise/add-exercise.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,canActivate:[LoggedInGuardService]},
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: 'workouts/:id', component: WorkoutsComponent,canActivate:[MemberGuardService]},
   {path: 'current-workout/:id', component: CurrentWorkoutComponent,canActivate:[MemberGuardService]},
   {path: 'exercise-library', component: ExerciseLibraryComponent,canActivate:[MemberGuardService]},
+  {path: 'add-exercise', component: AddExerciseComponent,canActivate:[MemberGuardService]},
   {path: 'food', component: FoodComponent,canActivate:[MemberGuardService]},
   {path: 'view-food-item', component:ViewFoodItemComponent, canActivate:[MemberGuardService]},
   {path: 'view-log-item', component:ViewLogItemComponent, canActivate:[MemberGuardService]},
