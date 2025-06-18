@@ -61,11 +61,11 @@
           <div class="card-header bg-light d-flex justify-content-between align-items-center">
             <span class="fw-bold">{{ f.food_name }}</span>
             <button
+              (click)="toggleItemDetails('collapsableBreakfastItem' + i)"
               [attr.aria-controls]="'collapsableBreakfastItem' + i"
               aria-expanded="false"
               class="btn btn-sm btn-outline-secondary"
-              type="button"
-              (click)="toggleItemDetails('collapsableBreakfastItem' + i)">
+              type="button">
               Details
             </button>
           </div>
@@ -119,11 +119,11 @@
           <div class="card-header bg-light d-flex justify-content-between align-items-center">
             <span class="fw-bold">{{ f.food_name }}</span>
             <button
+              (click)="toggleItemDetails('collapsableLunchItem' + i)"
               [attr.aria-controls]="'collapsableLunchItem' + i"
               aria-expanded="false"
               class="btn btn-sm btn-outline-secondary"
-              type="button"
-              (click)="toggleItemDetails('collapsableLunchItem' + i)">
+              type="button">
               Details
             </button>
           </div>
@@ -176,11 +176,11 @@
           <div class="card-header bg-light d-flex justify-content-between align-items-center">
             <span class="fw-bold">{{ f.food_name }}</span>
             <button
+              (click)="toggleItemDetails('collapsableDinnerItem' + i)"
               [attr.aria-controls]="'collapsableDinnerItem' + i"
               aria-expanded="false"
               class="btn btn-sm btn-outline-secondary"
-              type="button"
-              (click)="toggleItemDetails('collapsableDinnerItem' + i)">
+              type="button">
               Details
             </button>
           </div>
@@ -205,4 +205,5 @@
       </div>
     </div>
   </section>
+
 </div>
