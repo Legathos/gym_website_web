@@ -107,6 +107,138 @@ export class FoodService {
   }
 
   /**
+   * Gets calories intake history for the past N days
+   * @param days Number of days to fetch history for (default: 7)
+   * @returns Observable with an array of objects containing date and calories intake
+   */
+  getCaloriesIntakeHistory(days: number = 7): Observable<{date: string, calories: number}[]> {
+    return this.memberService.getUserId().pipe(
+      switchMap(userId => {
+        if (userId <= 0) {
+          console.error('User ID not available for calories history. Please log in again.');
+          return new Observable<{date: string, calories: number}[]>(observer => {
+            observer.next([]);
+            observer.complete();
+          });
+        }
+
+        // Generate dates for the past N days
+        const dates: string[] = [];
+        const today = new Date();
+
+        for (let i = 0; i < days; i++) {
+          const date = new Date(today);
+          date.setDate(today.getDate() - i);
+          const formattedDate = this.formatDate(date);
+          dates.push(formattedDate);
+        }
+
+        // Create an array of observables for each date
+        const requests = dates.map(date =>
+          this.getFoodTrackingByIdAndDate(date).pipe(
+            map(logs => {
+              // Calculate total calories for this date
+              const totalCalories = logs.reduce((sum, log) => sum + log.calories, 0);
+              return { date, calories: totalCalories };
+            })
+          )
+        );
+
+        // Combine all requests and return the results
+        return forkJoin(requests);
+      })
+    );
+  }
+
+  /**
+   * Gets carbs intake history for the past N days
+   * @param days Number of days to fetch history for (default: 7)
+   * @returns Observable with an array of objects containing date and carbs intake
+   */
+  getCarbsIntakeHistory(days: number = 7): Observable<{date: string, carbs: number}[]> {
+    return this.memberService.getUserId().pipe(
+      switchMap(userId => {
+        if (userId <= 0) {
+          console.error('User ID not available for carbs history. Please log in again.');
+          return new Observable<{date: string, carbs: number}[]>(observer => {
+            observer.next([]);
+            observer.complete();
+          });
+        }
+
+        // Generate dates for the past N days
+        const dates: string[] = [];
+        const today = new Date();
+
+        for (let i = 0; i < days; i++) {
+          const date = new Date(today);
+          date.setDate(today.getDate() - i);
+          const formattedDate = this.formatDate(date);
+          dates.push(formattedDate);
+        }
+
+        // Create an array of observables for each date
+        const requests = dates.map(date =>
+          this.getFoodTrackingByIdAndDate(date).pipe(
+            map(logs => {
+              // Calculate total carbs for this date
+              const totalCarbs = logs.reduce((sum, log) => sum + log.carbs, 0);
+              return { date, carbs: totalCarbs };
+            })
+          )
+        );
+
+        // Combine all requests and return the results
+        return forkJoin(requests);
+      })
+    );
+  }
+
+  /**
+   * Gets fat intake history for the past N days
+   * @param days Number of days to fetch history for (default: 7)
+   * @returns Observable with an array of objects containing date and fat intake
+   */
+  getFatIntakeHistory(days: number = 7): Observable<{date: string, fat: number}[]> {
+    return this.memberService.getUserId().pipe(
+      switchMap(userId => {
+        if (userId <= 0) {
+          console.error('User ID not available for fat history. Please log in again.');
+          return new Observable<{date: string, fat: number}[]>(observer => {
+            observer.next([]);
+            observer.complete();
+          });
+        }
+
+        // Generate dates for the past N days
+        const dates: string[] = [];
+        const today = new Date();
+
+        for (let i = 0; i < days; i++) {
+          const date = new Date(today);
+          date.setDate(today.getDate() - i);
+          const formattedDate = this.formatDate(date);
+          dates.push(formattedDate);
+        }
+
+        // Create an array of observables for each date
+        const requests = dates.map(date =>
+          this.getFoodTrackingByIdAndDate(date).pipe(
+            map(logs => {
+              // Calculate total fat for this date
+              const totalFat = logs.reduce((sum, log) => sum + log.fats, 0);
+              return { date, fat: totalFat };
+            })
+          )
+        );
+
+        // Combine all requests and return the results
+        return forkJoin(requests);
+      })
+    );
+  }
+
+  /**
    * Formats a date as YYYY-MM-DD
    * @param date The date to format
    * @returns Formatted date string

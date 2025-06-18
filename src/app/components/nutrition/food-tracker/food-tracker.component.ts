@@ -24,6 +24,9 @@ const bootstrap = window.bootstrap;
 })
 export class FoodTrackerComponent implements OnInit, AfterViewInit {
   @ViewChild('proteinHistoryChart') proteinHistoryChartRef!: ElementRef;
+  @ViewChild('caloriesHistoryChart') caloriesHistoryChartRef!: ElementRef;
+  @ViewChild('carbsHistoryChart') carbsHistoryChartRef!: ElementRef;
+  @ViewChild('fatHistoryChart') fatHistoryChartRef!: ElementRef;
 
   foodLogs: LoggerData[] = [];
   breakfastLogs: LoggerData[] = [];
@@ -38,7 +41,19 @@ export class FoodTrackerComponent implements OnInit, AfterViewInit {
   proteinHistoryChart!: Chart;
   proteinHistoryData: {date: string, protein: number}[] = [];
 
-  // Period selection for protein history chart
+  // Properties for calories history chart
+  caloriesHistoryChart!: Chart;
+  caloriesHistoryData: {date: string, calories: number}[] = [];
+
+  // Properties for carbs history chart
+  carbsHistoryChart!: Chart;
+  carbsHistoryData: {date: string, carbs: number}[] = [];
+
+  // Properties for fat history chart
+  fatHistoryChart!: Chart;
+  fatHistoryData: {date: string, fat: number}[] = [];
+
+  // Period selection for history charts
   selectedPeriod: number = 7; // Default to 1 week (7 days)
   periodOptions = [
     { label: '1 Week', days: 7 },
@@ -92,8 +107,11 @@ export class FoodTrackerComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // Get protein intake history for the past 7 days
+    // Get intake history for the past 7 days
+    this.loadCaloriesHistory();
     this.loadProteinHistory();
+    this.loadCarbsHistory();
+    this.loadFatHistory();
   }
 
   groupFoodLogsByMealType(): void {
@@ -239,6 +257,28 @@ export class FoodTrackerComponent implements OnInit, AfterViewInit {
   }
 
   /**
+   * Loads calories intake history for the selected period
+   */
+  loadCaloriesHistory(): void {
+    this.foodService.getCaloriesIntakeHistory(this.selectedPeriod).subscribe({
+      next: (data) => {
+        // Sort data by date (oldest to newest)
+        this.caloriesHistoryData = data.sort((a, b) =>
+          new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+
+        // If view is already initialized, create the chart
+        if (this.caloriesHistoryChartRef) {
+          this.createCaloriesHistoryChart();
+        }
+      },
+      error: (error) => {
+        console.error('Error loading calories history:', error);
+      }
+    });
+  }
+
+  /**
    * Loads protein intake history for the selected period
    */
   loadProteinHistory(): void {
@@ -261,12 +301,251 @@ export class FoodTrackerComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * After view is initialized, create the protein history chart if data is available
+   * Loads carbs intake history for the selected period
+   */
+  loadCarbsHistory(): void {
+    this.foodService.getCarbsIntakeHistory(this.selectedPeriod).subscribe({
+      next: (data) => {
+        // Sort data by date (oldest to newest)
+        this.carbsHistoryData = data.sort((a, b) =>
+          new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+
+        // If view is already initialized, create the chart
+        if (this.carbsHistoryChartRef) {
+          this.createCarbsHistoryChart();
+        }
+      },
+      error: (error) => {
+        console.error('Error loading carbs history:', error);
+      }
+    });
+  }
+
+  /**
+   * Loads fat intake history for the selected period
+   */
+  loadFatHistory(): void {
+    this.foodService.getFatIntakeHistory(this.selectedPeriod).subscribe({
+      next: (data) => {
+        // Sort data by date (oldest to newest)
+        this.fatHistoryData = data.sort((a, b) =>
+          new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+
+        // If view is already initialized, create the chart
+        if (this.fatHistoryChartRef) {
+          this.createFatHistoryChart();
+        }
+      },
+      error: (error) => {
+        console.error('Error loading fat history:', error);
+      }
+    });
+  }
+
+  /**
+   * After view is initialized, create the history charts if data is available
    */
   ngAfterViewInit(): void {
+    if (this.caloriesHistoryData.length > 0) {
+      this.createCaloriesHistoryChart();
+    }
     if (this.proteinHistoryData.length > 0) {
       this.createProteinHistoryChart();
     }
+    if (this.carbsHistoryData.length > 0) {
+      this.createCarbsHistoryChart();
+    }
+    if (this.fatHistoryData.length > 0) {
+      this.createFatHistoryChart();
+    }
+  }
+
+  /**
+   * Creates the calories history bar chart
+   */
+  createCaloriesHistoryChart(): void {
+    // If chart already exists, destroy it first
+    if (this.caloriesHistoryChart) {
+      this.caloriesHistoryChart.destroy();
+    }
+
+    // Get the canvas element
+    const canvas = this.caloriesHistoryChartRef?.nativeElement;
+    if (!canvas) {
+      console.warn('Calories history chart canvas not found');
+      return;
+    }
+
+    // Format dates for display based on the selected period
+    // Check if data spans multiple years for longer periods
+    let spansMultipleYears = false;
+    if (this.selectedPeriod > 90 && this.caloriesHistoryData.length > 1) {
+      const years = new Set(
+        this.caloriesHistoryData.map(item => new Date(item.date).getFullYear())
+      );
+      spansMultipleYears = years.size > 1;
+    }
+
+    const labels = this.caloriesHistoryData.map(item => {
+      const date = new Date(item.date);
+
+      // For periods longer than 2 weeks, use a different date format
+      if (this.selectedPeriod > 14) {
+        if (spansMultipleYears) {
+          // If data spans multiple years, include the year (e.g., "Jan 15, 2023")
+          return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: '2-digit'
+          });
+        } else {
+          // For longer periods in the same year, show month and day (e.g., "Jan 15")
+          return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+      } else {
+        // For shorter periods, show day of week and day (e.g., "Mon 15")
+        const day = date.getDate();
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+        return `${dayName} ${day}`;
+      }
+    });
+
+    // Get calories values
+    const caloriesValues = this.caloriesHistoryData.map(item => item.calories);
+
+    // Create gradient for bars
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(255, 99, 71, 1)');     // Tomato red at top
+    gradient.addColorStop(1, 'rgba(255, 165, 0, 0.6)');   // Orange at bottom
+
+    // Create the chart
+    this.caloriesHistoryChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Calories (kcal)',
+          data: caloriesValues,
+          backgroundColor: gradient,
+          borderColor: 'rgba(255, 99, 71, 0.8)',
+          borderWidth: 0,
+          borderRadius: 6,
+          borderSkipped: false,
+          hoverBackgroundColor: 'rgba(255, 99, 71, 0.9)',
+          barPercentage: 0.7,
+          categoryPercentage: 0.8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 1500,
+          easing: 'easeOutQuart'
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(200, 200, 200, 0.1)',
+            },
+            ticks: {
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 12
+              },
+              color: 'rgba(100, 100, 100, 0.8)'
+            },
+            title: {
+              display: true,
+              text: 'Calories (kcal)',
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 14,
+                weight: 'bold'
+              },
+              color: 'rgba(80, 80, 80, 1)'
+            }
+          },
+          x: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 12
+              },
+              color: 'rgba(100, 100, 100, 0.8)',
+              maxRotation: 45,
+              minRotation: 0,
+              autoSkip: true,
+              autoSkipPadding: 10,
+              // For longer periods, limit the number of ticks to avoid overcrowding
+              maxTicksLimit: this.selectedPeriod > 90 ? 12 : (this.selectedPeriod > 30 ? 15 : undefined)
+            },
+            title: {
+              display: true,
+              text: 'Date',
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 14,
+                weight: 'bold'
+              },
+              color: 'rgba(80, 80, 80, 1)'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: false, // We're using a custom title in the HTML
+            font: {
+              family: "'Roboto', sans-serif",
+              size: 18,
+              weight: 'bold'
+            },
+            color: 'rgba(60, 60, 60, 1)',
+            padding: {
+              top: 10,
+              bottom: 20
+            }
+          },
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            titleColor: 'rgba(60, 60, 60, 1)',
+            bodyColor: 'rgba(60, 60, 60, 1)',
+            titleFont: {
+              family: "'Roboto', sans-serif",
+              size: 14,
+              weight: 'bold'
+            },
+            bodyFont: {
+              family: "'Roboto', sans-serif",
+              size: 13
+            },
+            padding: 12,
+            boxPadding: 6,
+            borderColor: 'rgba(200, 200, 200, 0.5)',
+            borderWidth: 1,
+            displayColors: false,
+            callbacks: {
+              title: (tooltipItems) => {
+                return `${tooltipItems[0].label}`;
+              },
+              label: (context) => {
+                return `Calories: ${context.parsed.y} kcal`;
+              }
+            }
+          }
+        }
+      }
+    });
   }
 
   /**
@@ -456,13 +735,388 @@ export class FoodTrackerComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Changes the selected period for protein history chart and reloads the data
-   * @param days Number of days to display in the chart
+   * Creates the carbs history bar chart
+   */
+  createCarbsHistoryChart(): void {
+    // If chart already exists, destroy it first
+    if (this.carbsHistoryChart) {
+      this.carbsHistoryChart.destroy();
+    }
+
+    // Get the canvas element
+    const canvas = this.carbsHistoryChartRef?.nativeElement;
+    if (!canvas) {
+      console.warn('Carbs history chart canvas not found');
+      return;
+    }
+
+    // Format dates for display based on the selected period
+    // Check if data spans multiple years for longer periods
+    let spansMultipleYears = false;
+    if (this.selectedPeriod > 90 && this.carbsHistoryData.length > 1) {
+      const years = new Set(
+        this.carbsHistoryData.map(item => new Date(item.date).getFullYear())
+      );
+      spansMultipleYears = years.size > 1;
+    }
+
+    const labels = this.carbsHistoryData.map(item => {
+      const date = new Date(item.date);
+
+      // For periods longer than 2 weeks, use a different date format
+      if (this.selectedPeriod > 14) {
+        if (spansMultipleYears) {
+          // If data spans multiple years, include the year (e.g., "Jan 15, 2023")
+          return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: '2-digit'
+          });
+        } else {
+          // For longer periods in the same year, show month and day (e.g., "Jan 15")
+          return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+      } else {
+        // For shorter periods, show day of week and day (e.g., "Mon 15")
+        const day = date.getDate();
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+        return `${dayName} ${day}`;
+      }
+    });
+
+    // Get carbs values
+    const carbsValues = this.carbsHistoryData.map(item => item.carbs);
+
+    // Create gradient for bars
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(0, 123, 255, 1)');     // Blue at top
+    gradient.addColorStop(1, 'rgba(54, 162, 235, 0.6)');  // Lighter blue at bottom
+
+    // Create the chart
+    this.carbsHistoryChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Carbs (g)',
+          data: carbsValues,
+          backgroundColor: gradient,
+          borderColor: 'rgba(0, 123, 255, 0.8)',
+          borderWidth: 0,
+          borderRadius: 6,
+          borderSkipped: false,
+          hoverBackgroundColor: 'rgba(54, 162, 235, 0.9)',
+          barPercentage: 0.7,
+          categoryPercentage: 0.8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 1500,
+          easing: 'easeOutQuart'
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(200, 200, 200, 0.1)',
+            },
+            ticks: {
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 12
+              },
+              color: 'rgba(100, 100, 100, 0.8)'
+            },
+            title: {
+              display: true,
+              text: 'Carbs (g)',
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 14,
+                weight: 'bold'
+              },
+              color: 'rgba(80, 80, 80, 1)'
+            }
+          },
+          x: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 12
+              },
+              color: 'rgba(100, 100, 100, 0.8)',
+              maxRotation: 45,
+              minRotation: 0,
+              autoSkip: true,
+              autoSkipPadding: 10,
+              // For longer periods, limit the number of ticks to avoid overcrowding
+              maxTicksLimit: this.selectedPeriod > 90 ? 12 : (this.selectedPeriod > 30 ? 15 : undefined)
+            },
+            title: {
+              display: true,
+              text: 'Date',
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 14,
+                weight: 'bold'
+              },
+              color: 'rgba(80, 80, 80, 1)'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: false, // We're using a custom title in the HTML
+            font: {
+              family: "'Roboto', sans-serif",
+              size: 18,
+              weight: 'bold'
+            },
+            color: 'rgba(60, 60, 60, 1)',
+            padding: {
+              top: 10,
+              bottom: 20
+            }
+          },
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            titleColor: 'rgba(60, 60, 60, 1)',
+            bodyColor: 'rgba(60, 60, 60, 1)',
+            titleFont: {
+              family: "'Roboto', sans-serif",
+              size: 14,
+              weight: 'bold'
+            },
+            bodyFont: {
+              family: "'Roboto', sans-serif",
+              size: 13
+            },
+            padding: 12,
+            boxPadding: 6,
+            borderColor: 'rgba(200, 200, 200, 0.5)',
+            borderWidth: 1,
+            displayColors: false,
+            callbacks: {
+              title: (tooltipItems) => {
+                return `${tooltipItems[0].label}`;
+              },
+              label: (context) => {
+                return `Carbs: ${context.parsed.y}g`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Creates the fat history bar chart
+   */
+  createFatHistoryChart(): void {
+    // If chart already exists, destroy it first
+    if (this.fatHistoryChart) {
+      this.fatHistoryChart.destroy();
+    }
+
+    // Get the canvas element
+    const canvas = this.fatHistoryChartRef?.nativeElement;
+    if (!canvas) {
+      console.warn('Fat history chart canvas not found');
+      return;
+    }
+
+    // Format dates for display based on the selected period
+    // Check if data spans multiple years for longer periods
+    let spansMultipleYears = false;
+    if (this.selectedPeriod > 90 && this.fatHistoryData.length > 1) {
+      const years = new Set(
+        this.fatHistoryData.map(item => new Date(item.date).getFullYear())
+      );
+      spansMultipleYears = years.size > 1;
+    }
+
+    const labels = this.fatHistoryData.map(item => {
+      const date = new Date(item.date);
+
+      // For periods longer than 2 weeks, use a different date format
+      if (this.selectedPeriod > 14) {
+        if (spansMultipleYears) {
+          // If data spans multiple years, include the year (e.g., "Jan 15, 2023")
+          return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: '2-digit'
+          });
+        } else {
+          // For longer periods in the same year, show month and day (e.g., "Jan 15")
+          return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+      } else {
+        // For shorter periods, show day of week and day (e.g., "Mon 15")
+        const day = date.getDate();
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+        return `${dayName} ${day}`;
+      }
+    });
+
+    // Get fat values
+    const fatValues = this.fatHistoryData.map(item => item.fat);
+
+    // Create gradient for bars
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(255, 193, 7, 1)');     // Yellow at top
+    gradient.addColorStop(1, 'rgba(255, 205, 86, 0.6)');  // Lighter yellow at bottom
+
+    // Create the chart
+    this.fatHistoryChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Fat (g)',
+          data: fatValues,
+          backgroundColor: gradient,
+          borderColor: 'rgba(255, 193, 7, 0.8)',
+          borderWidth: 0,
+          borderRadius: 6,
+          borderSkipped: false,
+          hoverBackgroundColor: 'rgba(255, 205, 86, 0.9)',
+          barPercentage: 0.7,
+          categoryPercentage: 0.8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 1500,
+          easing: 'easeOutQuart'
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(200, 200, 200, 0.1)',
+            },
+            ticks: {
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 12
+              },
+              color: 'rgba(100, 100, 100, 0.8)'
+            },
+            title: {
+              display: true,
+              text: 'Fat (g)',
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 14,
+                weight: 'bold'
+              },
+              color: 'rgba(80, 80, 80, 1)'
+            }
+          },
+          x: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 12
+              },
+              color: 'rgba(100, 100, 100, 0.8)',
+              maxRotation: 45,
+              minRotation: 0,
+              autoSkip: true,
+              autoSkipPadding: 10,
+              // For longer periods, limit the number of ticks to avoid overcrowding
+              maxTicksLimit: this.selectedPeriod > 90 ? 12 : (this.selectedPeriod > 30 ? 15 : undefined)
+            },
+            title: {
+              display: true,
+              text: 'Date',
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 14,
+                weight: 'bold'
+              },
+              color: 'rgba(80, 80, 80, 1)'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: false, // We're using a custom title in the HTML
+            font: {
+              family: "'Roboto', sans-serif",
+              size: 18,
+              weight: 'bold'
+            },
+            color: 'rgba(60, 60, 60, 1)',
+            padding: {
+              top: 10,
+              bottom: 20
+            }
+          },
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            titleColor: 'rgba(60, 60, 60, 1)',
+            bodyColor: 'rgba(60, 60, 60, 1)',
+            titleFont: {
+              family: "'Roboto', sans-serif",
+              size: 14,
+              weight: 'bold'
+            },
+            bodyFont: {
+              family: "'Roboto', sans-serif",
+              size: 13
+            },
+            padding: 12,
+            boxPadding: 6,
+            borderColor: 'rgba(200, 200, 200, 0.5)',
+            borderWidth: 1,
+            displayColors: false,
+            callbacks: {
+              title: (tooltipItems) => {
+                return `${tooltipItems[0].label}`;
+              },
+              label: (context) => {
+                return `Fat: ${context.parsed.y}g`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Changes the selected period for history charts and reloads the data
+   * @param days Number of days to display in the charts
    */
   changePeriod(days: number): void {
     if (this.selectedPeriod !== days) {
       this.selectedPeriod = days;
+      this.loadCaloriesHistory();
       this.loadProteinHistory();
+      this.loadCarbsHistory();
+      this.loadFatHistory();
     }
   }
 
