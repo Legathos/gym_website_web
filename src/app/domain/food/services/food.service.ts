@@ -18,6 +18,21 @@ export class FoodService {
   private carbsHistoryCache: Map<number, Observable<{date: string, carbs: number}[]>> = new Map();
   private fatHistoryCache: Map<number, Observable<{date: string, fat: number}[]>> = new Map();
 
+  /**
+   * Clears the food tracking cache for a specific date
+   * @param date The date to clear cache for (format: YYYY-MM-DD)
+   */
+  clearFoodTrackingCache(date: string): void {
+    this.memberService.getUserId().subscribe(id => {
+      if (id > 0) {
+        const cacheKey = `${id}-${date}`;
+        if (this.foodTrackingCache.has(cacheKey)) {
+          this.foodTrackingCache.delete(cacheKey);
+        }
+      }
+    });
+  }
+
   // Maximum number of concurrent requests to make for longer periods
   private readonly MAX_CONCURRENT_REQUESTS = 10;
 

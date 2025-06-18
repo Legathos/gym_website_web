@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FoodService} from "@domain/food";
 import { LoggerData} from "@domain/food/model/logger.model";
-import {Router} from "@angular/router";
+import {Router, NavigationEnd} from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
+import { filter } from 'rxjs/operators';
 
 // Declare the bootstrap global variable for TypeScript
 declare global {
@@ -56,6 +57,31 @@ export class FoodTrackerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Load initial data
+    this.loadFoodData();
+
+    // Subscribe to router events to refresh data when navigating back to this component
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      // Check if the current URL is the food tracker page
+      if (this.router.url.includes('/food-tracker')) {
+        // Reload data when navigating back to this component
+        this.loadFoodData();
+      }
+    });
+  }
+
+  /**
+   * Loads food tracking data and calculates all necessary values
+   */
+  loadFoodData(): void {
+    // Reset all values before loading new data
+    this.protein = 0;
+    this.carbs = 0;
+    this.fats = 0;
+    this.calories = 0;
+
     // Get today's food logs
     this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe(data => {
       this.foodLogs = data;
@@ -175,23 +201,11 @@ export class FoodTrackerComponent implements OnInit {
       if (result) {
         this.foodService.deleteFoodLog(logItem).subscribe({
           next: () => {
-            // Refresh the food logs after deletion
-            this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe(data => {
-              this.foodLogs = data;
-              // Reset all values
-              this.protein = 0;
-              this.carbs = 0;
-              this.fats = 0;
-              this.calories = 0;
+            // Clear the cache for today's date to ensure fresh data
+            this.foodService.clearFoodTrackingCache(this.date);
 
-              // Recalculate everything
-              this.groupFoodLogsByMealType();
-              this.calculateTotalCalories();
-              this.calculateMacros();
-              this.calculateBreakfastMacros();
-              this.calculateLunchMacros();
-              this.calculateDinnerMacros();
-            });
+            // Reload food data using the shared method
+            this.loadFoodData();
           },
           error: (error) => {
             console.error('Error deleting food log:', error);

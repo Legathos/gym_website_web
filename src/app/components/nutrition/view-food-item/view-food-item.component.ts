@@ -104,12 +104,18 @@ export class ViewFoodItemComponent implements OnInit{
       if (this.editMode && this.logItem) {
         // Update existing log item
         this.foodService.editFoodLog(loggerModel).subscribe(() => {
+          // Clear the cache for today's date to ensure fresh data
+          const today = this.formatDate(new Date());
+          this.foodService.clearFoodTrackingCache(today);
           // Navigate back to the food tracker page
           this.router.navigate(['/food-tracker/:id']);
         });
       } else {
         // Add new log item
         this.foodService.addFoodToTracker(loggerModel).subscribe(() => {
+          // Clear the cache for today's date to ensure fresh data
+          const today = this.formatDate(new Date());
+          this.foodService.clearFoodTrackingCache(today);
           // Navigate back to the food tracker page
           this.router.navigate(['/food-tracker/:id']);
         });
@@ -119,5 +125,17 @@ export class ViewFoodItemComponent implements OnInit{
 
   onWeightChange() {
     this.calculateNutritionalValues();
+  }
+
+  /**
+   * Formats a date as YYYY-MM-DD
+   * @param date The date to format
+   * @returns Formatted date string
+   */
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }
