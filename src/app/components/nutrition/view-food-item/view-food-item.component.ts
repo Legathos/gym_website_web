@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { FoodData, FoodService } from '@domain/food';
 import { Location } from '@angular/common';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-food-item',
