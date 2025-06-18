@@ -22,8 +22,12 @@ export class ExerciseLibraryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Initialize filtered exercises with all exercises
-    this.filteredExercises = [...this.exercises];
+    // Subscribe to exercises from the service
+    this.workoutsService.getExercises().subscribe(exercises => {
+      this.exercises = exercises;
+      this.filteredExercises = [...this.exercises];
+      this.sortExercises();
+    });
   }
 
   // Navigate back to previous page
@@ -59,8 +63,8 @@ export class ExerciseLibraryComponent implements OnInit {
     }
   }
 
-  // Navigate to add exercise page or open modal
+  // Navigate to add exercise page
   addExercise(): void {
-    // Implementation will be added later
+    this.router.navigate(['/add-exercise']);
   }
 }

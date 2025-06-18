@@ -1,10 +1,14 @@
 <div class="exercise-library-container">
-  <mat-toolbar class="top-bar">
-    <button (click)="goBack()" aria-label="Go back" mat-icon-button>
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    <h1 class="page-title">Exercise Library</h1>
-  </mat-toolbar>
+  <!-- Bootstrap Navbar instead of mat-toolbar -->
+  <nav class="navbar top-bar">
+    <div class="container-fluid">
+      <button class="btn btn-back" (click)="goBack()" aria-label="Go back">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <h1 class="page-title">Exercise Library</h1>
+      <div></div> <!-- Empty div for flex spacing -->
+    </div>
+  </nav>
 
   <div class="content-container">
     <div class="search-container">
@@ -12,12 +16,12 @@
         <input
           (input)="searchExercises()"
           [(ngModel)]="searchTerm"
-          class="search-input"
+          class="form-control search-input"
           placeholder="Search exercises..."
           type="text"
         >
-        <button aria-label="Search" class="search-button">
-          <mat-icon>search</mat-icon>
+        <button aria-label="Search" class="btn search-button">
+          <i class="bi bi-search"></i>
         </button>
       </div>
     </div>
@@ -25,47 +29,52 @@
       <!-- Category selector -->
       <div class="category-selector-container">
         <div class="category-label">
-          <mat-icon>filter_list</mat-icon>
+          <i class="bi bi-filter"></i>
           <span>Sort by:</span>
         </div>
-        <mat-button-toggle-group (change)="sortExercises()" [(value)]="sortOption" [class.category-selected]="sortOption === 'category'" [class.name-selected]="sortOption === 'name'" class="category-toggle-group">
-          <mat-button-toggle value="name">
-            <mat-icon>sort_by_alpha</mat-icon>
+        <div class="btn-group category-toggle-group" role="group" aria-label="Sort options">
+          <input type="radio" class="btn-check" name="sortOption" id="sortByName" autocomplete="off"
+                 [checked]="sortOption === 'name'" (change)="sortOption = 'name'; sortExercises()">
+          <label class="btn btn-outline-primary" for="sortByName">
+            <i class="bi bi-sort-alpha-down"></i>
             <span>Name</span>
-          </mat-button-toggle>
-          <mat-button-toggle value="category">
-            <mat-icon>category</mat-icon>
+          </label>
+
+          <input type="radio" class="btn-check" name="sortOption" id="sortByCategory" autocomplete="off"
+                 [checked]="sortOption === 'category'" (change)="sortOption = 'category'; sortExercises()">
+          <label class="btn btn-outline-primary" for="sortByCategory">
+            <i class="bi bi-tag"></i>
             <span>Category</span>
-          </mat-button-toggle>
-        </mat-button-toggle-group>
+          </label>
+        </div>
       </div>
 
       <!-- Add exercise button -->
-      <button (click)="addExercise()" class="add-button" color="accent" mat-raised-button>
-        <mat-icon>add_circle</mat-icon>
+      <button (click)="addExercise()" class="btn btn-primary add-button">
+        <i class="bi bi-plus-circle"></i>
         <span>Add Exercise</span>
       </button>
     </div>
 
     <!-- No results message -->
-    <div *ngIf="filteredExercises.length === 0 && searchTerm.length > 0" class="no-results">
-      <mat-icon>search_off</mat-icon>
+    <div *ngIf="filteredExercises.length === 0 && searchTerm.length > 0" class="alert alert-info no-results" role="alert">
+      <i class="bi bi-search"></i>
       <span>No exercises found matching "{{ searchTerm }}"</span>
     </div>
 
     <!-- Exercise list -->
-    <div class="exercise-list">
-      <mat-card *ngFor="let exercise of filteredExercises" class="exercise-card">
-        <mat-card-header>
-          <mat-card-title>{{ exercise.name }}</mat-card-title>
-          <mat-card-subtitle>
+    <div class="exercise-list row">
+      <div *ngFor="let exercise of filteredExercises" class="col-md-6 col-lg-4 mb-4">
+        <div class="card exercise-card">
+          <div class="card-header">
+            <h5 class="card-title">{{ exercise.name }}</h5>
             <div class="category-badge">{{ exercise.category }}</div>
-          </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>{{ exercise.description }}</p>
-        </mat-card-content>
-      </mat-card>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{ exercise.description }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

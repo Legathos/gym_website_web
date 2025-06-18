@@ -7,6 +7,10 @@ $light-bg: #f8f9fa;
 $card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
+// Override Bootstrap variables
+$primary: $secondary-color;
+$danger: #dc3545;
+
 .exercise-library-container {
   height: 100%;
   display: flex;
@@ -28,11 +32,9 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
 }
 
-.top-bar {
-  display: flex;
-  align-items: center;
+// Bootstrap Navbar styling
+.navbar.top-bar {
   padding: 0 16px;
-  gap: 12px;
   margin: 0.5rem auto;
   max-width: 800px;
   border-radius: 30px;
@@ -51,35 +53,36 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     border-color: rgba($secondary-color, 0.3);
   }
 
+  .container-fluid {
+    padding: 0;
+  }
+
   .page-title {
-    flex: 1;
     font-size: 1.5rem;
     font-weight: 500;
     margin: 0;
     text-align: center;
   }
 
-  button[mat-icon-button] {
+  .btn-back {
     background-color: $secondary-color;
     color: white;
     transition: background-color 0.2s ease, transform 0.2s ease;
     width: 40px;
     height: 40px;
-    line-height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
 
     &:hover {
       background-color: darken($secondary-color, 10%);
       transform: scale(1.05);
     }
 
-    mat-icon {
+    i {
       font-size: 20px;
-      height: 20px;
-      width: 20px;
     }
   }
 }
@@ -124,10 +127,16 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     outline: none;
     width: 100%;
     font-weight: 500;
+    box-shadow: none;
 
     &::placeholder {
       color: rgba($primary-color, 0.5);
       font-weight: normal;
+    }
+
+    &:focus {
+      box-shadow: none;
+      border-color: transparent;
     }
   }
 
@@ -141,15 +150,14 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 0;
 
     &:hover {
       background-color: darken($secondary-color, 10%);
     }
 
-    mat-icon {
+    i {
       font-size: 20px;
-      height: 20px;
-      width: 20px;
     }
   }
 }
@@ -202,12 +210,10 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
       border-radius: 16px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
-      mat-icon {
+      i {
         color: $secondary-color;
         margin-right: 6px;
         font-size: 16px;
-        height: 16px;
-        width: 16px;
       }
 
       span {
@@ -230,37 +236,13 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       }
 
-      // Sliding indicator
-      &::after {
-        content: '';
-        position: absolute;
-        top: 2px;
-        height: calc(100% - 4px);
-        width: calc(50% - 4px);
-        background-color: $secondary-color;
-        border-radius: 18px;
-        z-index: 0;
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        left: 2px;
-      }
-
-      &.name-selected::after {
-        transform: translateX(0);
-      }
-
-      &.category-selected::after {
-        transform: translateX(100%);
-      }
-
-      ::ng-deep .mat-button-toggle {
-        background-color: transparent;
+      .btn-outline-primary {
         color: $primary-color;
-        border: none;
-        min-width: 80px;
-        height: 32px;
-        line-height: 32px;
-        font-size: 12px;
+        border-color: transparent;
+        background-color: transparent;
         font-weight: 500;
+        font-size: 12px;
+        padding: 6px 12px;
         transition: all 0.2s ease;
         position: relative;
         z-index: 1;
@@ -269,34 +251,36 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
           border-right: 1px solid rgba($secondary-color, 0.1);
         }
 
-        .mat-button-toggle-label-content {
-          padding: 0 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          line-height: 32px;
-          transition: color 0.2s ease;
+        &:hover {
+          background-color: rgba($tertiary-color, 0.3);
+          border-color: transparent;
         }
 
-        mat-icon {
-          font-size: 16px;
-          height: 16px;
-          width: 16px;
-          margin-right: 4px;
-          transition: color 0.2s ease;
-        }
-
-        &.mat-button-toggle-checked {
-          background-color: transparent;
+        &.active {
+          background-color: $secondary-color;
           color: white;
+          border-color: $secondary-color;
 
-          mat-icon {
+          i {
             color: white;
           }
         }
 
-        &:hover:not(.mat-button-toggle-checked) {
-          background-color: rgba($tertiary-color, 0.3);
+        i {
+          font-size: 16px;
+          margin-right: 4px;
+          color: $secondary-color;
+          transition: color 0.2s ease;
+        }
+      }
+
+      .btn-check:checked + .btn-outline-primary {
+        background-color: $secondary-color;
+        color: white;
+        border-color: $secondary-color;
+
+        i {
+          color: white;
         }
       }
     }
@@ -306,37 +290,34 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 0 16px;
-    height: 40px;
-    background-color: $accent-color;
+    padding: 8px 16px;
+    background-color: $secondary-color;
     color: white;
+    border-radius: 30px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    font-weight: 500;
 
     &:hover {
       transform: translateY(-3px);
       box-shadow: $hover-shadow;
+      background-color: darken($secondary-color, 5%);
     }
 
-    mat-icon {
+    i {
       margin-right: 4px;
+      font-size: 16px;
     }
   }
 }
 
 .exercise-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
+  margin-top: 20px;
 }
 
 .exercise-card {
-  margin-bottom: 20px;
+  height: 100%;
   border-radius: 12px;
-  padding: 0;
   background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(5px);
   box-shadow: $card-shadow;
@@ -351,28 +332,26 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     border-color: rgba($secondary-color, 0.3);
   }
 
-  mat-card-header {
+  .card-header {
     background-color: rgba($tertiary-color, 0.3);
     padding: 16px;
     border-bottom: 1px solid rgba($secondary-color, 0.1);
+    display: flex;
+    flex-direction: column;
 
-    mat-card-title {
+    .card-title {
       font-size: 1.3rem;
       font-weight: 600;
       color: $primary-color;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-    }
-
-    mat-card-subtitle {
-      color: $secondary-color;
     }
   }
 
-  mat-card-content {
+  .card-body {
     padding: 16px;
 
-    p {
+    .card-text {
       color: #666;
       margin-bottom: 0;
       line-height: 1.5;
@@ -392,6 +371,7 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   font-weight: 500;
   letter-spacing: 0.3px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  align-self: flex-start;
 }
 
 .no-results {
@@ -400,25 +380,18 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   justify-content: center;
   padding: 16px;
   color: $primary-color;
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(5px);
-  border-radius: 12px;
   margin: 20px 0;
-  box-shadow: $card-shadow;
-  border: 1px solid rgba($tertiary-color, 0.5);
 
-  mat-icon {
+  i {
     margin-right: 10px;
     color: $secondary-color;
     font-size: 24px;
-    opacity: 0.8;
   }
 
   span {
     font-style: italic;
     font-weight: 500;
     letter-spacing: 0.3px;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
   }
 }
 
@@ -430,7 +403,7 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     }
   }
 
-  .top-bar {
+  .navbar.top-bar {
     padding: 0 10px;
     margin: 0.3rem;
     border-radius: 20px;
@@ -439,15 +412,12 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
       font-size: 1.2rem;
     }
 
-    button[mat-icon-button] {
+    .btn-back {
       width: 36px;
       height: 36px;
-      line-height: 36px;
 
-      mat-icon {
+      i {
         font-size: 18px;
-        height: 18px;
-        width: 18px;
       }
     }
   }
@@ -467,10 +437,8 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     .search-button {
       padding: 10px 15px;
 
-      mat-icon {
+      i {
         font-size: 18px;
-        height: 18px;
-        width: 18px;
       }
     }
   }
@@ -486,50 +454,38 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     margin-bottom: 15px;
 
     .category-selector-container {
-        width: 100%;
-        margin-bottom: 8px;
+      width: 100%;
+      margin-bottom: 8px;
 
-        .category-label {
-          font-size: 12px;
-          margin-bottom: 6px;
-          padding: 3px 8px;
-          border-radius: 12px;
-          width: fit-content;
+      .category-label {
+        font-size: 12px;
+        margin-bottom: 6px;
+        padding: 3px 8px;
+        border-radius: 12px;
+        width: fit-content;
 
-          mat-icon {
-            font-size: 14px;
-            height: 14px;
-            width: 14px;
-            margin-right: 4px;
-          }
+        i {
+          font-size: 14px;
+          margin-right: 4px;
         }
+      }
 
-        .category-toggle-group {
-          width: 100%;
+      .category-toggle-group {
+        width: 100%;
 
-          // Adjust sliding indicator for mobile
-          &::after {
-            width: calc(50% - 4px);
-          }
+        .btn-outline-primary {
+          flex: 1;
+          min-width: 0;
+          font-size: 11px;
+          padding: 6px;
 
-          ::ng-deep .mat-button-toggle {
-            flex: 1;
-            min-width: 0;
-            font-size: 11px;
-
-            .mat-button-toggle-label-content {
-              padding: 0 6px;
-            }
-
-            mat-icon {
-              font-size: 14px;
-              height: 14px;
-              width: 14px;
-              margin-right: 3px;
-            }
+          i {
+            font-size: 14px;
+            margin-right: 3px;
           }
         }
       }
+    }
 
     .add-button {
       width: 100%;
@@ -538,15 +494,15 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
 
   .exercise-card {
-    mat-card-header {
+    .card-header {
       padding: 12px;
 
-      mat-card-title {
+      .card-title {
         font-size: 1.1rem;
       }
     }
 
-    mat-card-content {
+    .card-body {
       padding: 12px;
     }
   }
