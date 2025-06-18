@@ -42,6 +42,7 @@ import { AiEstimatorComponent } from './components/nutrition/ai-estimator/ai-est
 import { BarcodeScannerComponent } from './components/nutrition/barcode-scanner/barcode-scanner.component';
 import { AddFoodComponent } from './components/nutrition/add-food/add-food.component';
 import { ExerciseLibraryComponent } from './components/training/exercise-library/exercise-library.component';
+import { AddExerciseComponent } from './components/training/add-exercise/add-exercise.component';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { ExerciseLibraryComponent } from './components/training/exercise-library
     BarcodeScannerComponent,
     AddFoodComponent,
     ExerciseLibraryComponent,
+    AddExerciseComponent,
   ],
   imports: [
     BrowserModule,
