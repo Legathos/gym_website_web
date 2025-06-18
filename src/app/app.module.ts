@@ -8,7 +8,6 @@ import {DatePipe, NgOptimizedImage} from "@angular/common";
 import { LoginComponent } from './components/auth/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { WorkoutsComponent } from './components/training/workouts/workouts.component';
-import { ExercisesComponent } from './components/training/exercises/exercises.component';
 import { CurrentWorkoutComponent } from './components/training/current-workout/current-workout.component';
 import { FoodComponent } from './components/nutrition/food/food.component';
 import { FoodTrackerComponent } from './components/nutrition/food-tracker/food-tracker.component';
@@ -41,6 +40,7 @@ import { ViewLogItemComponent } from './components/nutrition/view-log-item/view-
 import { AiEstimatorComponent } from './components/nutrition/ai-estimator/ai-estimator.component';
 import { BarcodeScannerComponent } from './components/nutrition/barcode-scanner/barcode-scanner.component';
 import { AddFoodComponent } from './components/nutrition/add-food/add-food.component';
+import { ExerciseLibraryComponent } from './components/training/exercise-library/exercise-library.component';
 
 
 @NgModule({
@@ -51,7 +51,6 @@ import { AddFoodComponent } from './components/nutrition/add-food/add-food.compo
     LoginComponent,
     ProfileComponent,
     WorkoutsComponent,
-    ExercisesComponent,
     CurrentWorkoutComponent,
     FoodComponent,
     FoodTrackerComponent,
@@ -66,6 +65,7 @@ import { AddFoodComponent } from './components/nutrition/add-food/add-food.compo
     AiEstimatorComponent,
     BarcodeScannerComponent,
     AddFoodComponent,
+    ExerciseLibraryComponent,
   ],
   imports: [
     BrowserModule,
