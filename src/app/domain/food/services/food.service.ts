@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {map, Observable} from 'rxjs';
+import {forkJoin, map, Observable} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
 import { FoodData } from '@domain/food';
@@ -21,14 +21,14 @@ export class FoodService {
     return this.httpClient.get<FoodData[]>(EndpointDictionary.getAllFoodItems);
   }
 
-  getFoodTrackingByIdAndDate(date: String): Observable<any> {
+  getFoodTrackingByIdAndDate(date: String): Observable<LoggerData[]> {
     return this.memberService.getUserId().pipe(
       switchMap(id => {
         // Check if we have a valid user ID
         if (id <= 0) {
           console.error('User ID not available for food tracking. Please log in again.');
           // Return an empty array as Observable
-          return new Observable(observer => {
+          return new Observable<LoggerData[]>(observer => {
             observer.next([]);
             observer.complete();
           });
@@ -60,6 +60,62 @@ export class FoodService {
 
   deleteFoodLog(loggerModel: LoggerData): Observable<any> {
     return this.httpClient.delete<any>(EndpointDictionary.deleteLogItem, { body: loggerModel });
+  }
+
+  /**
+   * Gets protein intake history for the past N days
+   * @param days Number of days to fetch history for (default: 7)
+   * @returns Observable with an array of objects containing date and protein intake
+   */
+  getProteinIntakeHistory(days: number = 7): Observable<{date: string, protein: number}[]> {
+    return this.memberService.getUserId().pipe(
+      switchMap(userId => {
+        if (userId <= 0) {
+          console.error('User ID not available for protein history. Please log in again.');
+          return new Observable<{date: string, protein: number}[]>(observer => {
+            observer.next([]);
+            observer.complete();
+          });
+        }
+
+        // Generate dates for the past N days
+        const dates: string[] = [];
+        const today = new Date();
+
+        for (let i = 0; i < days; i++) {
+          const date = new Date(today);
+          date.setDate(today.getDate() - i);
+          const formattedDate = this.formatDate(date);
+          dates.push(formattedDate);
+        }
+
+        // Create an array of observables for each date
+        const requests = dates.map(date =>
+          this.getFoodTrackingByIdAndDate(date).pipe(
+            map(logs => {
+              // Calculate total protein for this date
+              const totalProtein = logs.reduce((sum, log) => sum + log.protein, 0);
+              return { date, protein: totalProtein };
+            })
+          )
+        );
+
+        // Combine all requests and return the results
+        return forkJoin(requests);
+      })
+    );
+  }
+
+  /**
+   * Formats a date as YYYY-MM-DD
+   * @param date The date to format
+   * @returns Formatted date string
+   */
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   getFoodDataFromBarcodeFromDatabase(barcode: number):Observable<any>{
@@ -186,4 +242,5 @@ export class FoodService {
       })
     );
   }
+
 }

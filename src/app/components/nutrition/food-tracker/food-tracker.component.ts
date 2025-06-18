@@ -1,9 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FoodService} from "@domain/food";
 import { LoggerData} from "@domain/food/model/logger.model";
 import {Router} from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
+import { Chart, registerables } from 'chart.js';
+
+// Register all Chart.js components
+Chart.register(...registerables);
 
 // Declare the bootstrap global variable for TypeScript
 declare global {
@@ -18,7 +22,8 @@ const bootstrap = window.bootstrap;
   templateUrl: './food-tracker.component.html',
   styleUrl: './food-tracker.component.scss'
 })
-export class FoodTrackerComponent implements OnInit {
+export class FoodTrackerComponent implements OnInit, AfterViewInit {
+  @ViewChild('proteinHistoryChart') proteinHistoryChartRef!: ElementRef;
 
   foodLogs: LoggerData[] = [];
   breakfastLogs: LoggerData[] = [];
@@ -28,6 +33,21 @@ export class FoodTrackerComponent implements OnInit {
   carbs = 0;
   fats = 0;
   calories = this.protein * 4 + this.carbs * 4 + this.fats * 9;
+
+  // Properties for protein history chart
+  proteinHistoryChart!: Chart;
+  proteinHistoryData: {date: string, protein: number}[] = [];
+
+  // Period selection for protein history chart
+  selectedPeriod: number = 7; // Default to 1 week (7 days)
+  periodOptions = [
+    { label: '1 Week', days: 7 },
+    { label: '2 Weeks', days: 14 },
+    { label: '1 Month', days: 30 },
+    { label: '3 Months', days: 90 },
+    { label: '6 Months', days: 180 },
+    { label: '1 Year', days: 365 }
+  ];
 
   // Macros for each meal type
   breakfastProtein = 0;
@@ -57,6 +77,7 @@ export class FoodTrackerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Get today's food logs
     this.foodService.getFoodTrackingByIdAndDate(this.date).subscribe(data => {
       this.foodLogs = data;
       if (this.foodLogs) {
@@ -70,6 +91,9 @@ export class FoodTrackerComponent implements OnInit {
         this.calculateDinnerMacros();
       }
     });
+
+    // Get protein intake history for the past 7 days
+    this.loadProteinHistory();
   }
 
   groupFoodLogsByMealType(): void {
@@ -212,6 +236,234 @@ export class FoodTrackerComponent implements OnInit {
     const day = String(today.getDate()).padStart(2, '0');
 
     return `${year}-${month}-${day}`;
+  }
+
+  /**
+   * Loads protein intake history for the selected period
+   */
+  loadProteinHistory(): void {
+    this.foodService.getProteinIntakeHistory(this.selectedPeriod).subscribe({
+      next: (data) => {
+        // Sort data by date (oldest to newest)
+        this.proteinHistoryData = data.sort((a, b) =>
+          new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+
+        // If view is already initialized, create the chart
+        if (this.proteinHistoryChartRef) {
+          this.createProteinHistoryChart();
+        }
+      },
+      error: (error) => {
+        console.error('Error loading protein history:', error);
+      }
+    });
+  }
+
+  /**
+   * After view is initialized, create the protein history chart if data is available
+   */
+  ngAfterViewInit(): void {
+    if (this.proteinHistoryData.length > 0) {
+      this.createProteinHistoryChart();
+    }
+  }
+
+  /**
+   * Creates the protein history bar chart
+   */
+  createProteinHistoryChart(): void {
+    // If chart already exists, destroy it first
+    if (this.proteinHistoryChart) {
+      this.proteinHistoryChart.destroy();
+    }
+
+    // Get the canvas element
+    const canvas = this.proteinHistoryChartRef?.nativeElement;
+    if (!canvas) {
+      console.warn('Protein history chart canvas not found');
+      return;
+    }
+
+    // Format dates for display based on the selected period
+    // Check if data spans multiple years for longer periods
+    let spansMultipleYears = false;
+    if (this.selectedPeriod > 90 && this.proteinHistoryData.length > 1) {
+      const years = new Set(
+        this.proteinHistoryData.map(item => new Date(item.date).getFullYear())
+      );
+      spansMultipleYears = years.size > 1;
+    }
+
+    const labels = this.proteinHistoryData.map(item => {
+      const date = new Date(item.date);
+
+      // For periods longer than 2 weeks, use a different date format
+      if (this.selectedPeriod > 14) {
+        if (spansMultipleYears) {
+          // If data spans multiple years, include the year (e.g., "Jan 15, 2023")
+          return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: '2-digit'
+          });
+        } else {
+          // For longer periods in the same year, show month and day (e.g., "Jan 15")
+          return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+      } else {
+        // For shorter periods, show day of week and day (e.g., "Mon 15")
+        const day = date.getDate();
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+        return `${dayName} ${day}`;
+      }
+    });
+
+    // Get protein values
+    const proteinValues = this.proteinHistoryData.map(item => item.protein);
+
+    // Create gradient for bars
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(78, 42, 132, 1)');     // Deep purple at top
+    gradient.addColorStop(1, 'rgba(125, 44, 250, 0.6)');  // Lighter purple at bottom
+
+    // Create the chart
+    this.proteinHistoryChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Protein (g)',
+          data: proteinValues,
+          backgroundColor: gradient,
+          borderColor: 'rgba(78, 42, 132, 0.8)',
+          borderWidth: 0,
+          borderRadius: 6,
+          borderSkipped: false,
+          hoverBackgroundColor: 'rgba(125, 44, 250, 0.9)',
+          barPercentage: 0.7,
+          categoryPercentage: 0.8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 1500,
+          easing: 'easeOutQuart'
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(200, 200, 200, 0.1)',
+            },
+            ticks: {
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 12
+              },
+              color: 'rgba(100, 100, 100, 0.8)'
+            },
+            title: {
+              display: true,
+              text: 'Protein (g)',
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 14,
+                weight: 'bold'
+              },
+              color: 'rgba(80, 80, 80, 1)'
+            }
+          },
+          x: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 12
+              },
+              color: 'rgba(100, 100, 100, 0.8)',
+              maxRotation: 45,
+              minRotation: 0,
+              autoSkip: true,
+              autoSkipPadding: 10,
+              // For longer periods, limit the number of ticks to avoid overcrowding
+              maxTicksLimit: this.selectedPeriod > 90 ? 12 : (this.selectedPeriod > 30 ? 15 : undefined)
+            },
+            title: {
+              display: true,
+              text: 'Date',
+              font: {
+                family: "'Roboto', sans-serif",
+                size: 14,
+                weight: 'bold'
+              },
+              color: 'rgba(80, 80, 80, 1)'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: false, // We're using a custom title in the HTML
+            font: {
+              family: "'Roboto', sans-serif",
+              size: 18,
+              weight: 'bold'
+            },
+            color: 'rgba(60, 60, 60, 1)',
+            padding: {
+              top: 10,
+              bottom: 20
+            }
+          },
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            titleColor: 'rgba(60, 60, 60, 1)',
+            bodyColor: 'rgba(60, 60, 60, 1)',
+            titleFont: {
+              family: "'Roboto', sans-serif",
+              size: 14,
+              weight: 'bold'
+            },
+            bodyFont: {
+              family: "'Roboto', sans-serif",
+              size: 13
+            },
+            padding: 12,
+            boxPadding: 6,
+            borderColor: 'rgba(200, 200, 200, 0.5)',
+            borderWidth: 1,
+            displayColors: false,
+            callbacks: {
+              title: (tooltipItems) => {
+                return `${tooltipItems[0].label}`;
+              },
+              label: (context) => {
+                return `Protein: ${context.parsed.y}g`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Changes the selected period for protein history chart and reloads the data
+   * @param days Number of days to display in the chart
+   */
+  changePeriod(days: number): void {
+    if (this.selectedPeriod !== days) {
+      this.selectedPeriod = days;
+      this.loadProteinHistory();
+    }
   }
 
   /**
