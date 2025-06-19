@@ -72,6 +72,11 @@
           </div>
           <div class="card-body">
             <div class="card-actions">
+              <!-- Add button - only visible when accessed from current workout -->
+              <button *ngIf="fromCurrentWorkout" (click)="addExerciseToWorkout(exercise)" class="btn btn-success action-btn add-btn me-2">
+                <i class="bi bi-plus-circle"></i>
+              </button>
+              <!-- Delete button - always visible -->
               <button (click)="deleteExercise(exercise)" class="btn btn-danger action-btn delete-btn">
                 <i class="bi bi-trash"></i>
               </button>

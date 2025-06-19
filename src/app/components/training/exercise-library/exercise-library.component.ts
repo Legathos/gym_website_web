@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ExerciseData } from '@domain/workouts/model/exercise.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { WorkoutsService } from '@domain/workouts/services/workouts.service';
 import { finalize } from 'rxjs/operators';
@@ -19,16 +19,23 @@ export class ExerciseLibraryComponent implements OnInit {
   searchTerm: string = '';
   sortOption: string = 'name';
   isDeleting: boolean = false;
+  fromCurrentWorkout: boolean = false;
 
   constructor(
     private router: Router,
     private location: Location,
     private workoutsService: WorkoutsService,
     private memberService: MemberService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    // Check if we're coming from the current workout page
+    this.route.queryParams.subscribe(params => {
+      this.fromCurrentWorkout = params['fromCurrentWorkout'] === 'true';
+    });
+
     this.loadExercises();
   }
 
@@ -50,10 +57,16 @@ export class ExerciseLibraryComponent implements OnInit {
     });
   }
 
-  // Navigate back to workouts page
+  // Navigate back to workouts page or current workout page
   goBack(): void {
     this.memberService.getUserId().subscribe(userId => {
-      this.router.navigate(['/workouts', userId]);
+      if (this.fromCurrentWorkout) {
+        // If we came from the current workout page, go back there with user ID
+        this.router.navigate(['/current-workout', userId]);
+      } else {
+        // Otherwise, go back to the workouts page
+        this.router.navigate(['/workouts', userId]);
+      }
     });
   }
 
@@ -87,9 +100,21 @@ export class ExerciseLibraryComponent implements OnInit {
 
   // Navigate to add exercise page
   addExercise(): void {
-    this.router.navigate(['/add-exercise']);
+    // Pass the fromCurrentWorkout parameter if we're coming from the current workout
+    this.router.navigate(['/add-exercise'], {
+      queryParams: { fromCurrentWorkout: this.fromCurrentWorkout ? 'true' : 'false' }
+    });
   }
 
+
+  // Add exercise to current workout
+  addExerciseToWorkout(exercise: ExerciseData): void {
+    this.workoutsService.addExerciseToCurrentWorkout(exercise);
+    // Navigate back to the current workout page with user ID
+    this.memberService.getUserId().subscribe(userId => {
+      this.router.navigate(['/current-workout', userId]);
+    });
+  }
 
   // Delete exercise after confirmation
   deleteExercise(exercise: ExerciseData): void {

@@ -17,6 +17,7 @@ export class AddExerciseComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
   pageTitle = 'Add Exercise';
+  fromCurrentWorkout = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,10 +35,19 @@ export class AddExerciseComponent implements OnInit {
 
   ngOnInit(): void {
     this.categories = this.workoutsService.getExerciseCategories();
+
+    // Check if we're coming from the current workout page via exercise library
+    this.route.queryParams.subscribe(params => {
+      this.fromCurrentWorkout = params['fromCurrentWorkout'] === 'true';
+    });
   }
 
   goBack(): void {
-    this.location.back();
+    // Instead of using location.back(), navigate to exercise library with the fromCurrentWorkout parameter
+    // This ensures the parameter is preserved even when using the back button
+    this.router.navigate(['/exercise-library'], {
+      queryParams: { fromCurrentWorkout: this.fromCurrentWorkout ? 'true' : 'false' }
+    });
   }
 
   onSubmit(): void {
@@ -55,8 +65,10 @@ export class AddExerciseComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log('Exercise added successfully:', response);
-            // Navigate back to the exercise library
-            this.router.navigate(['/exercise-library']);
+            // Navigate back to the exercise library, preserving the fromCurrentWorkout parameter
+            this.router.navigate(['/exercise-library'], {
+              queryParams: { fromCurrentWorkout: this.fromCurrentWorkout ? 'true' : 'false' }
+            });
           },
           error: (error) => {
             console.error('Error adding exercise:', error);
