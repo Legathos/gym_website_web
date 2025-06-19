@@ -118,6 +118,9 @@ export class ExerciseLibraryComponent implements OnInit {
             next: () => {
               // Success message could be shown here
               console.log(`Exercise "${exercise.name}" deleted successfully`);
+              // Update local arrays to remove the deleted exercise
+              this.exercises = this.exercises.filter(e => e.id !== exercise.id);
+              this.filteredExercises = this.filteredExercises.filter(e => e.id !== exercise.id);
             },
             error: (error) => {
               console.error('Error deleting exercise:', error);
