@@ -200,8 +200,11 @@ export class CurrentWorkoutComponent implements OnInit {
 
               // Process each exercise's sets separately
               for (const [exerciseId, sets] of this.exerciseSets.entries()) {
+                // Filter out sets where both weight and reps are 0
+                const filteredSets = sets.filter(set => !(set.weight === 0 && set.reps === 0));
+
                 // Renumber sets for this exercise starting from 1
-                const renumberedSets = sets.map((set, index) => ({
+                const renumberedSets = filteredSets.map((set, index) => ({
                   ...set,
                   workout_id: workoutId as number, // Type assertion to ensure workout_id is a number
                   set_id: index + 1
