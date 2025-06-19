@@ -82,6 +82,26 @@ export class CurrentWorkoutComponent implements OnInit {
       return;
     }
 
+    // Check if there are any sets with actual data (non-zero reps and weight)
+    let hasValidSets = false;
+    for (const sets of this.exerciseSets.values()) {
+      if (sets.some(set => set.reps > 0 && set.weight > 0)) {
+        hasValidSets = true;
+        break;
+      }
+    }
+
+    if (!hasValidSets) {
+      this.dialog.open(DialogComponent, {
+        width: '350px',
+        data: {
+          question: 'Please add at least one set with non-zero reps and weight before finishing.',
+          action: 'OK'
+        }
+      });
+      return;
+    }
+
     // Open confirmation dialog
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '350px',
