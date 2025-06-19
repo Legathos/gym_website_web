@@ -1,8 +1,17 @@
 <mat-dialog-content class="mat-typography">
   <h3>{{question}}</h3>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button (click)="close()" mat-button mat-dialog-close>Cancel</button>
+<mat-dialog-actions [align]="action === 'OK' ? 'center' : 'end'">
+  <!-- Show Cancel button only for confirmation dialogs (not for OK dialogs) -->
+  <button (click)="close()" *ngIf="action !== 'OK'" mat-button mat-dialog-close>Cancel</button>
+
+  <!-- Action buttons for different actions -->
   <button (click)="logout()" *ngIf="action === 'Log out'" cdkFocusInitial color="warn" mat-button mat-dialog-close>{{action}}</button>
   <button (click)="delete()" *ngIf="action === 'Delete'" cdkFocusInitial color="warn" mat-button mat-dialog-close>{{action}}</button>
+  <button (click)="delete()" *ngIf="action === 'Cancel Workout'" cdkFocusInitial color="warn" mat-button mat-dialog-close>{{action}}</button>
+  <button (click)="delete()" *ngIf="action === 'Finish Workout'" cdkFocusInitial color="primary" mat-button mat-dialog-close>{{action}}</button>
+  <button (click)="delete()" *ngIf="action === 'Remove'" cdkFocusInitial color="warn" mat-button mat-dialog-close>{{action}}</button>
+
+  <!-- OK button - centered when it's the only button -->
+  <button (click)="delete()" *ngIf="action === 'OK'" cdkFocusInitial color="primary" mat-button mat-dialog-close>{{action}}</button>
 </mat-dialog-actions>
