@@ -29,11 +29,24 @@ export class ExerciseLibraryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Subscribe to exercises from the service
-    this.workoutsService.getExercises().subscribe(exercises => {
-      this.exercises = exercises;
-      this.filteredExercises = [...this.exercises];
-      this.sortExercises();
+    this.loadExercises();
+  }
+
+  // Load exercises for the current user
+  loadExercises(): void {
+    this.memberService.getUserId().subscribe(userId => {
+      this.workoutsService.getExercisesByUserId(userId).subscribe({
+        next: (exercises) => {
+          this.exercises = exercises;
+          this.filteredExercises = [...this.exercises];
+          this.sortExercises();
+        },
+        error: (error) => {
+          console.error('Error loading exercises:', error);
+          // Error message could be shown here
+          alert('Failed to load exercises. Please try again.');
+        }
+      });
     });
   }
 

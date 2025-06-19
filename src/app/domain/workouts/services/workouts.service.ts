@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ExerciseData } from '@domain/workouts/model/exercise.model';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, switchMap } from 'rxjs';
 import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
+import { MemberService } from '@domain/member';
 
 @Injectable({
   providedIn: 'root'
@@ -11,42 +12,39 @@ export class WorkoutsService {
   private exercises: ExerciseData[] = [];
   private exercisesSubject = new BehaviorSubject<ExerciseData[]>([]);
 
-  constructor(private httpClient: HttpClient) {
-    this.loadExercises();
+  constructor(
+    private httpClient: HttpClient,
+    private memberService: MemberService
+  ) {
   }
 
-  private loadExercises(): void {
-    this.httpClient.get<ExerciseData[]>(EndpointDictionary.getAllExercises)
-      .subscribe({
-        next: (exercises) => {
-          this.exercises = exercises;
-          this.exercisesSubject.next(this.exercises);
-        },
-        error: (error) => {
-          console.error('Error fetching exercises:', error);
-        }
-      });
-  }
 
-  getExercises(): Observable<ExerciseData[]> {
-    return this.exercisesSubject.asObservable();
-  }
 
   addExercise(exercise: ExerciseData): Observable<any> {
-    return this.httpClient.post<any>(EndpointDictionary.addExercise, exercise).pipe(
-      tap(response => {
-        // If the backend returns the created exercise with an ID, use that
-        const newExercise = response.id ? response : {
+    return this.memberService.getUserId().pipe(
+      switchMap(userId => {
+        // Add user_id to the exercise data
+        const exerciseWithUserId = {
           ...exercise,
-          // Fallback to generating an ID locally if the backend doesn't provide one
-          id: this.exercises.length > 0
-            ? Math.max(...this.exercises.map(e => e.id || 0)) + 1
-            : 1
+          user_id: userId
         };
 
-        // Update the local array and notify subscribers
-        this.exercises = [...this.exercises, newExercise];
-        this.exercisesSubject.next(this.exercises);
+        return this.httpClient.post<any>(EndpointDictionary.addExercise, exerciseWithUserId).pipe(
+          tap(response => {
+            // If the backend returns the created exercise with an ID, use that
+            const newExercise = response.id ? response : {
+              ...exerciseWithUserId,
+              // Fallback to generating an ID locally if the backend doesn't provide one
+              id: this.exercises.length > 0
+                ? Math.max(...this.exercises.map(e => e.id || 0)) + 1
+                : 1
+            };
+
+            // Update the local array and notify subscribers
+            this.exercises = [...this.exercises, newExercise];
+            this.exercisesSubject.next(this.exercises);
+          })
+        );
       })
     );
   }
@@ -65,7 +63,6 @@ export class WorkoutsService {
     ];
   }
 
-
   deleteExercise(id: number): Observable<any> {
     return this.httpClient.delete<any>(`${EndpointDictionary.deleteExerciseById}${id}`).pipe(
       tap(() => {
@@ -74,5 +71,20 @@ export class WorkoutsService {
         this.exercisesSubject.next(this.exercises);
       })
     );
+  }
+
+  getExercisesByUserId(userId: number): Observable<ExerciseData[]> {
+    return this.httpClient.get<ExerciseData[]>(`${EndpointDictionary.getExercisesByUserId}${userId}`).pipe(
+      tap(exercises => {
+        // Update the local array and notify subscribers
+        this.exercises = exercises;
+        this.exercisesSubject.next(this.exercises);
+      })
+    );
+  }
+
+  // Get the current exercises as an observable
+  getExercises(): Observable<ExerciseData[]> {
+    return this.exercisesSubject.asObservable();
   }
 }

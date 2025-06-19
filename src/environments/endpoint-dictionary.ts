@@ -18,6 +18,7 @@ export const EndpointDictionary = {
   editWorkout:`${apiUrl}edit-workout`,
   estimateFoodFromImage:`http://localhost:5000/predict`,
   getAllExercises:`${apiUrl}exercises/get-all-exercises`,
+  getExercisesByUserId:`${apiUrl}exercises/get-exercises-by-user-`,
   getAllFoodItems:`${apiUrl}food/get-food-items`,
   getExerciseById:`${apiUrl}get-exercise-`,
   getExercisesByCategory:`${apiUrl}get-exercises-by-`,
