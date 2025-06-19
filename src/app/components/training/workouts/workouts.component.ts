@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { WorkoutsService } from '@domain/workouts/services/workouts.service';
 import { MemberService } from '@domain/member';
 
@@ -12,7 +13,8 @@ export class WorkoutsComponent implements OnInit {
 
   constructor(
     private workoutsService: WorkoutsService,
-    private memberService: MemberService
+    private memberService: MemberService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +32,12 @@ export class WorkoutsComponent implements OnInit {
           this.exerciseCount = 0;
         }
       });
+    });
+  }
+
+  startNewWorkout(): void {
+    this.memberService.getUserId().subscribe(userId => {
+      this.router.navigate(['/current-workout', userId]);
     });
   }
 }
