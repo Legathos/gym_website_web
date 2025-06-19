@@ -34,7 +34,9 @@ export class WorkoutsService {
     this.loadFromLocalStorage();
   }
 
-  // Load current workout data from localStorage
+  /**
+   * Loads current workout data from localStorage
+   */
   private loadFromLocalStorage(): void {
     try {
       // Load exercises
@@ -66,18 +68,29 @@ export class WorkoutsService {
         this.currentWorkoutNameSubject.next(this.currentWorkoutName);
       }
     } catch (error) {
-      console.error('Error loading workout data from localStorage:', error);
       // If there's an error, initialize with empty data
-      this.currentWorkoutExercises = [];
-      this.currentWorkoutSets = new Map();
-      this.currentWorkoutName = '';
-      this.currentWorkoutExercisesSubject.next(this.currentWorkoutExercises);
-      this.currentWorkoutSetsSubject.next(this.currentWorkoutSets);
-      this.currentWorkoutNameSubject.next(this.currentWorkoutName);
+      this.initializeEmptyWorkout();
+
+      // Log a warning for debugging purposes
+      console.warn('Failed to load workout data from localStorage. Initialized with empty data.');
     }
   }
 
-  // Save current workout data to localStorage
+  /**
+   * Initializes an empty workout state
+   */
+  private initializeEmptyWorkout(): void {
+    this.currentWorkoutExercises = [];
+    this.currentWorkoutSets = new Map();
+    this.currentWorkoutName = '';
+    this.currentWorkoutExercisesSubject.next(this.currentWorkoutExercises);
+    this.currentWorkoutSetsSubject.next(this.currentWorkoutSets);
+    this.currentWorkoutNameSubject.next(this.currentWorkoutName);
+  }
+
+  /**
+   * Saves current workout data to localStorage
+   */
   private saveToLocalStorage(): void {
     try {
       // Save exercises
@@ -95,16 +108,23 @@ export class WorkoutsService {
       // Save workout name
       localStorage.setItem('currentWorkoutName', this.currentWorkoutName);
     } catch (error) {
-      console.error('Error saving workout data to localStorage:', error);
+      // Log a warning for debugging purposes
+      console.warn('Failed to save workout data to localStorage.');
     }
   }
 
-  // Get the current workout name as an observable
+  /**
+   * Gets the current workout name as an observable
+   * @returns Observable of the current workout name
+   */
   getCurrentWorkoutName(): Observable<string> {
     return this.currentWorkoutNameSubject.asObservable();
   }
 
-  // Set the current workout name
+  /**
+   * Sets the current workout name
+   * @param name The new workout name
+   */
   setCurrentWorkoutName(name: string): void {
     this.currentWorkoutName = name;
     this.currentWorkoutNameSubject.next(this.currentWorkoutName);
@@ -113,6 +133,11 @@ export class WorkoutsService {
 
 
 
+  /**
+   * Adds a new exercise to the database
+   * @param exercise The exercise data to add
+   * @returns Observable with the response from the server
+   */
   addExercise(exercise: ExerciseData): Observable<any> {
     return this.memberService.getUserId().pipe(
       switchMap(userId => {
@@ -124,14 +149,22 @@ export class WorkoutsService {
 
         return this.httpClient.post<any>(EndpointDictionary.addExercise, exerciseWithUserId).pipe(
           tap(response => {
-            // If the backend returns the created exercise with an ID, use that
-            const newExercise = response.id ? response : {
-              ...exerciseWithUserId,
-              // Fallback to generating an ID locally if the backend doesn't provide one
-              id: this.exercises.length > 0
-                ? Math.max(...this.exercises.map(e => e.id || 0)) + 1
-                : 1
-            };
+            // Extract the exercise with ID from the response
+            let newExercise: ExerciseData;
+
+            if (response && response.id) {
+              // Use the response if it has an ID
+              newExercise = response;
+            } else {
+              // Log a warning if the backend doesn't provide an ID
+              console.warn('Backend did not provide an ID for the new exercise. Using local ID generation as fallback.');
+
+              // Create a new exercise with a locally generated ID
+              newExercise = {
+                ...exerciseWithUserId,
+                id: this.generateLocalId(this.exercises)
+              };
+            }
 
             // Update the local array and notify subscribers
             this.exercises = [...this.exercises, newExercise];
@@ -142,7 +175,27 @@ export class WorkoutsService {
     );
   }
 
+  /**
+   * Generates a local ID for an entity when the backend doesn't provide one
+   * @param items Array of items with ID property
+   * @returns A new unique ID
+   */
+  private generateLocalId(items: { id?: number }[]): number {
+    // If there are no items, start with ID 1
+    if (items.length === 0) {
+      return 1;
+    }
+
+    // Find the maximum ID and add 1
+    return Math.max(...items.map(item => item.id || 0)) + 1;
+  }
+
+  /**
+   * Returns the available exercise categories
+   * @returns Array of exercise category names
+   */
   getExerciseCategories(): string[] {
+    // These categories could be fetched from a configuration or API in the future
     return [
       'Chest',
       'Back',
@@ -156,6 +209,11 @@ export class WorkoutsService {
     ];
   }
 
+  /**
+   * Deletes an exercise from the database
+   * @param id The ID of the exercise to delete
+   * @returns Observable with the response from the server
+   */
   deleteExercise(id: number): Observable<any> {
     return this.httpClient.delete<any>(`${EndpointDictionary.deleteExerciseById}${id}`).pipe(
       tap(() => {
@@ -166,6 +224,11 @@ export class WorkoutsService {
     );
   }
 
+  /**
+   * Gets all exercises for a specific user
+   * @param userId The ID of the user
+   * @returns Observable with the exercises for the user
+   */
   getExercisesByUserId(userId: number): Observable<ExerciseData[]> {
     return this.httpClient.get<ExerciseData[]>(`${EndpointDictionary.getExercisesByUserId}${userId}`).pipe(
       tap(exercises => {
@@ -176,12 +239,18 @@ export class WorkoutsService {
     );
   }
 
-  // Get the current exercises as an observable
+  /**
+   * Gets the current exercises as an observable
+   * @returns Observable of the current exercises
+   */
   getExercises(): Observable<ExerciseData[]> {
     return this.exercisesSubject.asObservable();
   }
 
-  // Add an exercise to the current workout
+  /**
+   * Adds an exercise to the current workout
+   * @param exercise The exercise to add
+   */
   addExerciseToCurrentWorkout(exercise: ExerciseData): void {
     // Check if the exercise is already in the current workout
     const exists = this.currentWorkoutExercises.some(e => e.id === exercise.id);
@@ -192,12 +261,17 @@ export class WorkoutsService {
     }
   }
 
-  // Get the current workout exercises as an observable
+  /**
+   * Gets the current workout exercises as an observable
+   * @returns Observable of the current workout exercises
+   */
   getCurrentWorkoutExercises(): Observable<ExerciseData[]> {
     return this.currentWorkoutExercisesSubject.asObservable();
   }
 
-  // Clear the current workout exercises
+  /**
+   * Clears the current workout data (exercises, sets, name)
+   */
   clearCurrentWorkoutExercises(): void {
     this.currentWorkoutExercises = [];
     this.currentWorkoutExercisesSubject.next(this.currentWorkoutExercises);
@@ -213,7 +287,10 @@ export class WorkoutsService {
     localStorage.removeItem('currentWorkoutName');
   }
 
-  // Remove an exercise from the current workout
+  /**
+   * Removes an exercise from the current workout
+   * @param exerciseId The ID of the exercise to remove
+   */
   removeExerciseFromCurrentWorkout(exerciseId: number): void {
     this.currentWorkoutExercises = this.currentWorkoutExercises.filter(e => e.id !== exerciseId);
     this.currentWorkoutExercisesSubject.next(this.currentWorkoutExercises);
@@ -223,19 +300,30 @@ export class WorkoutsService {
     this.saveToLocalStorage(); // Save to localStorage
   }
 
-  // Get the current workout sets as an observable
+  /**
+   * Gets the current workout sets as an observable
+   * @returns Observable of the current workout sets map
+   */
   getCurrentWorkoutSets(): Observable<Map<number, SetTrackingData[]>> {
     return this.currentWorkoutSetsSubject.asObservable();
   }
 
-  // Update the sets for an exercise in the current workout
+  /**
+   * Updates the sets for an exercise in the current workout
+   * @param exerciseId The ID of the exercise
+   * @param sets The new sets for the exercise
+   */
   updateCurrentWorkoutSets(exerciseId: number, sets: SetTrackingData[]): void {
     this.currentWorkoutSets.set(exerciseId, sets);
     this.currentWorkoutSetsSubject.next(this.currentWorkoutSets);
     this.saveToLocalStorage(); // Save to localStorage
   }
 
-  // Add a set to an exercise in the current workout
+  /**
+   * Adds a set to an exercise in the current workout
+   * @param exerciseId The ID of the exercise
+   * @param set The set to add
+   */
   addSetToCurrentWorkout(exerciseId: number, set: SetTrackingData): void {
     if (!this.currentWorkoutSets.has(exerciseId)) {
       this.currentWorkoutSets.set(exerciseId, []);
@@ -254,7 +342,11 @@ export class WorkoutsService {
     this.saveToLocalStorage(); // Save to localStorage
   }
 
-  // Remove a set from an exercise in the current workout
+  /**
+   * Removes a set from an exercise in the current workout
+   * @param exerciseId The ID of the exercise
+   * @param setId The ID of the set to remove
+   */
   removeSetFromCurrentWorkout(exerciseId: number, setId: number): void {
     if (this.currentWorkoutSets.has(exerciseId)) {
       const sets = this.currentWorkoutSets.get(exerciseId) || [];
@@ -272,7 +364,13 @@ export class WorkoutsService {
     }
   }
 
-  // Update a specific field in a set
+  /**
+   * Updates a specific field in a set
+   * @param exerciseId The ID of the exercise
+   * @param setId The ID of the set
+   * @param field The field to update ('weight' or 'reps')
+   * @param value The new value for the field
+   */
   updateSetField(exerciseId: number, setId: number, field: 'weight' | 'reps', value: number): void {
     if (this.currentWorkoutSets.has(exerciseId)) {
       const sets = this.currentWorkoutSets.get(exerciseId) || [];
@@ -286,12 +384,20 @@ export class WorkoutsService {
     }
   }
 
-  // Add a new workout
+  /**
+   * Adds a new workout to the database
+   * @param workoutsDto The workout data to add
+   * @returns Observable with the response from the server
+   */
   addWorkout(workoutsDto: WorkoutsData): Observable<any> {
     return this.httpClient.post<any>(EndpointDictionary.addWorkout, workoutsDto);
   }
 
-  // Add a set tracking record
+  /**
+   * Adds a set tracking record to the database
+   * @param setTrackingDto The set tracking data to add
+   * @returns Observable with the response from the server
+   */
   addSetTracking(setTrackingDto: SetTrackingData): Observable<any> {
     return this.httpClient.post<any>(EndpointDictionary.addSetTracking, setTrackingDto);
   }
