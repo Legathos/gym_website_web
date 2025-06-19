@@ -4,5 +4,5 @@ export interface WorkoutsData {
     name: string;
     date: Date;
     total_weight: number;
-    total_time: number;
+    status: string;
 }

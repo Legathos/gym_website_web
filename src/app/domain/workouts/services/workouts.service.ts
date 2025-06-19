@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ExerciseData } from '@domain/workouts/model/exercise.model';
+import { SetTrackingData } from '@domain/workouts/model/set-tracking.model';
 import { BehaviorSubject, Observable, tap, switchMap } from 'rxjs';
 import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
 import { MemberService } from '@domain/member';
+import {WorkoutsData} from "@domain/workouts";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,10 @@ import { MemberService } from '@domain/member';
 export class WorkoutsService {
   private exercises: ExerciseData[] = [];
   private exercisesSubject = new BehaviorSubject<ExerciseData[]>([]);
+
+  // For managing exercises in the current workout
+  private currentWorkoutExercises: ExerciseData[] = [];
+  private currentWorkoutExercisesSubject = new BehaviorSubject<ExerciseData[]>([]);
 
   constructor(
     private httpClient: HttpClient,
@@ -86,5 +92,42 @@ export class WorkoutsService {
   // Get the current exercises as an observable
   getExercises(): Observable<ExerciseData[]> {
     return this.exercisesSubject.asObservable();
+  }
+
+  // Add an exercise to the current workout
+  addExerciseToCurrentWorkout(exercise: ExerciseData): void {
+    // Check if the exercise is already in the current workout
+    const exists = this.currentWorkoutExercises.some(e => e.id === exercise.id);
+    if (!exists) {
+      this.currentWorkoutExercises = [...this.currentWorkoutExercises, exercise];
+      this.currentWorkoutExercisesSubject.next(this.currentWorkoutExercises);
+    }
+  }
+
+  // Get the current workout exercises as an observable
+  getCurrentWorkoutExercises(): Observable<ExerciseData[]> {
+    return this.currentWorkoutExercisesSubject.asObservable();
+  }
+
+  // Clear the current workout exercises
+  clearCurrentWorkoutExercises(): void {
+    this.currentWorkoutExercises = [];
+    this.currentWorkoutExercisesSubject.next(this.currentWorkoutExercises);
+  }
+
+  // Remove an exercise from the current workout
+  removeExerciseFromCurrentWorkout(exerciseId: number): void {
+    this.currentWorkoutExercises = this.currentWorkoutExercises.filter(e => e.id !== exerciseId);
+    this.currentWorkoutExercisesSubject.next(this.currentWorkoutExercises);
+  }
+
+  // Add a new workout
+  addWorkout(workoutsDto: WorkoutsData): Observable<any> {
+    return this.httpClient.post<any>(EndpointDictionary.addWorkout, workoutsDto);
+  }
+
+  // Add a set tracking record
+  addSetTracking(setTrackingDto: SetTrackingData): Observable<any> {
+    return this.httpClient.post<any>(EndpointDictionary.addSetTracking, setTrackingDto);
   }
 }
