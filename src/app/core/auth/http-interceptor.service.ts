@@ -12,7 +12,7 @@ export class HttpInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!req.url.includes("login")) {
       const jwt = this.cookieService.get("auth-cookie");
-      if (jwt !== '' && Date.now() > this.jwtService.parseJwt(jwt).exp * 1000) {
+      if (jwt === '' || (jwt !== '' && Date.now() > this.jwtService.parseJwt(jwt).exp * 1000)) {
         return EMPTY;
       }
       const header = {
