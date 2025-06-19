@@ -1,0 +1,242 @@
+// Color variables to match the app's design language
+$primary-color: #1E314A;
+$secondary-color: #256A7A;
+$tertiary-color: #C5E4E9;
+$accent-color: #BB8A2E;
+$light-bg: #f8f9fa;
+$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+// Modern UI variables
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$transition-speed: 0.3s;
+$gradient-primary: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+$gradient-secondary: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
+$gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
+
+// General styles
+.container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Card styles
+.card {
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  transition: all $transition-speed ease;
+  border: none;
+  box-shadow: $card-shadow;
+  margin-bottom: 25px;
+  background-color: white;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $hover-shadow;
+  }
+
+  .card-header {
+    background: $light-bg;
+    border-bottom: 2px solid $tertiary-color;
+    padding: 18px 20px;
+
+    h3 {
+      color: $secondary-color;
+      font-size: 1.5rem;
+      margin-bottom: 0;
+      font-weight: 600;
+    }
+  }
+
+  .card-body {
+    padding: 25px;
+  }
+}
+
+// Calendar placeholder styles
+.calendar-placeholder {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius-md;
+  background-color: rgba($tertiary-color, 0.3);
+  border: 2px dashed rgba($secondary-color, 0.3);
+  transition: all $transition-speed ease;
+
+  p {
+    color: $primary-color;
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+
+  &:hover {
+    background-color: rgba($tertiary-color, 0.4);
+    border-color: rgba($secondary-color, 0.4);
+  }
+}
+
+// Exercise library styles
+.exercise-list {
+  min-height: 200px;
+
+  .alert {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    background-color: rgba($tertiary-color, 0.3);
+    border: none;
+    color: $primary-color;
+    border-radius: $border-radius-md;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all $transition-speed ease;
+
+    &:hover {
+      background-color: rgba($tertiary-color, 0.4);
+    }
+  }
+}
+
+// Button styles
+.btn-primary {
+  background: $gradient-secondary;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 500;
+  border-radius: $border-radius-sm;
+  color: white;
+  transition: all $transition-speed ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.btn-outline-primary {
+  background: transparent;
+  color: $secondary-color;
+  border: 1px solid $secondary-color;
+  padding: 8px 16px;
+  font-weight: 500;
+  border-radius: $border-radius-sm;
+  transition: all $transition-speed ease;
+
+  &:hover {
+    background-color: rgba($secondary-color, 0.1);
+    color: $secondary-color;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+}
+
+// Page title
+h2 {
+  color: $primary-color;
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 0;
+  position: relative;
+  padding-bottom: 8px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: $gradient-secondary;
+    border-radius: 3px;
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .card {
+    border-radius: $border-radius-md;
+    margin-bottom: 20px;
+
+    .card-header {
+      padding: 15px;
+
+      h3 {
+        font-size: 1.3rem;
+      }
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+  }
+
+  .calendar-placeholder {
+    min-height: 250px;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .card {
+    border-radius: $border-radius-sm;
+    margin-bottom: 15px;
+
+    .card-header {
+      padding: 12px;
+
+      h3 {
+        font-size: 1.2rem;
+      }
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+  }
+
+  .calendar-placeholder {
+    min-height: 200px;
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .btn-primary, .btn-outline-primary {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}

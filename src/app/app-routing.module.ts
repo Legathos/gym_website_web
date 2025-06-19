@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent} from "./components/auth/login/login.component";
 import { LandingPageComponent} from "./components/landing-page/landing-page.component";
 import { WorkoutsComponent} from "./components/training/workouts/workouts.component";
-import { ExercisesComponent} from "./components/training/exercises/exercises.component";
 import { FoodComponent} from "./components/nutrition/food/food.component";
 import { FoodTrackerComponent} from "./components/nutrition/food-tracker/food-tracker.component";
 import { CurrentWorkoutComponent} from "./components/training/current-workout/current-workout.component";
@@ -19,6 +18,8 @@ import {SettingsComponent} from "./components/settings/settings.component";
 import {AiEstimatorComponent} from "./components/nutrition/ai-estimator/ai-estimator.component";
 import {BarcodeScannerComponent} from "./components/nutrition/barcode-scanner/barcode-scanner.component";
 import {AddFoodComponent} from "./components/nutrition/add-food/add-food.component";
+import {ExerciseLibraryComponent} from "./components/training/exercise-library/exercise-library.component";
+import {AddExerciseComponent} from "./components/training/add-exercise/add-exercise.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,canActivate:[LoggedInGuardService]},
@@ -26,7 +27,8 @@ const routes: Routes = [
   {path: 'landing-page', component:LandingPageComponent,canActivate:[LoggedInGuardService] },
   {path: 'workouts/:id', component: WorkoutsComponent,canActivate:[MemberGuardService]},
   {path: 'current-workout/:id', component: CurrentWorkoutComponent,canActivate:[MemberGuardService]},
-  {path: 'exercises', component: ExercisesComponent,canActivate:[MemberGuardService]},
+  {path: 'exercise-library', component: ExerciseLibraryComponent,canActivate:[MemberGuardService]},
+  {path: 'add-exercise', component: AddExerciseComponent,canActivate:[MemberGuardService]},
   {path: 'food', component: FoodComponent,canActivate:[MemberGuardService]},
   {path: 'view-food-item', component:ViewFoodItemComponent, canActivate:[MemberGuardService]},
   {path: 'view-log-item', component:ViewLogItemComponent, canActivate:[MemberGuardService]},

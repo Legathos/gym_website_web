@@ -1,0 +1,96 @@
+<div class="add-exercise-container">
+  <!-- Bootstrap Navbar instead of mat-toolbar -->
+  <nav class="navbar top-bar">
+    <div class="container-fluid">
+      <button (click)="goBack()" aria-label="Go back" class="btn btn-back">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <h1 class="page-title">{{ pageTitle }}</h1>
+      <div></div> <!-- Empty div for flex spacing -->
+    </div>
+  </nav>
+
+  <div class="content-container">
+    <!-- Error message alert -->
+    <div *ngIf="errorMessage" class="alert alert-danger mb-3" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {{ errorMessage }}
+    </div>
+
+    <!-- Loading spinner -->
+    <div *ngIf="isLoading" class="text-center my-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Saving exercise...</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" [class.disabled-form]="isLoading" [formGroup]="exerciseForm" class="exercise-form">
+      <!-- Exercise Name Field -->
+      <div class="mb-3 form-field">
+        <label class="form-label" for="exerciseName">Exercise Name</label>
+        <input
+          [disabled]="isLoading"
+          [ngClass]="{'is-invalid': exerciseForm.get('name')?.invalid && exerciseForm.get('name')?.touched}"
+          class="form-control"
+          formControlName="name"
+          id="exerciseName"
+          placeholder="E.g., Bench Press, Squat, Deadlift"
+          type="text">
+        <div *ngIf="exerciseForm.get('name')?.hasError('required')" class="invalid-feedback">
+          Exercise name is required
+        </div>
+        <div *ngIf="exerciseForm.get('name')?.hasError('minlength')" class="invalid-feedback">
+          Exercise name must be at least 3 characters
+        </div>
+      </div>
+
+      <!-- Category Dropdown -->
+      <div class="mb-3 form-field">
+        <label class="form-label" for="exerciseCategory">Category</label>
+        <select
+          [disabled]="isLoading"
+          [ngClass]="{'is-invalid': exerciseForm.get('category')?.invalid && exerciseForm.get('category')?.touched}"
+          class="form-select"
+          formControlName="category"
+          id="exerciseCategory">
+          <option disabled selected value="">Select a muscle group category</option>
+          <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+        </select>
+        <div *ngIf="exerciseForm.get('category')?.hasError('required')" class="invalid-feedback">
+          Category is required
+        </div>
+      </div>
+
+      <!-- Description Field -->
+      <div class="mb-3 form-field">
+        <label class="form-label" for="exerciseDescription">Description</label>
+        <textarea
+          [disabled]="isLoading"
+          [ngClass]="{'is-invalid': exerciseForm.get('description')?.invalid && exerciseForm.get('description')?.touched}"
+          class="form-control"
+          formControlName="description"
+          id="exerciseDescription"
+          placeholder="Describe the exercise technique, muscles targeted, and any important form cues"
+          rows="5"></textarea>
+        <div *ngIf="exerciseForm.get('description')?.hasError('required')" class="invalid-feedback">
+          Description is required
+        </div>
+        <div *ngIf="exerciseForm.get('description')?.hasError('minlength')" class="invalid-feedback">
+          Description must be at least 10 characters
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="button-container">
+        <button (click)="goBack()" [disabled]="isLoading" class="btn btn-outline-danger" type="button">
+          Cancel
+        </button>
+        <button [disabled]="isLoading" class="btn btn-primary" type="submit">
+          <span *ngIf="isLoading" aria-hidden="true" class="spinner-border spinner-border-sm me-2" role="status"></span>
+          {{ isLoading ? 'Saving...' : 'Add'}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

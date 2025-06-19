@@ -119,6 +119,17 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
           this.foodService.addFoodToTracker(loggerData).subscribe({
             next: (response) => {
               console.log('Food added to tracker successfully:', response);
+
+              // Get today's date in the format YYYY-MM-DD
+              const today = new Date();
+              const year = today.getFullYear();
+              const month = String(today.getMonth() + 1).padStart(2, '0');
+              const day = String(today.getDate()).padStart(2, '0');
+              const todayFormatted = `${year}-${month}-${day}`;
+
+              // Clear the food tracking cache for today to ensure fresh data
+              this.foodService.clearFoodTrackingCache(todayFormatted);
+
               // Navigate to the food tracker
               this.router.navigate(['/food-tracker/:id']);
             },
@@ -205,27 +216,18 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error estimating food from image:', error);
-        // Fallback to mock data if the API call fails
-        this.simulateAiAnalysis();
+        // Handle the error properly
+        this.handleEstimationError(error);
       }
     });
   }
 
-  // Simulate AI analysis with a mock food item (for demo/fallback purposes)
-  private simulateAiAnalysis(): void {
-    console.warn('Using mock food data as fallback');
-    // Mock food data that would normally come from an AI service
-    const mockFoodData: FoodData = {
-      id: 1,
-      name: 'Student la Politehnica',
-      weight: 100,
-      calories: 320,
-      protein: 35,
-      carbs: 10,
-      fats: 15,
-      barcode: undefined
-    };
-
-    this.onFoodEstimated(mockFoodData);
+  // Handle errors during food estimation
+  private handleEstimationError(error: any): void {
+    console.warn('Food estimation failed:', error);
+    // Inform the user about the error
+    alert('Unable to estimate food from the image. Please try again or use manual entry.');
+    // Reset the UI to allow the user to try again
+    this.capturedImage = null;
   }
 }

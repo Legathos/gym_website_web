@@ -4,5 +4,9 @@ $secondarycolor:#256A7A;
 $tertiary-color:#C5E4E9;
 $accent-color:#BB8A2E;
 
+// Import Bootstrap and Bootstrap Icons
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
