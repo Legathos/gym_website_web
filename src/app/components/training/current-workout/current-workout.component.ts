@@ -24,26 +24,27 @@ export class CurrentWorkoutComponent implements OnInit {
     private workoutsService: WorkoutsService,
     private dialog: MatDialog
   ) {
-    // Subscribe to changes in the current workout exercises
+    // First subscribe to changes in the current workout sets
+    this.workoutsService.getCurrentWorkoutSets().subscribe(sets => {
+      this.exerciseSets = sets;
+    });
+
+    // Then subscribe to changes in the current workout exercises
     this.workoutsService.getCurrentWorkoutExercises().subscribe(exercises => {
       this.workoutExercises = exercises;
 
       // Initialize sets for new exercises and add a default set
       exercises.forEach(exercise => {
         if (exercise.id && !this.exerciseSets.has(exercise.id)) {
-          this.exerciseSets.set(exercise.id, []);
           // Add a default set for the new exercise
           this.addSet(exercise.id);
         }
       });
+    });
 
-      // Clean up sets for removed exercises
-      const exerciseIds = new Set(exercises.map(e => e.id));
-      for (const exerciseId of this.exerciseSets.keys()) {
-        if (!exerciseIds.has(exerciseId)) {
-          this.exerciseSets.delete(exerciseId);
-        }
-      }
+    // Subscribe to changes in the current workout name
+    this.workoutsService.getCurrentWorkoutName().subscribe(name => {
+      this.workoutName = name;
     });
   }
 
@@ -322,19 +323,14 @@ export class CurrentWorkoutComponent implements OnInit {
     // Handle dialog result
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        // The service will handle removing the exercise and its sets
         this.workoutsService.removeExerciseFromCurrentWorkout(exercise.id);
-        // Also remove any sets associated with this exercise
-        this.exerciseSets.delete(exercise.id);
       }
     });
   }
 
   // Method to add a new set to an exercise
   addSet(exerciseId: number): void {
-    if (!this.exerciseSets.has(exerciseId)) {
-      this.exerciseSets.set(exerciseId, []);
-    }
-
     const sets = this.exerciseSets.get(exerciseId) || [];
     const newSetId = sets.length > 0 ? Math.max(...sets.map(s => s.set_id)) + 1 : 1;
 
@@ -346,37 +342,28 @@ export class CurrentWorkoutComponent implements OnInit {
       weight: 0
     };
 
-    sets.push(newSet);
-    this.exerciseSets.set(exerciseId, sets);
-    this.renumberSets(exerciseId);
+    // Use the service to add the set
+    // The service will handle renumbering the sets
+    this.workoutsService.addSetToCurrentWorkout(exerciseId, newSet);
   }
 
   // Method to update a set's weight or reps
   updateSet(exerciseId: number, setId: number, field: 'weight' | 'reps', value: number): void {
-    const sets = this.exerciseSets.get(exerciseId) || [];
-    const setIndex = sets.findIndex(s => s.set_id === setId);
-
-    if (setIndex !== -1) {
-      sets[setIndex][field] = value;
-      this.exerciseSets.set(exerciseId, sets);
-    }
+    // Use the service to update the set field
+    this.workoutsService.updateSetField(exerciseId, setId, field, value);
   }
 
   // Method to delete a set from an exercise
   deleteSet(exerciseId: number, setId: number): void {
-    const sets = this.exerciseSets.get(exerciseId) || [];
-    const updatedSets = sets.filter(s => s.set_id !== setId);
-    this.exerciseSets.set(exerciseId, updatedSets);
-    this.renumberSets(exerciseId);
+    // Use the service to remove the set
+    // The service will handle renumbering the sets
+    this.workoutsService.removeSetFromCurrentWorkout(exerciseId, setId);
   }
 
-  // Method to renumber sets after deletion
-  renumberSets(exerciseId: number): void {
-    const sets = this.exerciseSets.get(exerciseId) || [];
-    const renumberedSets = sets.map((set, index) => ({
-      ...set,
-      set_id: index + 1
-    }));
-    this.exerciseSets.set(exerciseId, renumberedSets);
+  // Method to update the workout name
+  updateWorkoutName(name: string): void {
+    // Use the service to update the workout name
+    this.workoutsService.setCurrentWorkoutName(name);
   }
+
 }
