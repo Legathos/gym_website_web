@@ -17,6 +17,8 @@ export class WorkoutsComponent implements OnInit {
   currentMonth: string = '';
   currentYear: number = 0;
   today: NgbDate;
+  displayedMonth: number = 0;
+  displayedYear: number = 0;
 
   constructor(
     private workoutsService: WorkoutsService,
@@ -29,28 +31,35 @@ export class WorkoutsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadExerciseCount();
+
+    // Initialize displayed month and year to current month and year
+    const today = this.calendar.getToday();
+    this.displayedMonth = today.month;
+    this.displayedYear = today.year;
+
     this.generateCalendar();
   }
 
   /**
-   * Generates a 5-week calendar centered on the current month
+   * Generates a 5-week calendar centered on the displayed month
    */
   generateCalendar(): void {
-    // Get the current date
-    const today = this.calendar.getToday();
-    this.today = today;
+    // Make sure today is set
+    if (!this.today) {
+      this.today = this.calendar.getToday();
+    }
 
     // Set current month and year for display
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                         'July', 'August', 'September', 'October', 'November', 'December'];
-    this.currentMonth = monthNames[today.month - 1];
-    this.currentYear = today.year;
+    this.currentMonth = monthNames[this.displayedMonth - 1];
+    this.currentYear = this.displayedYear;
 
-    // Get the first day of the current month
-    const firstDayOfMonth = new NgbDate(today.year, today.month, 1);
+    // Get the first day of the displayed month
+    const firstDayOfMonth = new NgbDate(this.displayedYear, this.displayedMonth, 1);
 
     // Calculate which day of the week the first day of the month is (0 = Sunday, 6 = Saturday)
-    const firstDayOfWeek = new Date(today.year, today.month - 1, 1).getDay();
+    const firstDayOfWeek = new Date(this.displayedYear, this.displayedMonth - 1, 1).getDay();
 
     // Calculate how many days to go back to reach the Sunday before the first day of the month
     const daysToGoBack = firstDayOfWeek;
@@ -82,12 +91,12 @@ export class WorkoutsComponent implements OnInit {
   }
 
   /**
-   * Checks if a date is in the current month
+   * Checks if a date is in the displayed month
    * @param date The date to check
-   * @returns True if the date is in the current month, false otherwise
+   * @returns True if the date is in the displayed month, false otherwise
    */
   isCurrentMonth(date: NgbDate): boolean {
-    return date.month === this.today.month;
+    return date.month === this.displayedMonth;
   }
 
   loadExerciseCount(): void {
@@ -108,5 +117,35 @@ export class WorkoutsComponent implements OnInit {
     this.memberService.getUserId().subscribe(userId => {
       this.router.navigate(['/current-workout', userId]);
     });
+  }
+
+  /**
+   * Navigate to the previous month
+   */
+  previousMonth(): void {
+    if (this.displayedMonth === 1) {
+      // If January, go to December of previous year
+      this.displayedMonth = 12;
+      this.displayedYear--;
+    } else {
+      // Otherwise, just go to previous month
+      this.displayedMonth--;
+    }
+    this.generateCalendar();
+  }
+
+  /**
+   * Navigate to the next month
+   */
+  nextMonth(): void {
+    if (this.displayedMonth === 12) {
+      // If December, go to January of next year
+      this.displayedMonth = 1;
+      this.displayedYear++;
+    } else {
+      // Otherwise, just go to next month
+      this.displayedMonth++;
+    }
+    this.generateCalendar();
   }
 }

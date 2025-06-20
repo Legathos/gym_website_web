@@ -66,15 +66,53 @@ $gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 1
   transition: all $transition-speed ease;
 
   .calendar-header {
-    background-color: $secondary-color;
-    color: white;
-    padding: 12px 15px;
-    text-align: center;
+    background-color: $light-bg;
+    border-radius: $border-radius-md;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .month-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0 20px;
+    }
 
     h4 {
       margin: 0;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: $primary-color;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .month-indicator {
+      min-width: 200px;
+      margin: 0 30px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      width: 120px;
       font-weight: 500;
-      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        margin: 0 5px;
+        font-size: 0.9rem;
+      }
+
+      &:hover {
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
     }
   }
 
@@ -192,12 +230,10 @@ $gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 1
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 
   &:active {
-    transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 }
@@ -214,12 +250,10 @@ $gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 1
   &:hover {
     background-color: rgba($secondary-color, 0.1);
     color: $secondary-color;
-    transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   }
 
   &:active {
-    transform: translateY(0);
     box-shadow: none;
   }
 }
@@ -270,10 +304,31 @@ h2 {
 
   .calendar-container {
     .calendar-header {
-      padding: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+
+      .month-navigation {
+        width: 100%;
+        justify-content: center;
+        padding: 0 15px;
+      }
 
       h4 {
         font-size: 1.1rem;
+      }
+
+      .month-indicator {
+        min-width: 160px;
+        margin: 0 20px;
+      }
+
+      .btn-primary {
+        width: 100px;
+        padding: 8px 12px;
+
+        i {
+          font-size: 0.8rem;
+        }
       }
     }
 
@@ -329,10 +384,33 @@ h2 {
 
   .calendar-container {
     .calendar-header {
-      padding: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+
+      .month-navigation {
+        width: 100%;
+        justify-content: center;
+        padding: 0 10px;
+      }
 
       h4 {
         font-size: 1rem;
+        text-align: center;
+      }
+
+      .month-indicator {
+        min-width: 120px;
+        margin: 0 15px;
+      }
+
+      .btn-primary {
+        width: 90px;
+        padding: 6px 10px;
+        font-size: 0.85rem;
+
+        i {
+          font-size: 0.75rem;
+        }
       }
     }
 
