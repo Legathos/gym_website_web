@@ -1,106 +1,22 @@
-$primary-color: #1E314A;
+// Color variables for the main banner gradient
 $secondary-color: #256A7A;
 $tertiary-color: #C5E4E9;
-$accent-color: #BB8A2E;
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  margin: 0;
-  padding: 0;
+// Custom styles for the main banner
+.main-banner {
+  background: linear-gradient(to right, $secondary-color, $tertiary-color);
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 }
 
-.container {
-  max-width: 400px;
-  margin: 100px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  animation-name: reveal;
-  animation-duration: 2000ms;
-}
-
-.form-group {
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-label,
-input {
-  display: block;
-  width: 100%;
-}
-
-input[type="text"],
-input[type="password"] {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-}
-
-.btn {
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.logo {
-  max-width: 80%;
-  display: block;
-  margin: 0 auto;
-  padding-top: 40px;
-}
-
-#img {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-  margin: 0 auto;
-  display: block;
-  padding-top: 40px;
-  animation-name: slideDown;
-  animation-duration: 2000ms;
-}
-
-.btn:hover {
-  background-color: #0056b3;
-}
-
-.input-placeholder {
-  display: flex;
-  align-items: center;
-}
-
-.input-icons i {
-  position: absolute;
-}
-
-.input-icons {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-.icon {
-  padding: 10px 15px;
-}
-
-.input-field {
-  width: 100%;
-  padding: 10px;
-}
-
-@keyframes slideDown {
+// Animation for the login container
+@keyframes reveal {
   from {
     opacity: 0;
-    transform: translateY(-300px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -108,37 +24,8 @@ input[type="password"] {
   }
 }
 
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: scale(0.2);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-
-.main-banner {
-  background: linear-gradient(to right, $secondary-color, $tertiary-color); /* Use gradient based on secondary and tertiary colors */
-  color: #fff;
-  text-align: center;
-  padding: 30px 15px; /* Adjusted padding for smaller screens */
-  margin: 10px; /* Adjusted margin for smaller screens */
-  height: 10vh; /* Set the height to the full viewport height */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-@media (max-width: 768px) {
-  .main-banner {
-    padding: 20px 15px; /* Adjusted padding for even smaller screens */
-    margin: 0; /* No margin for smaller screens */
-  }
-}
-
-.register-link{
-  padding: 5px;
+// Apply animation to the container
+.container-fluid {
+  animation-name: reveal;
+  animation-duration: 1000ms;
 }
