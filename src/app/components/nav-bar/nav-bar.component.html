@@ -1,17 +1,25 @@
-<nav *ngIf="showNavBar"  class="bottom-navbar">
-  <button mat-button routerLink="/food-tracker/:id">
-    <mat-icon>restaurant</mat-icon>
-  </button>
-  <button mat-button routerLink="/workouts/:id">
-    <mat-icon>fitness_center</mat-icon>
-  </button>
-  <button class="center-button" mat-button routerLink="/home">
-    <mat-icon>home</mat-icon>
-  </button>
-  <button mat-button routerLink="/settings">
-    <mat-icon>settings</mat-icon>
-  </button>
-  <button mat-button routerLink="/profile/:id">
-    <mat-icon>person</mat-icon>
-  </button>
+<nav *ngIf="showNavBar" class="navbar fixed-bottom navbar-light bg-white bottom-navbar">
+  <div class="container-fluid px-0">
+    <div class="navbar-nav nav-fill w-100 flex-row justify-content-around">
+      <a class="nav-item nav-link text-center" routerLink="/food-tracker/:id" [class.active]="isRouteActive('/food-tracker')">
+        <i class="bi bi-egg-fried d-block"></i>
+        <small class="nav-label">Nutrition</small>
+      </a>
+      <a class="nav-item nav-link text-center" routerLink="/workouts/:id" [class.active]="isRouteActive('/workouts')">
+        <i class="bi bi-activity d-block"></i>
+        <small class="nav-label">Workouts</small>
+      </a>
+      <a class="nav-item nav-link text-center home-button" routerLink="/home" [class.active]="isRouteActive('/home')">
+        <i class="bi bi-house-door-fill d-block"></i>
+      </a>
+      <a class="nav-item nav-link text-center" routerLink="/settings" [class.active]="isRouteActive('/settings')">
+        <i class="bi bi-gear d-block"></i>
+        <small class="nav-label">Settings</small>
+      </a>
+      <a class="nav-item nav-link text-center" routerLink="/profile/:id" [class.active]="isRouteActive('/profile')">
+        <i class="bi bi-person d-block"></i>
+        <small class="nav-label">Profile</small>
+      </a>
+    </div>
+  </div>
 </nav>

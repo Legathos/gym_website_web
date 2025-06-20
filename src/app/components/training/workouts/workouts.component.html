@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <!-- Workout History Calendar -->
+  <!-- Workout History Section -->
   <div class="row mb-4">
     <div class="col-12">
       <div class="card">
@@ -15,9 +15,45 @@
           <h3>Workout History</h3>
         </div>
         <div class="card-body">
-          <!-- Calendar placeholder - would be replaced with actual calendar component -->
-          <div class="calendar-placeholder text-center">
-            <p class="mb-0">Calendar with workout history will be displayed here</p>
+          <!-- Calendar display for workout history -->
+          <div class="calendar-container">
+            <div class="calendar-header d-flex justify-content-center align-items-center p-3 bg-light rounded mb-3">
+              <div class="month-navigation d-flex align-items-center">
+                <button (click)="previousMonth()" class="btn btn-primary px-3">
+                  <i class="fas fa-chevron-left mr-1"></i> Previous
+                </button>
+                <h4 class="mb-0 font-weight-bold month-indicator">{{ currentMonth }} {{ currentYear }}</h4>
+                <button (click)="nextMonth()" class="btn btn-primary px-3">
+                  Next <i class="fas fa-chevron-right ml-1"></i>
+                </button>
+              </div>
+            </div>
+            <div class="calendar-weekdays">
+              <div class="weekday">Sun</div>
+              <div class="weekday">Mon</div>
+              <div class="weekday">Tue</div>
+              <div class="weekday">Wed</div>
+              <div class="weekday">Thu</div>
+              <div class="weekday">Fri</div>
+              <div class="weekday">Sat</div>
+            </div>
+            <div class="calendar-grid">
+              <div *ngFor="let week of calendarWeeks" class="calendar-week">
+                <div *ngFor="let date of week"
+                     [class.other-month]="!isCurrentMonth(date)"
+                     [class.today]="isToday(date)"
+                     [class.workout-day]="hasWorkout(date)"
+                     [class.no-workout-day]="hasNoWorkout(date)"
+                     class="calendar-day">
+                  <div class="date-number">{{ date.day }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- List of recent workouts will be displayed here -->
+          <div class="workout-history-list mt-4">
+            <!-- This will be populated with actual workout data -->
           </div>
         </div>
       </div>

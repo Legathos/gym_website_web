@@ -57,27 +57,167 @@ $gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 1
   }
 }
 
-// Calendar placeholder styles
-.calendar-placeholder {
-  min-height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+// Calendar styles
+.calendar-container {
   border-radius: $border-radius-md;
-  background-color: rgba($tertiary-color, 0.3);
-  border: 2px dashed rgba($secondary-color, 0.3);
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
   transition: all $transition-speed ease;
 
-  p {
-    color: $primary-color;
-    font-size: 1.1rem;
-    font-weight: 500;
-    opacity: 0.8;
+  .calendar-header {
+    background-color: $light-bg;
+    border-radius: $border-radius-md;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .month-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    h4 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: $primary-color;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .month-indicator {
+      min-width: 200px;
+      margin: 0 30px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      width: 120px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        margin: 0 5px;
+        font-size: 0.9rem;
+      }
+
+      &:hover {
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
+    }
   }
 
-  &:hover {
-    background-color: rgba($tertiary-color, 0.4);
-    border-color: rgba($secondary-color, 0.4);
+  .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: $light-bg;
+    border-bottom: 1px solid rgba($secondary-color, 0.2);
+
+    .weekday {
+      padding: 10px 0;
+      text-align: center;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: $primary-color;
+    }
+  }
+
+  .calendar-grid {
+    padding: 10px;
+
+    .calendar-week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-bottom: 5px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .calendar-day {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: $border-radius-sm;
+        background-color: rgba($tertiary-color, 0.1);
+        transition: all $transition-speed ease;
+        cursor: pointer;
+        position: relative;
+
+        .date-number {
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: $primary-color;
+        }
+
+        &:hover {
+          background-color: rgba($tertiary-color, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        &.today {
+          background-color: $secondary-color;
+
+          .date-number {
+            color: white;
+          }
+
+          &:hover {
+            background-color: darken($secondary-color, 5%);
+          }
+        }
+
+        &.other-month {
+          background-color: rgba($tertiary-color, 0.05);
+
+          .date-number {
+            color: rgba($primary-color, 0.5);
+          }
+
+          &:hover {
+            background-color: rgba($tertiary-color, 0.15);
+          }
+        }
+
+        &.workout-day {
+          background-color: rgba(#28a745, 0.2);
+
+          .date-number {
+            color: #28a745;
+            font-weight: 600;
+          }
+
+          &:hover {
+            background-color: rgba(#28a745, 0.3);
+          }
+        }
+
+        &.no-workout-day {
+          background-color: rgba(#dc3545, 0.2);
+
+          .date-number {
+            color: #dc3545;
+            font-weight: 600;
+          }
+
+          &:hover {
+            background-color: rgba(#dc3545, 0.3);
+          }
+        }
+      }
+    }
   }
 }
 
@@ -116,12 +256,10 @@ $gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 1
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 
   &:active {
-    transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 }
@@ -138,12 +276,10 @@ $gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 1
   &:hover {
     background-color: rgba($secondary-color, 0.1);
     color: $secondary-color;
-    transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   }
 
   &:active {
-    transform: translateY(0);
     box-shadow: none;
   }
 }
@@ -192,8 +328,57 @@ h2 {
     }
   }
 
-  .calendar-placeholder {
-    min-height: 250px;
+  .calendar-container {
+    .calendar-header {
+      padding: 12px;
+      margin-bottom: 12px;
+
+      .month-navigation {
+        width: 100%;
+        justify-content: center;
+        padding: 0 15px;
+      }
+
+      h4 {
+        font-size: 1.1rem;
+      }
+
+      .month-indicator {
+        min-width: 160px;
+        margin: 0 20px;
+      }
+
+      .btn-primary {
+        width: 100px;
+        padding: 8px 12px;
+
+        i {
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .calendar-weekdays {
+      .weekday {
+        padding: 8px 0;
+        font-size: 0.8rem;
+      }
+    }
+
+    .calendar-grid {
+      padding: 8px;
+
+      .calendar-week {
+        gap: 4px;
+        margin-bottom: 4px;
+
+        .calendar-day {
+          .date-number {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
   }
 
   h2 {
@@ -223,11 +408,58 @@ h2 {
     }
   }
 
-  .calendar-placeholder {
-    min-height: 200px;
+  .calendar-container {
+    .calendar-header {
+      padding: 10px;
+      margin-bottom: 10px;
 
-    p {
-      font-size: 1rem;
+      .month-navigation {
+        width: 100%;
+        justify-content: center;
+        padding: 0 10px;
+      }
+
+      h4 {
+        font-size: 1rem;
+        text-align: center;
+      }
+
+      .month-indicator {
+        min-width: 120px;
+        margin: 0 15px;
+      }
+
+      .btn-primary {
+        width: 90px;
+        padding: 6px 10px;
+        font-size: 0.85rem;
+
+        i {
+          font-size: 0.75rem;
+        }
+      }
+    }
+
+    .calendar-weekdays {
+      .weekday {
+        padding: 6px 0;
+        font-size: 0.75rem;
+      }
+    }
+
+    .calendar-grid {
+      padding: 6px;
+
+      .calendar-week {
+        gap: 3px;
+        margin-bottom: 3px;
+
+        .calendar-day {
+          .date-number {
+            font-size: 0.75rem;
+          }
+        }
+      }
     }
   }
 

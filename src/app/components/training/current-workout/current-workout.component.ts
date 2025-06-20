@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { ExerciseData } from '@domain/workouts/model/exercise.model';
 import { SetTrackingData } from '@domain/workouts/model/set-tracking.model';
+import { forkJoin, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-current-workout',
@@ -18,68 +19,74 @@ export class CurrentWorkoutComponent implements OnInit {
   // Map to store sets for each exercise (key: exercise_id, value: array of sets)
   exerciseSets: Map<number, SetTrackingData[]> = new Map();
 
+  /**
+   * Constructor - initializes the component and subscribes to workout data
+   * @param router Angular router for navigation
+   * @param memberService Service for member-related operations
+   * @param workoutsService Service for workout-related operations
+   * @param dialog Material dialog service for displaying dialogs
+   */
   constructor(
     private router: Router,
     private memberService: MemberService,
     private workoutsService: WorkoutsService,
     private dialog: MatDialog
   ) {
-    // Subscribe to changes in the current workout exercises
+    // First subscribe to changes in the current workout sets
+    this.workoutsService.getCurrentWorkoutSets().subscribe(sets => {
+      this.exerciseSets = sets;
+    });
+
+    // Then subscribe to changes in the current workout exercises
     this.workoutsService.getCurrentWorkoutExercises().subscribe(exercises => {
       this.workoutExercises = exercises;
 
       // Initialize sets for new exercises and add a default set
       exercises.forEach(exercise => {
         if (exercise.id && !this.exerciseSets.has(exercise.id)) {
-          this.exerciseSets.set(exercise.id, []);
           // Add a default set for the new exercise
           this.addSet(exercise.id);
         }
       });
+    });
 
-      // Clean up sets for removed exercises
-      const exerciseIds = new Set(exercises.map(e => e.id));
-      for (const exerciseId of this.exerciseSets.keys()) {
-        if (!exerciseIds.has(exerciseId)) {
-          this.exerciseSets.delete(exerciseId);
-        }
-      }
+    // Subscribe to changes in the current workout name
+    this.workoutsService.getCurrentWorkoutName().subscribe(name => {
+      this.workoutName = name;
     });
   }
 
+  /**
+   * Angular lifecycle hook - called after component initialization
+   */
   ngOnInit(): void {
-    // Initialize component data
+    // Component is initialized in the constructor
   }
 
+  /**
+   * Navigates back to the workouts page
+   */
   goBack(): void {
     this.memberService.getUserId().subscribe(userId => {
       this.router.navigate(['/workouts', userId]);
     });
   }
 
-  finishWorkout(): void {
+  /**
+   * Validates if the workout can be finished
+   * @returns boolean indicating if the workout is valid
+   */
+  private validateWorkout(): boolean {
     // Check if workout name is provided
     if (!this.workoutName.trim()) {
-      this.dialog.open(DialogComponent, {
-        width: '350px',
-        data: {
-          question: 'Please enter a workout name before finishing.',
-          action: 'OK'
-        }
-      });
-      return;
+      this.showDialog('Please enter a workout name before finishing.');
+      return false;
     }
 
     // Check if there are any exercises in the workout
     if (this.workoutExercises.length === 0) {
-      this.dialog.open(DialogComponent, {
-        width: '350px',
-        data: {
-          question: 'Please add at least one exercise to your workout before finishing.',
-          action: 'OK'
-        }
-      });
-      return;
+      this.showDialog('Please add at least one exercise to your workout before finishing.');
+      return false;
     }
 
     // Check if there are any sets with actual data (non-zero reps and weight)
@@ -92,37 +99,151 @@ export class CurrentWorkoutComponent implements OnInit {
     }
 
     if (!hasValidSets) {
-      this.dialog.open(DialogComponent, {
-        width: '350px',
-        data: {
-          question: 'Please add at least one set with non-zero reps and weight before finishing.',
-          action: 'OK'
+      this.showDialog('Please add at least one set with non-zero reps and weight before finishing.');
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Shows a dialog with the given message
+   * @param message The message to display
+   * @param action The action button text (default: 'OK')
+   * @returns Observable of the dialog result
+   */
+  private showDialog(message: string, action: string = 'OK') {
+    return this.dialog.open(DialogComponent, {
+      width: '350px',
+      data: {
+        question: message,
+        action: action
+      }
+    });
+  }
+
+  /**
+   * Extracts the workout ID from the response
+   * @param response The response from the server
+   * @returns The workout ID
+   */
+  private extractWorkoutId(response: any): number {
+    // If response is a string (JSON), try to parse it
+    if (typeof response === 'string') {
+      try {
+        const parsedResponse = JSON.parse(response);
+
+        // Check for ID in various possible properties
+        if (parsedResponse.id !== undefined) {
+          return parsedResponse.id;
+        } else if (parsedResponse.workoutId !== undefined) {
+          return parsedResponse.workoutId;
+        } else if (parsedResponse.workout_id !== undefined) {
+          return parsedResponse.workout_id;
+        } else if (parsedResponse.data && parsedResponse.data.id !== undefined) {
+          return parsedResponse.data.id;
+        } else if (parsedResponse.body && parsedResponse.body.id !== undefined) {
+          return parsedResponse.body.id;
         }
-      });
+      } catch (e) {
+        // Error parsing response, fall through to object check
+      }
+    } else if (typeof response === 'object' && response !== null) {
+      // Check for ID in various possible properties of the object
+      if (response.id !== undefined) {
+        return response.id;
+      } else if (response.workoutId !== undefined) {
+        return response.workoutId;
+      } else if (response.workout_id !== undefined) {
+        return response.workout_id;
+      } else if (response.data && response.data.id !== undefined) {
+        return response.data.id;
+      } else if (response.body && response.body.id !== undefined) {
+        return response.body.id;
+      }
+    }
+
+    // If no ID found, throw an error
+    throw new Error('Could not extract workout ID from response');
+  }
+
+  /**
+   * Prepares sets for saving by filtering and renumbering them
+   * @param exerciseId The exercise ID
+   * @param sets The sets to prepare
+   * @param workoutId The workout ID
+   * @returns The prepared sets
+   */
+  private prepareSetsForSaving(exerciseId: number, sets: SetTrackingData[], workoutId: number): SetTrackingData[] {
+    // Filter out sets where both weight and reps are 0
+    const filteredSets = sets.filter(set => !(set.weight === 0 && set.reps === 0));
+
+    // Renumber sets for this exercise starting from 1
+    return filteredSets.map((set, index) => ({
+      ...set,
+      workout_id: workoutId,
+      set_id: index + 1
+    }));
+  }
+
+  /**
+   * Saves all sets for a workout
+   * @param workoutId The workout ID
+   * @returns Observable that completes when all sets are saved
+   */
+  private saveAllSets(workoutId: number): Observable<any[]> {
+    const setObservables: Observable<any>[] = [];
+
+    // Process each exercise's sets separately
+    for (const [exerciseId, sets] of this.exerciseSets.entries()) {
+      const preparedSets = this.prepareSetsForSaving(exerciseId, sets, workoutId);
+
+      // Create an observable for each set
+      for (const setData of preparedSets) {
+        setObservables.push(this.workoutsService.addSetTracking(setData));
+      }
+    }
+
+    // Return a forkJoin of all set observables
+    return forkJoin(setObservables);
+  }
+
+  /**
+   * Calculates the total weight for the workout
+   * @returns The total weight
+   */
+  private calculateTotalWeight(): number {
+    let totalWeight = 0;
+    for (const exerciseId of this.exerciseSets.keys()) {
+      const sets = this.exerciseSets.get(exerciseId) || [];
+      for (const set of sets) {
+        totalWeight += set.weight * set.reps;
+      }
+    }
+    return totalWeight;
+  }
+
+  /**
+   * Finishes the current workout
+   */
+  finishWorkout(): void {
+    // Validate the workout
+    if (!this.validateWorkout()) {
       return;
     }
 
     // Open confirmation dialog
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '350px',
-      data: {
-        question: 'Are you sure you want to finish this workout?',
-        action: 'Finish Workout'
-      }
-    });
+    const dialogRef = this.showDialog(
+      'Are you sure you want to finish this workout?',
+      'Finish Workout'
+    );
 
     // Handle dialog result
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.memberService.getUserId().subscribe(userId => {
-          // Calculate total weight and time (placeholder implementation)
-          let totalWeight = 0;
-          for (const exerciseId of this.exerciseSets.keys()) {
-            const sets = this.exerciseSets.get(exerciseId) || [];
-            for (const set of sets) {
-              totalWeight += set.weight * set.reps;
-            }
-          }
+          // Calculate total weight
+          const totalWeight = this.calculateTotalWeight();
 
           // Create workout data object
           const workoutData = {
@@ -131,157 +252,55 @@ export class CurrentWorkoutComponent implements OnInit {
             date: new Date(),
             total_weight: totalWeight,
             status: 'completed',
-            // Sets will be saved separately
           };
 
           // Call the service to save the workout
-          this.workoutsService.addWorkout(workoutData).subscribe(
-            response => {
-              console.log('Workout saved successfully:', response);
-              console.log('Response type:', typeof response);
+          this.workoutsService.addWorkout(workoutData).subscribe({
+            next: response => {
+              try {
+                // Extract the workout ID from the response
+                const workoutId = this.extractWorkoutId(response);
 
-              // Get the workout ID from the response
-              let workoutId: number | null = null;
+                // Save all sets
+                this.saveAllSets(workoutId).subscribe({
+                  next: () => {
+                    // Show success dialog
+                    const successDialogRef = this.showDialog('Workout and all sets completed successfully!');
 
-              // If response is a string (JSON), try to parse it
-              if (typeof response === 'string') {
-                try {
-                  const parsedResponse = JSON.parse(response);
-                  console.log('Parsed response:', parsedResponse);
-
-                  // Check for ID in various possible properties
-                  if (parsedResponse.id !== undefined) {
-                    workoutId = parsedResponse.id;
-                  } else if (parsedResponse.workoutId !== undefined) {
-                    workoutId = parsedResponse.workoutId;
-                  } else if (parsedResponse.workout_id !== undefined) {
-                    workoutId = parsedResponse.workout_id;
-                  } else if (parsedResponse.data && parsedResponse.data.id !== undefined) {
-                    workoutId = parsedResponse.data.id;
-                  } else if (parsedResponse.body && parsedResponse.body.id !== undefined) {
-                    workoutId = parsedResponse.body.id;
+                    // Navigate to workouts page after dialog is closed
+                    successDialogRef.afterClosed().subscribe(() => {
+                      // Clear the current workout exercises
+                      this.workoutsService.clearCurrentWorkoutExercises();
+                      this.router.navigate(['/workouts', userId]);
+                    });
+                  },
+                  error: () => {
+                    this.showDialog('Workout saved but there was an error saving some sets. Please try again.');
                   }
-
-                  console.log('Parsed workoutId:', workoutId);
-                } catch (e) {
-                  console.error('Error parsing response:', e);
-                }
-              } else if (typeof response === 'object' && response !== null) {
-                // Check for ID in various possible properties of the object
-                if (response.id !== undefined) {
-                  workoutId = response.id;
-                } else if (response.workoutId !== undefined) {
-                  workoutId = response.workoutId;
-                } else if (response.workout_id !== undefined) {
-                  workoutId = response.workout_id;
-                } else if (response.data && response.data.id !== undefined) {
-                  workoutId = response.data.id;
-                } else if (response.body && response.body.id !== undefined) {
-                  workoutId = response.body.id;
-                }
-
-                console.log('Object workoutId:', workoutId);
-              }
-
-              // Check if workoutId is null or undefined
-              if (workoutId === null || workoutId === undefined) {
-                console.error('Workout ID is null or undefined:', response);
-                console.log('Generating a local workout ID as fallback');
-
-                // Generate a unique ID as a fallback
-                // Using current timestamp + random number to ensure uniqueness
-                workoutId = Date.now() + Math.floor(Math.random() * 1000);
-                console.log('Generated local workout ID:', workoutId);
-              }
-
-              // Group sets by exercise_id and ensure set_id starts from 1 for each exercise
-              const setPromises: Promise<any>[] = [];
-
-              // Process each exercise's sets separately
-              for (const [exerciseId, sets] of this.exerciseSets.entries()) {
-                // Renumber sets for this exercise starting from 1
-                const renumberedSets = sets.map((set, index) => ({
-                  ...set,
-                  workout_id: workoutId as number, // Type assertion to ensure workout_id is a number
-                  set_id: index + 1
-                }));
-
-                // Save each renumbered set
-                renumberedSets.forEach(setWithWorkoutId => {
-                  // Create a promise for each set save operation
-                  const setPromise = new Promise<any>((resolve, reject) => {
-                    this.workoutsService.addSetTracking(setWithWorkoutId).subscribe(
-                      setResponse => {
-                        console.log('Set saved successfully:', setResponse);
-                        resolve(setResponse);
-                      },
-                      error => {
-                        console.error('Error saving set:', error);
-                        reject(error);
-                      }
-                    );
-                  });
-
-                  setPromises.push(setPromise);
                 });
+              } catch (error) {
+                this.showDialog('Error processing workout response. Please try again.');
               }
-
-              // Wait for all sets to be saved
-              Promise.all(setPromises)
-                .then(() => {
-                  // Show success dialog
-                  const successDialogRef = this.dialog.open(DialogComponent, {
-                    width: '350px',
-                    data: {
-                      question: 'Workout and all sets completed successfully!',
-                      action: 'OK'
-                    }
-                  });
-
-                  // Navigate to workouts page after dialog is closed
-                  successDialogRef.afterClosed().subscribe(() => {
-                    // Clear the current workout exercises
-                    this.workoutsService.clearCurrentWorkoutExercises();
-                    this.router.navigate(['/workouts', userId]);
-                  });
-                })
-                .catch(error => {
-                  console.error('Error saving sets:', error);
-                  this.dialog.open(DialogComponent, {
-                    width: '350px',
-                    data: {
-                      question: 'Workout saved but there was an error saving some sets. Please try again.',
-                      action: 'OK'
-                    }
-                  });
-                });
             },
-            error => {
-              console.error('Error saving workout:', error);
-              // Show error dialog instead of alert
-              this.dialog.open(DialogComponent, {
-                width: '350px',
-                data: {
-                  question: 'Error saving workout. Please try again.',
-                  action: 'OK'
-                }
-              });
+            error: () => {
+              // Show error dialog
+              this.showDialog('Error saving workout. Please try again.');
             }
-          );
+          });
         });
       }
     });
   }
 
+  /**
+   * Cancels the current workout
+   */
   cancelWorkout(): void {
     // Open confirmation dialog
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '350px',
-      data: {
-        question: 'Are you sure you want to cancel this workout? All progress will be lost.',
-        action: 'Cancel Workout'
-      }
-    });
+    const dialogRef = this.showDialog(
+      'Are you sure you want to cancel this workout? All progress will be lost.',
+      'Cancel Workout'
+    );
 
     // Handle dialog result
     dialogRef.afterClosed().subscribe(result => {
@@ -296,6 +315,9 @@ export class CurrentWorkoutComponent implements OnInit {
     });
   }
 
+  /**
+   * Navigates to the exercise library to add an exercise to the current workout
+   */
   addExercise(): void {
     // Navigate to exercise library to select an exercise
     // Pass a query parameter to indicate that we're coming from the current workout
@@ -304,37 +326,36 @@ export class CurrentWorkoutComponent implements OnInit {
     });
   }
 
+  /**
+   * Removes an exercise from the current workout
+   * @param exercise The exercise to remove
+   */
   removeExercise(exercise: ExerciseData): void {
     if (!exercise.id) {
-      console.error('Cannot remove exercise without ID');
+      this.showDialog('Cannot remove exercise without ID');
       return;
     }
 
     // Open confirmation dialog
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '350px',
-      data: {
-        question: `Are you sure you want to remove "${exercise.name}" from this workout?`,
-        action: 'Remove'
-      }
-    });
+    const dialogRef = this.showDialog(
+      `Are you sure you want to remove "${exercise.name}" from this workout?`,
+      'Remove'
+    );
 
     // Handle dialog result
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        // The service will handle removing the exercise and its sets
         this.workoutsService.removeExerciseFromCurrentWorkout(exercise.id);
-        // Also remove any sets associated with this exercise
-        this.exerciseSets.delete(exercise.id);
       }
     });
   }
 
-  // Method to add a new set to an exercise
+  /**
+   * Adds a new set to an exercise
+   * @param exerciseId The ID of the exercise to add a set to
+   */
   addSet(exerciseId: number): void {
-    if (!this.exerciseSets.has(exerciseId)) {
-      this.exerciseSets.set(exerciseId, []);
-    }
-
     const sets = this.exerciseSets.get(exerciseId) || [];
     const newSetId = sets.length > 0 ? Math.max(...sets.map(s => s.set_id)) + 1 : 1;
 
@@ -346,37 +367,41 @@ export class CurrentWorkoutComponent implements OnInit {
       weight: 0
     };
 
-    sets.push(newSet);
-    this.exerciseSets.set(exerciseId, sets);
-    this.renumberSets(exerciseId);
+    // Use the service to add the set
+    // The service will handle renumbering the sets
+    this.workoutsService.addSetToCurrentWorkout(exerciseId, newSet);
   }
 
-  // Method to update a set's weight or reps
+  /**
+   * Updates a set's weight or reps
+   * @param exerciseId The ID of the exercise the set belongs to
+   * @param setId The ID of the set to update
+   * @param field The field to update ('weight' or 'reps')
+   * @param value The new value for the field
+   */
   updateSet(exerciseId: number, setId: number, field: 'weight' | 'reps', value: number): void {
-    const sets = this.exerciseSets.get(exerciseId) || [];
-    const setIndex = sets.findIndex(s => s.set_id === setId);
-
-    if (setIndex !== -1) {
-      sets[setIndex][field] = value;
-      this.exerciseSets.set(exerciseId, sets);
-    }
+    // Use the service to update the set field
+    this.workoutsService.updateSetField(exerciseId, setId, field, value);
   }
 
-  // Method to delete a set from an exercise
+  /**
+   * Deletes a set from an exercise
+   * @param exerciseId The ID of the exercise the set belongs to
+   * @param setId The ID of the set to delete
+   */
   deleteSet(exerciseId: number, setId: number): void {
-    const sets = this.exerciseSets.get(exerciseId) || [];
-    const updatedSets = sets.filter(s => s.set_id !== setId);
-    this.exerciseSets.set(exerciseId, updatedSets);
-    this.renumberSets(exerciseId);
+    // Use the service to remove the set
+    // The service will handle renumbering the sets
+    this.workoutsService.removeSetFromCurrentWorkout(exerciseId, setId);
   }
 
-  // Method to renumber sets after deletion
-  renumberSets(exerciseId: number): void {
-    const sets = this.exerciseSets.get(exerciseId) || [];
-    const renumberedSets = sets.map((set, index) => ({
-      ...set,
-      set_id: index + 1
-    }));
-    this.exerciseSets.set(exerciseId, renumberedSets);
+  /**
+   * Updates the workout name
+   * @param name The new workout name
+   */
+  updateWorkoutName(name: string): void {
+    // Use the service to update the workout name
+    this.workoutsService.setCurrentWorkoutName(name);
   }
+
 }

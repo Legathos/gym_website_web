@@ -2,6 +2,7 @@ const apiUrl = 'http://localhost:8080/';
 
 export const EndpointDictionary = {
   addExercise:`${apiUrl}exercises/add-exercise`,
+  getMonthlyWorkouts:`${apiUrl}workouts/get-monthly-workouts`,
   addFoodItem:`${apiUrl}food/add-food-item`,
   addNewLog:`${apiUrl}logger/add-new-log`,
   addSetTracking:`${apiUrl}set-tracking/add-set`,
