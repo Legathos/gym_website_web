@@ -42,6 +42,8 @@
                 <div *ngFor="let date of week"
                      [class.other-month]="!isCurrentMonth(date)"
                      [class.today]="isToday(date)"
+                     [class.workout-day]="hasWorkout(date)"
+                     [class.no-workout-day]="hasNoWorkout(date)"
                      class="calendar-day">
                   <div class="date-number">{{ date.day }}</div>
                 </div>

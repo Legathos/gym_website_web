@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { WorkoutsService } from '@domain/workouts/services/workouts.service';
 import { MemberService } from '@domain/member';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { MonthlyWorkoutsData } from '@domain/workouts/model/monthly-workouts.model';
 
 @Component({
   selector: 'app-workouts',
@@ -20,6 +21,10 @@ export class WorkoutsComponent implements OnInit {
   displayedMonth: number = 0;
   displayedYear: number = 0;
 
+  // Workout data
+  monthlyWorkouts: MonthlyWorkoutsData | null = null;
+  userId: number | null = null;
+
   constructor(
     private workoutsService: WorkoutsService,
     private memberService: MemberService,
@@ -30,14 +35,36 @@ export class WorkoutsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadExerciseCount();
+    // Get the user ID first
+    this.memberService.getUserId().subscribe(userId => {
+      this.userId = userId;
+      this.loadExerciseCount();
 
-    // Initialize displayed month and year to current month and year
-    const today = this.calendar.getToday();
-    this.displayedMonth = today.month;
-    this.displayedYear = today.year;
+      // Initialize displayed month and year to current month and year
+      const today = this.calendar.getToday();
+      this.displayedMonth = today.month;
+      this.displayedYear = today.year;
 
-    this.generateCalendar();
+      this.generateCalendar();
+    });
+  }
+
+  /**
+   * Loads workout data for the displayed month
+   */
+  loadMonthlyWorkouts(): void {
+    if (this.userId) {
+      this.workoutsService.getWorkoutsByMonth(this.userId, this.displayedYear, this.displayedMonth)
+        .subscribe({
+          next: (data) => {
+            this.monthlyWorkouts = data;
+          },
+          error: (error) => {
+            console.error('Error loading monthly workouts:', error);
+            this.monthlyWorkouts = null;
+          }
+        });
+    }
   }
 
   /**
@@ -77,6 +104,9 @@ export class WorkoutsComponent implements OnInit {
       }
       this.calendarWeeks.push(weekDates);
     }
+
+    // Load workout data for the displayed month
+    this.loadMonthlyWorkouts();
   }
 
   /**
@@ -99,9 +129,37 @@ export class WorkoutsComponent implements OnInit {
     return date.month === this.displayedMonth;
   }
 
+  /**
+   * Checks if a date has a workout
+   * @param date The date to check
+   * @returns True if the date has a workout, false otherwise
+   */
+  hasWorkout(date: NgbDate): boolean {
+    if (!this.monthlyWorkouts || !this.isCurrentMonth(date)) {
+      return false;
+    }
+
+    const dayStr = date.day.toString();
+    return this.monthlyWorkouts.dailyWorkouts[dayStr] !== null;
+  }
+
+  /**
+   * Checks if a date has no workout (only for current month)
+   * @param date The date to check
+   * @returns True if the date has no workout, false otherwise
+   */
+  hasNoWorkout(date: NgbDate): boolean {
+    if (!this.monthlyWorkouts || !this.isCurrentMonth(date)) {
+      return false;
+    }
+
+    const dayStr = date.day.toString();
+    return this.monthlyWorkouts.dailyWorkouts[dayStr] === null;
+  }
+
   loadExerciseCount(): void {
-    this.memberService.getUserId().subscribe(userId => {
-      this.workoutsService.getExercisesByUserId(userId).subscribe({
+    if (this.userId) {
+      this.workoutsService.getExercisesByUserId(this.userId).subscribe({
         next: (exercises) => {
           this.exerciseCount = exercises.length;
         },
@@ -110,13 +168,13 @@ export class WorkoutsComponent implements OnInit {
           this.exerciseCount = 0;
         }
       });
-    });
+    }
   }
 
   startNewWorkout(): void {
-    this.memberService.getUserId().subscribe(userId => {
-      this.router.navigate(['/current-workout', userId]);
-    });
+    if (this.userId) {
+      this.router.navigate(['/current-workout', this.userId]);
+    }
   }
 
   /**

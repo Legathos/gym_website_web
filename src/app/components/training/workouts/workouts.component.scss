@@ -190,6 +190,32 @@ $gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 1
             background-color: rgba($tertiary-color, 0.15);
           }
         }
+
+        &.workout-day {
+          background-color: rgba(#28a745, 0.2);
+
+          .date-number {
+            color: #28a745;
+            font-weight: 600;
+          }
+
+          &:hover {
+            background-color: rgba(#28a745, 0.3);
+          }
+        }
+
+        &.no-workout-day {
+          background-color: rgba(#dc3545, 0.2);
+
+          .date-number {
+            color: #dc3545;
+            font-weight: 600;
+          }
+
+          &:hover {
+            background-color: rgba(#dc3545, 0.3);
+          }
+        }
       }
     }
   }

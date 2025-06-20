@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, tap, switchMap } from 'rxjs';
 import { EndpointDictionary } from '../../../../environments/endpoint-dictionary';
 import { MemberService } from '@domain/member';
 import {WorkoutsData} from "@domain/workouts";
+import { MonthlyWorkoutsData } from '@domain/workouts/model/monthly-workouts.model';
 
 @Injectable({
   providedIn: 'root'
@@ -400,5 +401,18 @@ export class WorkoutsService {
    */
   addSetTracking(setTrackingDto: SetTrackingData): Observable<any> {
     return this.httpClient.post<any>(EndpointDictionary.addSetTracking, setTrackingDto);
+  }
+
+  /**
+   * Gets workouts for a specific month
+   * @param userId The ID of the user
+   * @param year The year
+   * @param month The month (1-12)
+   * @returns Observable with the monthly workouts data
+   */
+  getWorkoutsByMonth(userId: number, year: number, month: number): Observable<MonthlyWorkoutsData> {
+    return this.httpClient.get<MonthlyWorkoutsData>(
+      `${EndpointDictionary.getMonthlyWorkouts}?userId=${userId}&year=${year}&month=${month}`
+    );
   }
 }
