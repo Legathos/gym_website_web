@@ -139,6 +139,11 @@ export class WorkoutsComponent implements OnInit {
       return false;
     }
 
+    // Only apply workout-day class to days up to and including today
+    if (date.after(this.today)) {
+      return false;
+    }
+
     const dayStr = date.day.toString();
     return this.monthlyWorkouts.dailyWorkouts[dayStr] !== null;
   }
@@ -150,6 +155,11 @@ export class WorkoutsComponent implements OnInit {
    */
   hasNoWorkout(date: NgbDate): boolean {
     if (!this.monthlyWorkouts || !this.isCurrentMonth(date)) {
+      return false;
+    }
+
+    // Only apply no-workout-day class to days up to and including today
+    if (date.after(this.today)) {
       return false;
     }
 
