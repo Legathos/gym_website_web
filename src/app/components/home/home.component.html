@@ -3,9 +3,6 @@
 </div>
 
 <div class="top-row">
-  <div class="square-box donut-chart-container">
-    <canvas id="macros-chart"></canvas>
-  </div>
   <div class="square-box">
     <div class="inner-box">
       <div class="macro-value">Calories (kcal) {{this.calories  | number:'1.1-1' }}</div>
@@ -20,6 +17,9 @@
       <div class="macro-value fats-value">Fats (g) {{ this.fats | number:'1.1-1' }}</div>
     </div>
   </div>
+  <div class="square-box donut-chart-container">
+    <canvas id="macros-chart"></canvas>
+  </div>
 </div>
 
   <div class="profile-card">
@@ -30,9 +30,9 @@
   </div>
 
   <!-- Calories History Chart -->
-  <div class="profile-card mt-4">
+  <div class="profile-card mt-3">
     <h2 class="card-title">Calories Intake History</h2>
-    <div class="history-chart-container" style="height: 200px; position: relative;">
+    <div class="history-chart-container" style="height: 180px; position: relative;">
       <!-- Loading spinner -->
       <div *ngIf="isCaloriesLoading" class="chart-loading-overlay">
         <div class="spinner-border text-primary" role="status">
@@ -42,14 +42,14 @@
       <canvas #caloriesHistoryChart></canvas>
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <div class="period-selector btn-group" role="group" aria-label="Calories period selection">
-        <button *ngFor="let option of periodOptions"
-                type="button"
-                class="btn btn-sm"
-                [class.btn-primary]="caloriesSelectedPeriod === option.days"
+      <div aria-label="Calories period selection" class="period-selector btn-group" role="group">
+        <button (click)="changePeriod(option.days, 'calories')"
+                *ngFor="let option of periodOptions"
                 [class.btn-outline-primary]="caloriesSelectedPeriod !== option.days"
+                [class.btn-primary]="caloriesSelectedPeriod === option.days"
                 [disabled]="isCaloriesLoading"
-                (click)="changePeriod(option.days, 'calories')">
+                class="btn btn-sm"
+                type="button">
           {{ option.label }}
         </button>
       </div>
@@ -57,9 +57,9 @@
   </div>
 
   <!-- Protein History Chart -->
-  <div class="profile-card mt-4">
+  <div class="profile-card mt-3">
     <h2 class="card-title">Protein Intake History</h2>
-    <div class="history-chart-container" style="height: 200px; position: relative;">
+    <div class="history-chart-container" style="height: 180px; position: relative;">
       <!-- Loading spinner -->
       <div *ngIf="isProteinLoading" class="chart-loading-overlay">
         <div class="spinner-border text-primary" role="status">
@@ -69,14 +69,14 @@
       <canvas #proteinHistoryChart></canvas>
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <div class="period-selector btn-group" role="group" aria-label="Protein period selection">
-        <button *ngFor="let option of periodOptions"
-                type="button"
-                class="btn btn-sm"
-                [class.btn-primary]="proteinSelectedPeriod === option.days"
+      <div aria-label="Protein period selection" class="period-selector btn-group" role="group">
+        <button (click)="changePeriod(option.days, 'protein')"
+                *ngFor="let option of periodOptions"
                 [class.btn-outline-primary]="proteinSelectedPeriod !== option.days"
+                [class.btn-primary]="proteinSelectedPeriod === option.days"
                 [disabled]="isProteinLoading"
-                (click)="changePeriod(option.days, 'protein')">
+                class="btn btn-sm"
+                type="button">
           {{ option.label }}
         </button>
       </div>
@@ -84,9 +84,9 @@
   </div>
 
   <!-- Carbs History Chart -->
-  <div class="profile-card mt-4">
+  <div class="profile-card mt-3">
     <h2 class="card-title">Carbs Intake History</h2>
-    <div class="history-chart-container" style="height: 200px; position: relative;">
+    <div class="history-chart-container" style="height: 180px; position: relative;">
       <!-- Loading spinner -->
       <div *ngIf="isCarbsLoading" class="chart-loading-overlay">
         <div class="spinner-border text-primary" role="status">
@@ -96,14 +96,14 @@
       <canvas #carbsHistoryChart></canvas>
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <div class="period-selector btn-group" role="group" aria-label="Carbs period selection">
-        <button *ngFor="let option of periodOptions"
-                type="button"
-                class="btn btn-sm"
-                [class.btn-primary]="carbsSelectedPeriod === option.days"
+      <div aria-label="Carbs period selection" class="period-selector btn-group" role="group">
+        <button (click)="changePeriod(option.days, 'carbs')"
+                *ngFor="let option of periodOptions"
                 [class.btn-outline-primary]="carbsSelectedPeriod !== option.days"
+                [class.btn-primary]="carbsSelectedPeriod === option.days"
                 [disabled]="isCarbsLoading"
-                (click)="changePeriod(option.days, 'carbs')">
+                class="btn btn-sm"
+                type="button">
           {{ option.label }}
         </button>
       </div>
@@ -111,9 +111,9 @@
   </div>
 
   <!-- Fat History Chart -->
-  <div class="profile-card mt-4">
+  <div class="profile-card mt-3">
     <h2 class="card-title">Fat Intake History</h2>
-    <div class="history-chart-container" style="height: 200px; position: relative;">
+    <div class="history-chart-container" style="height: 180px; position: relative;">
       <!-- Loading spinner -->
       <div *ngIf="isFatLoading" class="chart-loading-overlay">
         <div class="spinner-border text-primary" role="status">
@@ -123,14 +123,14 @@
       <canvas #fatHistoryChart></canvas>
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <div class="period-selector btn-group" role="group" aria-label="Fat period selection">
-        <button *ngFor="let option of periodOptions"
-                type="button"
-                class="btn btn-sm"
-                [class.btn-primary]="fatSelectedPeriod === option.days"
+      <div aria-label="Fat period selection" class="period-selector btn-group" role="group">
+        <button (click)="changePeriod(option.days, 'fat')"
+                *ngFor="let option of periodOptions"
                 [class.btn-outline-primary]="fatSelectedPeriod !== option.days"
+                [class.btn-primary]="fatSelectedPeriod === option.days"
                 [disabled]="isFatLoading"
-                (click)="changePeriod(option.days, 'fat')">
+                class="btn btn-sm"
+                type="button">
           {{ option.label }}
         </button>
       </div>

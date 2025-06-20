@@ -448,6 +448,9 @@ export class FoodService {
     // Check if there's any food data
     const hasData = protein > 0 || carbs > 0 || fats > 0;
 
+    // Set default options to ensure legends are hidden
+    Chart.defaults.plugins.legend.display = false;
+
     const data = {
       labels: [
         'Protein',
@@ -479,6 +482,17 @@ export class FoodService {
             plugins: {
               legend: {
                 display: false
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    // Get the original gram values instead of caloric values
+                    const labels = ['Protein', 'Carbs', 'Fats'];
+                    const values = [protein, carbs, fats];
+                    const index = context.dataIndex;
+                    return `${labels[index]}: ${values[index].toFixed(1)}g`;
+                  }
+                }
               }
             }
           }
