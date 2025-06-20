@@ -1,7 +1,15 @@
 /* Add your custom styles as needed */
+// Color variables
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
 
 .container {
   margin-top: 20px;
+  background-color: $background-color;
 }
 
 
@@ -10,6 +18,16 @@
 }
 
 /* Customize card styling as needed */
+.card {
+  background-color: $light-color;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  }
+}
+
 .card-body {
   text-align: left;
 }
