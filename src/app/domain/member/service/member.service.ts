@@ -56,7 +56,7 @@ export class MemberService {
           labels: data.map(row => row.date.toString().slice(0, 10)),
           datasets: [
             {
-              label: 'Weight (kg)',
+              label: 'Weight (Kg)',
               data: data.map(row => row.weight),
               backgroundColor: 'rgba(37, 106, 122, 0.2)', // secondary-color with transparency
               borderColor: '#256A7A', // secondary-color
@@ -77,7 +77,7 @@ export class MemberService {
           maintainAspectRatio: false,
           plugins: {
             legend: {
-              display: true,
+              display: false,
               position: 'top',
               labels: {
                 font: {
@@ -102,7 +102,7 @@ export class MemberService {
               displayColors: false,
               callbacks: {
                 label: function(context) {
-                  return `Weight: ${context.parsed.y} kg`;
+                  return `Weight: ${context.parsed.y} Kg`;
                 }
               }
             }
@@ -119,7 +119,7 @@ export class MemberService {
                 }
               },
               title: {
-                display: true,
+                display: false,
                 text: 'Date',
                 color: '#1E314A', // primary-color
                 font: {
@@ -141,7 +141,7 @@ export class MemberService {
               },
               title: {
                 display: true,
-                text: 'Weight (kg)',
+                text: 'Weight (Kg)',
                 color: '#1E314A', // primary-color
                 font: {
                   family: 'Arial, sans-serif',

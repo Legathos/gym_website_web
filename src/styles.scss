@@ -1,12 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-$primary-color:#1E314A;
-$secondarycolor:#256A7A;
-$tertiary-color:#C5E4E9;
-$accent-color:#BB8A2E;
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
 
 // Import Bootstrap and Bootstrap Icons
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: $secondary-color;
+}

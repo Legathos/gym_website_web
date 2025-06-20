@@ -9,6 +9,9 @@ import { Chart, registerables } from 'chart.js';
 // Register all Chart.js components
 Chart.register(...registerables);
 
+// Set global default to hide legends for all charts
+Chart.defaults.plugins.legend.display = false;
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -324,6 +327,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    // Set default options to ensure legends are hidden
+    Chart.defaults.plugins.legend.display = false;
+
     // Format dates for display based on the selected period
     // Check if data spans multiple years for longer periods
     let spansMultipleYears = false;
@@ -401,12 +407,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
             ticks: {
               font: {
                 family: "'Roboto', sans-serif",
-                size: 12
+                size: 14,
+                weight: 'bold'
               },
-              color: 'rgba(100, 100, 100, 0.8)'
+              color: 'rgba(50, 50, 50, 1)'
             },
             title: {
-              display: true,
+              display: false,
               text: 'Calories (kcal)',
               font: {
                 family: "'Roboto', sans-serif",
@@ -423,18 +430,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
             ticks: {
               font: {
                 family: "'Roboto', sans-serif",
-                size: 12
+                size: this.caloriesSelectedPeriod === 7 ? 10 : 14,
+                weight: 'bold'
               },
-              color: 'rgba(100, 100, 100, 0.8)',
+              color: 'rgba(50, 50, 50, 1)',
               maxRotation: 45,
               minRotation: 0,
-              autoSkip: true,
+              autoSkip: this.caloriesSelectedPeriod !== 7,
               autoSkipPadding: 10,
               // For longer periods, limit the number of ticks to avoid overcrowding
-              maxTicksLimit: this.caloriesSelectedPeriod > 90 ? 12 : (this.caloriesSelectedPeriod > 30 ? 15 : undefined)
+              // For weekly view, show all days
+              // For 2 weeks and more, show at most 4 dates
+              maxTicksLimit: this.caloriesSelectedPeriod >= 14 ? 4 : undefined
             },
             title: {
-              display: true,
+              display: false,
               text: 'Date',
               font: {
                 family: "'Roboto', sans-serif",
@@ -463,29 +473,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
             display: false
           },
           tooltip: {
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            titleColor: 'rgba(60, 60, 60, 1)',
-            bodyColor: 'rgba(60, 60, 60, 1)',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            titleColor: 'rgba(30, 30, 30, 1)',
+            bodyColor: 'rgba(30, 30, 30, 1)',
             titleFont: {
               family: "'Roboto', sans-serif",
-              size: 14,
+              size: 16,
               weight: 'bold'
             },
             bodyFont: {
               family: "'Roboto', sans-serif",
-              size: 13
+              size: 15,
+              weight: 'bold'
             },
-            padding: 12,
-            boxPadding: 6,
-            borderColor: 'rgba(200, 200, 200, 0.5)',
-            borderWidth: 1,
+            padding: 14,
+            boxPadding: 8,
+            borderColor: 'rgba(100, 100, 100, 0.5)',
+            borderWidth: 2,
             displayColors: false,
             callbacks: {
               title: (tooltipItems) => {
                 return `${tooltipItems[0].label}`;
               },
               label: (context) => {
-                return `Calories: ${context.parsed.y} kcal`;
+                return `Calories: ${context.parsed.y.toFixed(1)} kcal`;
               }
             }
           }
@@ -509,6 +520,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       console.warn('Protein history chart canvas not found');
       return;
     }
+
+    // Set default options to ensure legends are hidden
+    Chart.defaults.plugins.legend.display = false;
 
     // Format dates for display based on the selected period
     // Check if data spans multiple years for longer periods
@@ -587,12 +601,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
             ticks: {
               font: {
                 family: "'Roboto', sans-serif",
-                size: 12
+                size: 14,
+                weight: 'bold'
               },
-              color: 'rgba(100, 100, 100, 0.8)'
+              color: 'rgba(50, 50, 50, 1)'
             },
             title: {
-              display: true,
+              display: false,
               text: 'Protein (g)',
               font: {
                 family: "'Roboto', sans-serif",
@@ -609,18 +624,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
             ticks: {
               font: {
                 family: "'Roboto', sans-serif",
-                size: 12
+                size: this.proteinSelectedPeriod === 7 ? 10 : 14,
+                weight: 'bold'
               },
-              color: 'rgba(100, 100, 100, 0.8)',
+              color: 'rgba(50, 50, 50, 1)',
               maxRotation: 45,
               minRotation: 0,
-              autoSkip: true,
+              autoSkip: this.proteinSelectedPeriod !== 7,
               autoSkipPadding: 10,
               // For longer periods, limit the number of ticks to avoid overcrowding
-              maxTicksLimit: this.proteinSelectedPeriod > 90 ? 12 : (this.proteinSelectedPeriod > 30 ? 15 : undefined)
+              // For weekly view, show all days
+              // For 2 weeks and more, show at most 4 dates
+              maxTicksLimit: this.proteinSelectedPeriod >= 14 ? 4 : undefined
             },
             title: {
-              display: true,
+              display: false,
               text: 'Date',
               font: {
                 family: "'Roboto', sans-serif",
@@ -649,29 +667,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
             display: false
           },
           tooltip: {
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            titleColor: 'rgba(60, 60, 60, 1)',
-            bodyColor: 'rgba(60, 60, 60, 1)',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            titleColor: 'rgba(30, 30, 30, 1)',
+            bodyColor: 'rgba(30, 30, 30, 1)',
             titleFont: {
               family: "'Roboto', sans-serif",
-              size: 14,
+              size: 16,
               weight: 'bold'
             },
             bodyFont: {
               family: "'Roboto', sans-serif",
-              size: 13
+              size: 15,
+              weight: 'bold'
             },
-            padding: 12,
-            boxPadding: 6,
-            borderColor: 'rgba(200, 200, 200, 0.5)',
-            borderWidth: 1,
+            padding: 14,
+            boxPadding: 8,
+            borderColor: 'rgba(100, 100, 100, 0.5)',
+            borderWidth: 2,
             displayColors: false,
             callbacks: {
               title: (tooltipItems) => {
                 return `${tooltipItems[0].label}`;
               },
               label: (context) => {
-                return `Protein: ${context.parsed.y}g`;
+                return `Protein: ${context.parsed.y.toFixed(1)}g`;
               }
             }
           }
@@ -695,6 +714,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       console.warn('Carbs history chart canvas not found');
       return;
     }
+
+    // Set default options to ensure legends are hidden
+    Chart.defaults.plugins.legend.display = false;
 
     // Format dates for display based on the selected period
     // Check if data spans multiple years for longer periods
@@ -773,12 +795,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
             ticks: {
               font: {
                 family: "'Roboto', sans-serif",
-                size: 12
+                size: 14,
+                weight: 'bold'
               },
-              color: 'rgba(100, 100, 100, 0.8)'
+              color: 'rgba(50, 50, 50, 1)'
             },
             title: {
-              display: true,
+              display: false,
               text: 'Carbs (g)',
               font: {
                 family: "'Roboto', sans-serif",
@@ -795,18 +818,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
             ticks: {
               font: {
                 family: "'Roboto', sans-serif",
-                size: 12
+                size: this.carbsSelectedPeriod === 7 ? 10 : 14,
+                weight: 'bold'
               },
-              color: 'rgba(100, 100, 100, 0.8)',
+              color: 'rgba(50, 50, 50, 1)',
               maxRotation: 45,
               minRotation: 0,
-              autoSkip: true,
+              autoSkip: this.carbsSelectedPeriod !== 7,
               autoSkipPadding: 10,
               // For longer periods, limit the number of ticks to avoid overcrowding
-              maxTicksLimit: this.carbsSelectedPeriod > 90 ? 12 : (this.carbsSelectedPeriod > 30 ? 15 : undefined)
+              // For weekly view, show all days
+              // For 2 weeks and more, show at most 4 dates
+              maxTicksLimit: this.carbsSelectedPeriod >= 14 ? 4 : undefined
             },
             title: {
-              display: true,
+              display: false,
               text: 'Date',
               font: {
                 family: "'Roboto', sans-serif",
@@ -835,29 +861,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
             display: false
           },
           tooltip: {
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            titleColor: 'rgba(60, 60, 60, 1)',
-            bodyColor: 'rgba(60, 60, 60, 1)',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            titleColor: 'rgba(30, 30, 30, 1)',
+            bodyColor: 'rgba(30, 30, 30, 1)',
             titleFont: {
               family: "'Roboto', sans-serif",
-              size: 14,
+              size: 16,
               weight: 'bold'
             },
             bodyFont: {
               family: "'Roboto', sans-serif",
-              size: 13
+              size: 15,
+              weight: 'bold'
             },
-            padding: 12,
-            boxPadding: 6,
-            borderColor: 'rgba(200, 200, 200, 0.5)',
-            borderWidth: 1,
+            padding: 14,
+            boxPadding: 8,
+            borderColor: 'rgba(100, 100, 100, 0.5)',
+            borderWidth: 2,
             displayColors: false,
             callbacks: {
               title: (tooltipItems) => {
                 return `${tooltipItems[0].label}`;
               },
               label: (context) => {
-                return `Carbs: ${context.parsed.y}g`;
+                return `Carbs: ${context.parsed.y.toFixed(1)}g`;
               }
             }
           }
@@ -881,6 +908,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       console.warn('Fat history chart canvas not found');
       return;
     }
+
+    // Set default options to ensure legends are hidden
+    Chart.defaults.plugins.legend.display = false;
 
     // Format dates for display based on the selected period
     // Check if data spans multiple years for longer periods
@@ -959,12 +989,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
             ticks: {
               font: {
                 family: "'Roboto', sans-serif",
-                size: 12
+                size: 14,
+                weight: 'bold'
               },
-              color: 'rgba(100, 100, 100, 0.8)'
+              color: 'rgba(50, 50, 50, 1)'
             },
             title: {
-              display: true,
+              display: false,
               text: 'Fat (g)',
               font: {
                 family: "'Roboto', sans-serif",
@@ -981,18 +1012,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
             ticks: {
               font: {
                 family: "'Roboto', sans-serif",
-                size: 12
+                size: this.fatSelectedPeriod === 7 ? 10 : 14,
+                weight: 'bold'
               },
-              color: 'rgba(100, 100, 100, 0.8)',
+              color: 'rgba(50, 50, 50, 1)',
               maxRotation: 45,
               minRotation: 0,
-              autoSkip: true,
+              autoSkip: this.fatSelectedPeriod !== 7,
               autoSkipPadding: 10,
               // For longer periods, limit the number of ticks to avoid overcrowding
-              maxTicksLimit: this.fatSelectedPeriod > 90 ? 12 : (this.fatSelectedPeriod > 30 ? 15 : undefined)
+              // For weekly view, show all days
+              // For 2 weeks and more, show at most 4 dates
+              maxTicksLimit: this.fatSelectedPeriod >= 14 ? 4 : undefined
             },
             title: {
-              display: true,
+              display: false,
               text: 'Date',
               font: {
                 family: "'Roboto', sans-serif",
@@ -1021,29 +1055,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
             display: false
           },
           tooltip: {
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            titleColor: 'rgba(60, 60, 60, 1)',
-            bodyColor: 'rgba(60, 60, 60, 1)',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            titleColor: 'rgba(30, 30, 30, 1)',
+            bodyColor: 'rgba(30, 30, 30, 1)',
             titleFont: {
               family: "'Roboto', sans-serif",
-              size: 14,
+              size: 16,
               weight: 'bold'
             },
             bodyFont: {
               family: "'Roboto', sans-serif",
-              size: 13
+              size: 15,
+              weight: 'bold'
             },
-            padding: 12,
-            boxPadding: 6,
-            borderColor: 'rgba(200, 200, 200, 0.5)',
-            borderWidth: 1,
+            padding: 14,
+            boxPadding: 8,
+            borderColor: 'rgba(100, 100, 100, 0.5)',
+            borderWidth: 2,
             displayColors: false,
             callbacks: {
               title: (tooltipItems) => {
                 return `${tooltipItems[0].label}`;
               },
               label: (context) => {
-                return `Fat: ${context.parsed.y}g`;
+                return `Fat: ${context.parsed.y.toFixed(1)}g`;
               }
             }
           }
