@@ -19,6 +19,9 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
   scanning = true;
   controls: IScannerControls | null = null;
 
+  // Default meal ID (1 = breakfast)
+  mealId: number = 1;
+
   constructor(
     private location: Location,
     private foodService: FoodService,
@@ -37,6 +40,12 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
+    // Check if meal ID was passed from the previous component
+    const state = history.state;
+    if (state && state.mealId) {
+      this.mealId = state.mealId;
+    }
+
     this.startBarcodeScanner();
   }
 
@@ -107,10 +116,11 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
         next: (foodData: FoodData) => {
           if (foodData) {
             console.log('Food data found in database:', foodData);
-            // Navigate to view-food-item page with the found food data
+            // Navigate to view-food-item page with the found food data and meal ID
             this.router.navigate(['/view-food-item'], {
               state: {
-                foodItem: foodData
+                foodItem: foodData,
+                mealId: this.mealId
               }
             });
           } else {
@@ -166,10 +176,11 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
   // Add the scanned food to the meal tracker
   addToMeal(): void {
     if (this.scannedFood) {
-      // Navigate to add-food component with scanned food data
+      // Navigate to add-food component with scanned food data and meal ID
       this.router.navigate(['/add-food'], {
         state: {
-          foodData: this.scannedFood
+          foodData: this.scannedFood,
+          mealId: this.mealId
         }
       });
     }
