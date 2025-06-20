@@ -58,7 +58,7 @@
     <div class="food-items row">
       <div *ngFor="let f of breakfastLogs; let i = index" class="col-md-6 mb-3">
         <div class="card shadow-sm">
-          <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <div class="card-header d-flex justify-content-between align-items-center">
             <span class="fw-bold">{{ f.food_name }}</span>
             <button
               (click)="toggleItemDetails('collapsableBreakfastItem' + i)"
@@ -116,7 +116,7 @@
     <div class="food-items row">
       <div *ngFor="let f of lunchLogs; let i = index" class="col-md-6 mb-3">
         <div class="card shadow-sm">
-          <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <div class="card-header d-flex justify-content-between align-items-center">
             <span class="fw-bold">{{ f.food_name }}</span>
             <button
               (click)="toggleItemDetails('collapsableLunchItem' + i)"
@@ -173,7 +173,7 @@
     <div class="food-items row">
       <div *ngFor="let f of dinnerLogs; let i = index" class="col-md-6 mb-3">
         <div class="card shadow-sm">
-          <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <div class="card-header d-flex justify-content-between align-items-center">
             <span class="fw-bold">{{ f.food_name }}</span>
             <button
               (click)="toggleItemDetails('collapsableDinnerItem' + i)"

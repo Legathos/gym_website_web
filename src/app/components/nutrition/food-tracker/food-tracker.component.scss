@@ -1,11 +1,34 @@
+// Color variables
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
+
 body {
-  background-color: #f0f0f0;
+  background-color: $background-color;
   font-family: 'Segoe UI', sans-serif;
   color: #1E314A;
 }
 
 .container {
-  padding: 1rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: 100vh;
+    background: linear-gradient(135deg, transparent, rgba($accent-color, 0.03));
+    z-index: -1;
+    pointer-events: none;
+  }
 }
 
 .macro-bar {
@@ -51,43 +74,101 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1.25rem;
-  border-bottom: 1px solid #ddd;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  background-color: white;
+  padding: 0.75rem 1.25rem;
+  border-left: 4px solid $tertiary-color;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background-color: $light-color;
   border-radius: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  &:nth-child(1) {
+    border-left-color: $accent-color;
+  }
+
+  &:nth-child(2) {
+    border-left-color: $secondary-color;
+  }
+
+  &:nth-child(3) {
+    border-left-color: $tertiary-color;
+  }
+
+  &:nth-child(4) {
+    border-left-color: darken($accent-color, 15%);
+  }
 }
 
 .macro-label {
   font-weight: 500;
-  color: #555;
+  color: $secondary-color;
+  position: relative;
+  z-index: 1;
 }
 
 .macro-value {
-  font-weight: 600;
-  color: #222;
+  font-weight: 700;
+  color: $primary-color;
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .meal-section {
-  background-color: white;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid #eee;
+  background-color: $light-color;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: none;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, $accent-color, $secondary-color);
+    opacity: 0.8;
+  }
+
+  &:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
 }
 
 .meal-header {
-  border-bottom: 1px solid #eee;
+  border-bottom: 2px solid $accent-color;
   padding-bottom: 0.75rem;
   margin-bottom: 1rem;
+  position: relative;
 }
 
 .meal-header h3 {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1E314A;
+  color: $secondary-color;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 1.25rem;
+    background-color: $accent-color;
+    margin-right: 8px;
+    vertical-align: middle;
+    border-radius: 2px;
+  }
 }
 
 .button-container {
@@ -99,58 +180,249 @@ body {
 .add-button {
   width: 40px;
   height: 40px;
-  background-color: #1E314A;
+  background-color: $accent-color;
   color: white;
   border: none;
   border-radius: 50%;
   font-size: 24px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba($accent-color, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   line-height: 1;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    pointer-events: none;
+  }
 }
 
 .add-button:hover {
-  background-color: #2a4365;
-  transform: translateY(-2px);
+  background-color: darken($accent-color, 10%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba($accent-color, 0.6);
 }
 
 .add-button:active {
-  background-color: #1E314A;
-  transform: translateY(0);
+  background-color: darken($accent-color, 15%);
+  transform: translateY(0) scale(0.95);
+  box-shadow: 0 1px 4px rgba($accent-color, 0.4);
 }
 
 // Styles for meal macros summary
 .meal-macros-summary {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 4px 4px;
-  margin-bottom: 12px;
+  background-color: $background-color;
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-bottom: 15px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  font-size: 0.75rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e9ecef;
+  gap: 10px;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: none;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba($tertiary-color, 0.05), transparent);
+    border-radius: 10px;
+    pointer-events: none;
+  }
 }
 
 .meal-macro-item {
   display: flex;
   align-items: center;
-  background-color: white;
-  padding: 3px 6px;
-  border-radius: 6px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  font-weight: 500;
-  color: #495057;
+  background-color: $light-color;
+  padding: 5px 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  color: $secondary-color;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:nth-child(1) {
+    background-color: rgba($accent-color, 0.15);
+    border-left: 2px solid $accent-color;
+  }
+
+  &:nth-child(2) {
+    background-color: rgba($secondary-color, 0.15);
+    border-left: 2px solid $secondary-color;
+  }
+
+  &:nth-child(3) {
+    background-color: rgba($tertiary-color, 0.15);
+    border-left: 2px solid $tertiary-color;
+  }
+
+  &:nth-child(4) {
+    background-color: rgba(darken($accent-color, 15%), 0.15);
+    border-left: 2px solid darken($accent-color, 15%);
+  }
 }
 
 .macro-icon {
-  margin-right: 3px;
-  font-size: 0.9rem;
+  margin-right: 5px;
+  font-size: 1rem;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+// Bootstrap card styling
+.card {
+  background-color: $light-color;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-header {
+    background-color: $background-color;
+    border-bottom: none;
+    padding: 0.75rem 1rem;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba($accent-color, 0.5), transparent);
+    }
+
+    .btn-outline-secondary {
+      color: $secondary-color;
+      border-color: $secondary-color;
+      border-radius: 20px;
+      padding: 0.25rem 0.75rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: $secondary-color;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba($secondary-color, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .card-body {
+    background-color: $background-color;
+    padding: 1rem;
+
+    // Style for tables inside card body
+    .table {
+      background-color: $background-color;
+      margin-bottom: 0.5rem;
+      border-radius: 8px;
+      overflow: hidden;
+
+      tr {
+        background-color: $background-color;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: rgba($tertiary-color, 0.1);
+        }
+      }
+
+      td {
+        background-color: $background-color;
+        border-color: rgba($tertiary-color, 0.2);
+        padding: 0.5rem 0.75rem;
+        vertical-align: middle;
+
+        &:first-child {
+          font-weight: 500;
+          color: $secondary-color;
+        }
+
+        &:last-child {
+          color: $primary-color;
+          font-weight: 600;
+        }
+      }
+    }
+
+    // Style for buttons inside card body
+    .btn-primary {
+      background-color: $secondary-color;
+      border-color: $secondary-color;
+      border-radius: 20px;
+      padding: 0.25rem 0.75rem;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba($secondary-color, 0.2);
+
+      &:hover {
+        background-color: darken($secondary-color, 10%);
+        border-color: darken($secondary-color, 10%);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba($secondary-color, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      border-radius: 20px;
+      padding: 0.25rem 0.75rem;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(#dc3545, 0.2);
+
+      &:hover {
+        background-color: darken(#dc3545, 10%);
+        border-color: darken(#dc3545, 10%);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba(#dc3545, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
 }
