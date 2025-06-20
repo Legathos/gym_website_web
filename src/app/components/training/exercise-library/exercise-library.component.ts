@@ -20,6 +20,8 @@ export class ExerciseLibraryComponent implements OnInit {
   sortOption: string = 'name';
   isDeleting: boolean = false;
   fromCurrentWorkout: boolean = false;
+  muscleGroups: string[] = [];
+  selectedMuscleGroup: string = 'All';
 
   constructor(
     private router: Router,
@@ -35,6 +37,9 @@ export class ExerciseLibraryComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.fromCurrentWorkout = params['fromCurrentWorkout'] === 'true';
     });
+
+    // Get the available muscle groups
+    this.muscleGroups = this.workoutsService.getExerciseCategories();
 
     this.loadExercises();
   }
@@ -72,16 +77,32 @@ export class ExerciseLibraryComponent implements OnInit {
 
   // Search exercises by name or description
   searchExercises(): void {
-    if (!this.searchTerm.trim()) {
-      this.filteredExercises = [...this.exercises];
-    } else {
+    let result = [...this.exercises];
+
+    // Filter by search term if provided
+    if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase().trim();
-      this.filteredExercises = this.exercises.filter(exercise =>
+      result = result.filter(exercise =>
         exercise.name.toLowerCase().includes(term) ||
         exercise.description.toLowerCase().includes(term)
       );
     }
+
+    // Filter by muscle group if not 'All'
+    if (this.selectedMuscleGroup !== 'All') {
+      result = result.filter(exercise =>
+        exercise.category === this.selectedMuscleGroup
+      );
+    }
+
+    this.filteredExercises = result;
     this.sortExercises();
+  }
+
+  // Filter exercises by muscle group
+  filterByMuscleGroup(muscleGroup: string): void {
+    this.selectedMuscleGroup = muscleGroup;
+    this.searchExercises();
   }
 
   // Sort exercises based on selected option

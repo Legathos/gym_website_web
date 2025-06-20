@@ -1,73 +1,148 @@
 // Color variables to match the app's design language
-$primary-color: #1E314A;
-$secondary-color: #256A7A;
-$tertiary-color: #C5E4E9;
-$accent-color: #BB8A2E;
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
 $light-bg: #f8f9fa;
 $card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+// Modern UI variables
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$transition-speed: 0.3s;
+$gradient-primary: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+$gradient-secondary: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
+$gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
 
 // Override Bootstrap variables
 $primary: $secondary-color;
 $danger: #dc3545;
 
-.exercise-library-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(135deg, lighten($tertiary-color, 10%) 0%, $tertiary-color 100%);
+// Banner style from workouts page
+.banner {
+  background: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+  color: white;
+  font-size: clamp(1.2rem, 4vw, 1.8rem); /* Responsive font size */
+  padding: 1.2rem 2.5rem;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 1rem;
+  margin: 1.2rem 1.5rem;
+  box-shadow: $card-shadow;
   position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+    transform: translateY(-2px);
+  }
 
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23256a7a' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.5;
-    z-index: 0;
-    pointer-events: none;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.7;
   }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem 1.5rem;
+    margin: 1rem;
+    border-radius: 0.8rem;
+  }
+}
+
+.exercise-library-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: $secondary-color;
+  position: relative;
 }
 
 // Bootstrap Navbar styling
 .navbar.top-bar {
-  padding: 0 16px;
-  margin: 0.5rem auto;
-  max-width: 800px;
-  border-radius: 30px;
-  background-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(5px);
-  color: $primary-color;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 16px;
+  margin: 1rem 1rem;
+  width: calc(100% - 2rem);
+  border-radius: $border-radius-lg;
+  background: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+  color: white;
+  box-shadow: $card-shadow;
+  transition: all $transition-speed ease;
   position: relative;
   z-index: 1;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.7;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.5;
+    z-index: 0;
+  }
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    border-color: rgba($secondary-color, 0.3);
+    box-shadow: $hover-shadow;
   }
 
   .container-fluid {
     padding: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .page-title {
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
     margin: 0;
     text-align: center;
+    color: white;
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
   .btn-back {
-    background-color: $secondary-color;
+    background-color: rgba(255, 255, 255, 0.2);
     color: white;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: all $transition-speed ease;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -75,10 +150,18 @@ $danger: #dc3545;
     align-items: center;
     justify-content: center;
     padding: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 
     &:hover {
-      background-color: darken($secondary-color, 10%);
-      transform: scale(1.05);
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px) scale(1.05);
+      box-shadow: 0 2px 5px rgba($primary-color, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba($primary-color, 0.15);
     }
 
     i {
@@ -94,66 +177,52 @@ $danger: #dc3545;
 .search-input-wrapper {
   display: flex;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 30px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba($background-color, 0.9);
+  border-radius: $border-radius-md;
+  box-shadow: $card-shadow;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  max-width: 600px;
+  transition: all $transition-speed ease;
+  border: 1px solid rgba($accent-color, 0.3);
+  width: 600px;
+  min-width: 600px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    border-color: rgba($secondary-color, 0.2);
+    box-shadow: $hover-shadow;
+    border-color: rgba($accent-color, 0.5);
   }
 
   &:focus-within {
-    border-color: $secondary-color;
-    box-shadow: 0 0 0 4px rgba($secondary-color, 0.2);
-    background-color: white;
+    border-color: $accent-color;
+    box-shadow: 0 0 0 4px rgba($accent-color, 0.2);
   }
 
-  .search-input {
-    flex: 1;
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    color: $primary-color;
-    background: transparent;
-    outline: none;
-    width: 100%;
-    font-weight: 500;
-    box-shadow: none;
-
-    &::placeholder {
-      color: rgba($primary-color, 0.5);
-      font-weight: normal;
-    }
-
-    &:focus {
-      box-shadow: none;
-      border-color: transparent;
-    }
-  }
 
   .search-button {
-    background-color: $secondary-color;
+    background: linear-gradient(to bottom, $accent-color, darken($accent-color, 10%));
     color: white;
     border: none;
     padding: 12px 20px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all $transition-speed ease;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     &:hover {
-      background-color: darken($secondary-color, 10%);
+      background: linear-gradient(to bottom, lighten($accent-color, 5%), $accent-color);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 5px rgba($primary-color, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba($primary-color, 0.15);
     }
 
     i {
@@ -162,57 +231,83 @@ $danger: #dc3545;
   }
 }
 
+// General container styles
+.container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .content-container {
-  max-width: 800px;
+  width: 90%;
+  min-width: 90%;
   margin: 0 auto;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(5px);
-  border-radius: 15px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-  min-height: calc(100vh - 80px);
+  background-color: $secondary-color;
+  border-radius: $border-radius-md;
+  box-shadow: $card-shadow;
+  min-height: calc(100vh - 200px);
   flex: 1;
   position: relative;
   z-index: 1;
+  color: white;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
 }
 
 .controls-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 15px;
+  margin-bottom: 20px;
+  background-color: rgba($background-color, 0.9);
+  border-radius: $border-radius-md;
+  padding: 15px;
+  box-shadow: $card-shadow;
+  transition: all $transition-speed ease;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+    transform: translateY(-2px);
+  }
 
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: stretch;
+    padding: 12px;
   }
 
   .category-selector-container {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 
     @media (min-width: 480px) {
       flex-direction: row;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .category-label {
       display: flex;
       align-items: center;
-      color: $primary-color;
-      font-weight: 500;
-      font-size: 13px;
-      background-color: rgba($tertiary-color, 0.5);
-      padding: 4px 10px;
-      border-radius: 16px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      color: $tertiary-color;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 4px 12px;
+      border-radius: $border-radius-sm;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      background-color: rgba($light-color, 0.8);
+      border-left: 3px solid $accent-color;
 
       i {
-        color: $secondary-color;
-        margin-right: 6px;
+        color: $accent-color;
+        margin-right: 8px;
         font-size: 16px;
       }
 
@@ -222,65 +317,186 @@ $danger: #dc3545;
       }
     }
 
-    .category-toggle-group {
-      background-color: white;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-      border: none;
+    .sort-dropdown,
+    .filter-dropdown {
       position: relative;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all $transition-speed ease;
+      z-index: 10000; /* Higher z-index to ensure dropdown appears on top of exercise cards */
 
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .btn-outline-primary {
+      .btn.btn-outline-primary {
+        background: linear-gradient(135deg, rgba($light-color, 0.8), rgba($light-color, 0.6));
         color: $primary-color;
-        border-color: transparent;
-        background-color: transparent;
-        font-weight: 500;
-        font-size: 12px;
-        padding: 6px 12px;
-        transition: all 0.2s ease;
+        border-radius: $border-radius-sm;
+        border: 1px solid rgba($primary-color, 0.1);
+        font-weight: 600;
+        font-size: 14px;
+        padding: 10px 18px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all $transition-speed ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
         position: relative;
-        z-index: 1;
+        overflow: hidden;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        letter-spacing: 0.3px;
 
-        &:not(:last-child) {
-          border-right: 1px solid rgba($secondary-color, 0.1);
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 70%);
+          opacity: 0.5;
+          transition: opacity $transition-speed ease;
+          pointer-events: none;
         }
 
-        &:hover {
-          background-color: rgba($tertiary-color, 0.3);
-          border-color: transparent;
+        &:hover, &:focus {
+          background: linear-gradient(135deg, rgba($light-color, 0.9), rgba($light-color, 0.7));
+          border-color: rgba($accent-color, 0.3);
+          color: $primary-color;
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+          transform: translateY(-3px);
+
+          &::before {
+            opacity: 0.8;
+          }
         }
 
-        &.active {
-          background-color: $secondary-color;
+        &:active, &[aria-expanded="true"] {
+          background: $gradient-accent;
           color: white;
-          border-color: $secondary-color;
+          border-color: $accent-color;
+          box-shadow: 0 3px 8px rgba($accent-color, 0.3);
+          text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 
-          i {
+          i, &::after {
             color: white;
           }
         }
 
+        &::after {
+          margin-left: 8px;
+          transition: transform $transition-speed ease, color $transition-speed ease;
+        }
+
+        &[aria-expanded="true"]::after {
+          transform: rotate(180deg);
+        }
+
         i {
-          font-size: 16px;
-          margin-right: 4px;
-          color: $secondary-color;
-          transition: color 0.2s ease;
+          font-size: 18px;
+          color: $accent-color;
+          transition: color $transition-speed ease;
+          filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
         }
       }
 
-      .btn-check:checked + .btn-outline-primary {
-        background-color: $secondary-color;
-        color: white;
-        border-color: $secondary-color;
+      .dropdown-menu {
+        background: linear-gradient(135deg, rgba($light-color, 0.98), rgba($light-color, 0.95));
+        border-radius: $border-radius-md;
+        border: 1px solid rgba($accent-color, 0.1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        padding: 12px;
+        min-width: 180px;
+        margin-top: 10px;
+        z-index: 99999; /* Ensure dropdown appears on top of all other elements */
+        transform-origin: top center;
+        animation: dropdownFadeIn 0.25s ease-out;
+        backdrop-filter: blur(5px);
+        position: absolute; /* Ensure proper positioning in the stacking context */
 
-        i {
-          color: white;
+        @keyframes dropdownFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.98);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: -6px;
+          left: 20px;
+          width: 12px;
+          height: 12px;
+          background: rgba($light-color, 0.98);
+          transform: rotate(45deg);
+          border-top: 1px solid rgba($accent-color, 0.1);
+          border-left: 1px solid rgba($accent-color, 0.1);
+          z-index: -1;
+        }
+
+        .dropdown-item {
+          color: $primary-color;
+          font-weight: 500;
+          font-size: 14px;
+          padding: 10px 14px;
+          border-radius: 6px;
+          transition: all $transition-speed ease;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 4px;
+          position: relative;
+          overflow: hidden;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba($accent-color, 0.1), transparent);
+            opacity: 0;
+            transition: opacity $transition-speed ease;
+            pointer-events: none;
+          }
+
+          &:hover, &:focus {
+            background-color: rgba($light-color, 0.7);
+            color: $primary-color;
+            transform: translateX(3px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+            &::before {
+              opacity: 0.5;
+            }
+
+            i {
+              transform: scale(1.1);
+            }
+          }
+
+          &:active {
+            background: $gradient-accent;
+            color: white;
+            box-shadow: 0 2px 5px rgba($accent-color, 0.2);
+
+            i {
+              color: white;
+              transform: scale(1);
+            }
+          }
+
+          i {
+            font-size: 16px;
+            color: $accent-color;
+            transition: all $transition-speed ease;
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+          }
         }
       }
     }
@@ -290,18 +506,24 @@ $danger: #dc3545;
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    background-color: $secondary-color;
+    padding: 10px 20px;
+    background: linear-gradient(to bottom, $accent-color, darken($accent-color, 10%));
     color: white;
-    border-radius: 30px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: $border-radius-sm;
+    transition: all $transition-speed ease;
     border: none;
     font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     &:hover {
-      transform: translateY(-3px);
-      box-shadow: $hover-shadow;
-      background-color: darken($secondary-color, 5%);
+      background: linear-gradient(to bottom, lighten($accent-color, 5%), $accent-color);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 5px rgba($primary-color, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba($primary-color, 0.15);
     }
 
     i {
@@ -311,114 +533,246 @@ $danger: #dc3545;
   }
 }
 
+// Exercise list styles
 .exercise-list {
   margin-top: 20px;
+  min-height: 400px; /* Increased min-height to prevent shrinking during search */
+
+  .alert {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    background-color: rgba($secondary-color, 0.3);
+    border: none;
+    color: $primary-color;
+    border-radius: $border-radius-md;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all $transition-speed ease;
+
+    &:hover {
+      background-color: rgba($secondary-color, 0.4);
+    }
+  }
 }
 
+// Card styles - updated to match workouts page styling
 .exercise-card {
   height: 100%;
-  border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(5px);
-  box-shadow: $card-shadow;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border-radius: 1rem;
   overflow: hidden;
+  transition: all $transition-speed ease;
+  border: none;
+  box-shadow: $card-shadow;
+  margin-bottom: 25px;
+  background-color: $tertiary-color;
+  color: white;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform-origin: center;
 
   &:hover {
-    transform: translateY(-5px);
     box-shadow: $hover-shadow;
-    border-color: rgba($secondary-color, 0.3);
+    transform: translateY(-3px);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, $accent-color, lighten($accent-color, 15%));
+    opacity: 0;
+    transition: opacity $transition-speed ease;
+  }
+
+  &:hover::before {
+    opacity: 1;
   }
 
   .card-header {
-    background-color: rgba($tertiary-color, 0.3);
-    padding: 16px;
-    border-bottom: 1px solid rgba($secondary-color, 0.1);
+    background: rgba($tertiary-color, 0.9);
+    border-bottom: 2px solid $accent-color;
+    padding: 20px 22px;
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+      opacity: 0.5;
+    }
 
     .card-title {
+      color: white;
       font-size: 1.3rem;
-      font-weight: 600;
-      color: $primary-color;
-      margin-bottom: 10px;
-      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+      margin-bottom: 12px;
+      font-weight: 700;
+      padding-bottom: 8px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      position: relative;
     }
   }
 
   .card-body {
-    padding: 16px;
+    padding: 25px;
+    background-color: rgba($background-color, 0.9);
+    color: $primary-color;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.1) 0%, transparent 70%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
 
     .card-text {
-      color: #666;
-      margin-bottom: 16px;
-      line-height: 1.5;
+      color: $primary-color;
+      margin-bottom: 18px;
+      line-height: 1.6;
+      font-size: 1rem;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 1px 1px rgba(255,255,255,0.3);
     }
 
     .card-actions {
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: 12px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
 
       .action-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         padding: 0;
         border-radius: 50%;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: all $transition-speed ease;
         border: none;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 70%);
+          opacity: 0;
+          transition: opacity $transition-speed ease;
+        }
 
         &:hover {
-          transform: translateY(-2px) scale(1.05);
-          box-shadow: $hover-shadow;
+          transform: translateY(-3px) scale(1.05);
+          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+
+          &::before {
+            opacity: 1;
+          }
+        }
+
+        &:active {
+          transform: translateY(0);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
         }
 
         i {
-          font-size: 16px;
+          font-size: 18px;
+          position: relative;
+          z-index: 1;
+          text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         }
       }
 
-      .edit-btn {
-        background-color: $secondary-color;
+      .add-btn {
+        background: linear-gradient(135deg, #28a745, darken(#28a745, 15%));
         color: white;
 
         &:hover {
-          background-color: darken($secondary-color, 5%);
+          background: linear-gradient(135deg, lighten(#28a745, 5%), #28a745);
         }
       }
 
       .delete-btn {
-        background-color: $danger;
+        background: linear-gradient(135deg, $danger, darken($danger, 15%));
         color: white;
 
         &:hover {
-          background-color: darken($danger, 5%);
+          background: linear-gradient(135deg, lighten($danger, 5%), $danger);
         }
       }
     }
   }
 }
 
+// Badge styles
 .category-badge {
   display: inline-block;
-  background-color: rgba($secondary-color, 0.15);
-  color: darken($secondary-color, 10%);
-  padding: 4px 12px;
-  border-radius: 20px;
+  background: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
+  color: white;
+  padding: 6px 14px;
+  border-radius: $border-radius-sm;
   font-size: 14px;
-  border-left: 3px solid $secondary-color;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  letter-spacing: 0.5px;
   align-self: flex-start;
+  transition: all $transition-speed ease;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 70%);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, lighten($accent-color, 5%), $accent-color);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Badge styles for bg-accent
+.bg-accent {
+  background-color: $accent-color;
+  color: white;
+  float: right;
+  margin-left: 10px;
 }
 
 .no-results {
@@ -428,10 +782,19 @@ $danger: #dc3545;
   padding: 16px;
   color: $primary-color;
   margin: 20px 0;
+  background-color: rgba($background-color, 0.9);
+  border-radius: $border-radius-md;
+  box-shadow: $card-shadow;
+  transition: all $transition-speed ease;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+    transform: translateY(-2px);
+  }
 
   i {
     margin-right: 10px;
-    color: $secondary-color;
+    color: $accent-color;
     font-size: 24px;
   }
 
@@ -442,21 +805,56 @@ $danger: #dc3545;
   }
 }
 
-/* Responsive styles */
-@media (max-width: 480px) {
-  .exercise-library-container {
-    &::before {
-      opacity: 0.3; // Reduce pattern opacity on mobile for better readability
+// Responsive styles
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .banner {
+    padding: 1rem 1.5rem;
+    margin: 1rem;
+    font-size: clamp(1rem, 3.5vw, 1.5rem);
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+  }
+
+  .content-container {
+    padding: 12px;
+    margin-bottom: 12px;
+    width: 95%;
+    min-width: 95%;
+
+    .card-title {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      padding-bottom: 5px;
     }
   }
 
-  .navbar.top-bar {
-    padding: 0 10px;
-    margin: 0.3rem;
-    border-radius: 20px;
+  .search-input-wrapper {
+    width: 90%;
+    min-width: 90%;
+  }
+}
+
+.exercise-list {
+  min-height: 350px; /* Slightly reduced min-height for tablet screens */
+}
+
+.navbar.top-bar {
+    padding: 10px 12px;
+    margin: 0.8rem 0.8rem;
+    width: calc(100% - 1.6rem);
+    border-radius: $border-radius-md;
 
     .page-title {
       font-size: 1.2rem;
+      padding-bottom: 4px;
     }
 
     .btn-back {
@@ -467,6 +865,146 @@ $danger: #dc3545;
         font-size: 18px;
       }
     }
+
+    &::before, &::after {
+      opacity: 0.5;
+    }
+  }
+
+  .exercise-card {
+    border-radius: 0.8rem;
+    margin-bottom: 20px;
+
+    &::before {
+      height: 4px; /* Slightly smaller accent line on top */
+    }
+
+    &:hover {
+      transform: translateY(-2px); /* Slightly reduced hover effect */
+    }
+
+    .card-header {
+      padding: 16px 18px;
+
+      &::after {
+        opacity: 0.4; /* Slightly reduce the opacity of the gradient line */
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+        letter-spacing: 0.4px;
+      }
+    }
+
+    .card-body {
+      padding: 20px;
+
+      &::before {
+        opacity: 0.4; /* Slightly reduce the opacity of the radial gradient */
+      }
+
+      .card-text {
+        font-size: 0.95rem;
+        margin-bottom: 16px;
+        line-height: 1.5;
+      }
+
+      .card-actions {
+        gap: 10px;
+        margin-bottom: 14px;
+
+        .action-btn {
+          width: 40px;
+          height: 40px;
+
+          &:hover {
+            transform: translateY(-2px) scale(1.03); /* Slightly reduced hover effect */
+          }
+
+          i {
+            font-size: 17px;
+          }
+        }
+      }
+    }
+  }
+
+  .category-badge {
+    font-size: 13px;
+    padding: 5px 12px;
+
+    &:hover {
+      transform: translateY(-1px) scale(1.02); /* Slightly reduced hover effect */
+    }
+  }
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .banner {
+    padding: 0.8rem 1.2rem;
+    margin: 0.8rem;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    border-radius: 0.6rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+  }
+
+  .content-container {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 98%;
+    min-width: 98%;
+    border-radius: 8px;
+
+    .card-title {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+    }
+  }
+
+  .search-input-wrapper {
+    width: 95%;
+    min-width: 95%;
+  }
+}
+
+.exercise-list {
+  min-height: 300px; /* Further reduced min-height for mobile screens */
+}
+
+.navbar.top-bar {
+    padding: 8px 10px;
+    margin: 0.6rem 0.6rem;
+    width: calc(100% - 1.2rem);
+    border-radius: $border-radius-sm;
+
+    .page-title {
+      font-size: 1.1rem;
+      padding-bottom: 3px;
+    }
+
+    .btn-back {
+      width: 32px;
+      height: 32px;
+
+      i {
+        font-size: 16px;
+      }
+    }
+
+    &::before, &::after {
+      opacity: 0.4;
+    }
   }
 
   .search-container {
@@ -474,7 +1012,7 @@ $danger: #dc3545;
   }
 
   .search-input-wrapper {
-    border-radius: 20px;
+    border-radius: $border-radius-sm;
 
     .search-input {
       padding: 10px 15px;
@@ -490,15 +1028,10 @@ $danger: #dc3545;
     }
   }
 
-  .content-container {
-    padding: 12px;
-    border-radius: 12px;
-    margin: 0 8px;
-  }
-
   .controls-bar {
     gap: 10px;
     margin-bottom: 15px;
+    padding: 10px;
 
     .category-selector-container {
       width: 100%;
@@ -508,7 +1041,7 @@ $danger: #dc3545;
         font-size: 12px;
         margin-bottom: 6px;
         padding: 3px 8px;
-        border-radius: 12px;
+        border-radius: $border-radius-sm;
         width: fit-content;
 
         i {
@@ -517,18 +1050,58 @@ $danger: #dc3545;
         }
       }
 
-      .category-toggle-group {
+      .sort-dropdown,
+      .filter-dropdown {
         width: 100%;
+        margin-bottom: 12px;
+        z-index: 10000; /* Higher z-index to ensure dropdown appears on top of exercise cards */
 
-        .btn-outline-primary {
-          flex: 1;
-          min-width: 0;
-          font-size: 11px;
-          padding: 6px;
+        .btn.btn-outline-primary {
+          width: 100%;
+          font-size: 13px;
+          padding: 8px 14px;
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+          letter-spacing: 0.2px;
 
           i {
-            font-size: 14px;
-            margin-right: 3px;
+            font-size: 16px;
+          }
+
+          &::after {
+            margin-left: 6px;
+          }
+
+          &:hover, &:focus {
+            transform: translateY(-2px); /* Slightly reduced hover effect for mobile */
+          }
+        }
+
+        .dropdown-menu {
+          width: 100%;
+          padding: 10px;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+          border-radius: $border-radius-sm;
+          z-index: 99999; /* Ensure dropdown appears on top of all other elements */
+          position: absolute; /* Ensure proper positioning in the stacking context */
+
+          &::before {
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+          }
+
+          .dropdown-item {
+            font-size: 13px;
+            padding: 8px 12px;
+            margin-bottom: 3px;
+            border-radius: 4px;
+
+            i {
+              font-size: 15px;
+            }
+
+            &:hover, &:focus {
+              transform: translateX(2px); /* Slightly reduced hover effect for mobile */
+            }
           }
         }
       }
@@ -537,20 +1110,53 @@ $danger: #dc3545;
     .add-button {
       width: 100%;
       justify-content: center;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
     }
   }
 
   .exercise-card {
+    border-radius: 0.6rem;
+    margin-bottom: 15px;
+    transform: none !important; /* Disable transform on mobile to prevent overflow issues */
+
+    &::before {
+      height: 3px; /* Smaller accent line on top */
+    }
+
+    &:hover {
+      transform: none !important;
+      box-shadow: $card-shadow; /* Less pronounced shadow on mobile */
+    }
+
     .card-header {
-      padding: 12px;
+      padding: 14px;
+
+      &::after {
+        opacity: 0.3; /* Reduce the opacity of the gradient line */
+      }
 
       .card-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        margin-bottom: 8px;
+        padding-bottom: 5px;
+        letter-spacing: 0.3px;
       }
     }
 
     .card-body {
-      padding: 12px;
+      padding: 15px;
+
+      &::before {
+        opacity: 0.3; /* Reduce the opacity of the radial gradient */
+      }
+
+      .card-text {
+        font-size: 0.9rem;
+        margin-bottom: 14px;
+        line-height: 1.5;
+      }
 
       .card-actions {
         justify-content: flex-end;
@@ -558,14 +1164,52 @@ $danger: #dc3545;
         margin-bottom: 12px;
 
         .action-btn {
-          width: 36px;
-          height: 36px;
+          width: 38px;
+          height: 38px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Less pronounced shadow */
+
+          &::before {
+            opacity: 0.3; /* Reduce the opacity of the light effect */
+          }
+
+          &:hover {
+            transform: translateY(-1px) scale(1.02); /* Smaller hover effect */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+          }
 
           i {
-            font-size: 14px;
+            font-size: 16px;
           }
         }
       }
     }
   }
-}
+
+  .category-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Less pronounced shadow */
+    letter-spacing: 0.3px;
+
+    &::before {
+      opacity: 0.3; /* Reduce the opacity of the light effect */
+    }
+
+    &:hover {
+      transform: translateY(-1px) scale(1.01); /* Smaller hover effect */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .no-results {
+    padding: 12px;
+    margin: 15px 0;
+
+    i {
+      font-size: 20px;
+    }
+
+    span {
+      font-size: 14px;
+    }
+  }
