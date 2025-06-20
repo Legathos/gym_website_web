@@ -1,9 +1,34 @@
+// Color variables
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
+
 // Custom styling for Bootstrap navbar
 .bottom-navbar {
-  border-top: 1px solid rgba(37, 106, 122, 0.2);
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-  padding: 0.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); // Lighter border for better contrast
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15); // Enhanced shadow for better depth
+  padding: 0.4rem 0; // Reduced padding to make navbar shorter
   height: auto;
+  background: linear-gradient(to bottom, lighten($accent-color, 5%), $accent-color); // Added gradient for more depth
+  position: fixed; // Ensure navbar stays fixed
+  bottom: 0; // Position at bottom
+  left: 0; // Stretch across full width
+  right: 0; // Stretch across full width
+  width: 100%; // Full width
+  z-index: 1000; // High z-index to ensure it stays on top
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3); // Subtle highlight at the top
+  }
 
   .navbar-nav {
     display: flex;
@@ -13,8 +38,8 @@
   }
 
   .nav-link {
-    color: #1E314A; // Primary color
-    padding: 0.5rem 0;
+    color: white; // Changed to white for better contrast with accent background
+    padding: 0.4rem 0; // Reduced padding to make navbar shorter
     transition: all 0.2s ease-in-out;
     position: relative;
     flex: 1;
@@ -27,13 +52,14 @@
       left: 50%;
       width: 0;
       height: 3px;
-      background-color: #BB8A2E; // Accent color
+      background-color: $accent-color; // Updated to use accent color variable
       transform: translateX(-50%);
       transition: width 0.2s ease;
     }
 
     &:hover, &:focus, &.active {
-      color: #256A7A; // Secondary color
+      color: white; // Keep white but add a glow effect
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8); // Add glow effect for better visibility
 
       &::after {
         width: 50%;
@@ -41,60 +67,76 @@
 
       .nav-label {
         opacity: 1;
+        font-weight: 700; // Make label bolder on hover
       }
 
       i {
         transform: translateY(-2px);
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.6)); // Add glow to icon
       }
     }
 
     i {
-      font-size: 1.5rem;
-      margin-bottom: 0.25rem;
-      transition: transform 0.2s ease;
+      font-size: 1.4rem; // Reduced icon size to make navbar shorter
+      margin-bottom: 0.20rem; // Reduced margin to make navbar shorter
+      transition: all 0.2s ease;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2)); // Added subtle shadow for better visibility
+      opacity: 0.95; // Slightly reduced opacity for softer look
     }
 
     .nav-label {
       font-size: 0.7rem;
-      font-weight: 500;
-      opacity: 0.8;
-      transition: opacity 0.2s ease;
+      font-weight: 600; // Increased font weight for better readability
+      opacity: 0.9; // Increased opacity for better visibility
+      transition: all 0.2s ease;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); // Added subtle shadow for better readability
+      letter-spacing: 0.5px; // Added letter spacing for better legibility
     }
   }
 
   // Special styling for home button
   .home-button {
-    margin-top: -1.5rem;
-    background-color: #256A7A; // Secondary color
-    color: white !important;
-    border-radius: 50%;
-    width: 4rem;
-    height: 4rem;
+    margin-top: 0; // Removed negative margin to align with other buttons
+    background-color: white; // Changed to white for contrast with accent background
+    color: $accent-color !important; // Changed to accent color for cohesive look
+    border-radius: 50% !important; // Force perfect circle
+    width: 56px !important; // Fixed pixel value for perfect circle
+    height: 56px !important; // Same fixed pixel value for perfect circle
+    min-width: 56px !important; // Prevent shrinking
+    min-height: 56px !important; // Prevent shrinking
+    max-width: 56px !important; // Prevent expanding
+    max-height: 56px !important; // Prevent expanding
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    border: 3px solid white;
+    padding: 0 !important; // Ensure no padding affects the shape
+    margin: 0 auto !important; // Center horizontally and remove any margin
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); // Enhanced shadow for better depth
+    border: 2px solid white; // Reduced border width to match smaller size
     transition: all 0.3s ease;
+    box-sizing: border-box !important; // Ensure border is included in dimensions
+    overflow: hidden; // Ensure content doesn't overflow
 
     &::after {
       display: none;
     }
 
     &:hover, &:focus, &.active {
-      background-color: #1E314A; // Primary color
-      transform: translateY(-5px);
+      background-color: $accent-color; // Changed to accent color for cohesive look
+      color: white !important; // Changed to white for contrast
+      // Remove transform to maintain circular shape
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      border-color: #BB8A2E; // Accent color for border on hover
+      border-color: white; // Keep white border for contrast
+      transform: scale(1.1); // Slightly enlarge on hover for better interaction
 
       i {
         transform: none;
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.6)); // Add glow to icon
       }
     }
 
     i {
-      font-size: 1.75rem;
+      font-size: 1.6rem; // Reduced icon size to match smaller home button
       margin: 0;
     }
   }
@@ -103,24 +145,34 @@
 // Media query for smaller screens
 @media (max-width: 480px) {
   .bottom-navbar {
+    padding: 0.2rem 0; // Further reduced padding for smaller screens
+
     .nav-link {
+      padding: 0.2rem 0; // Further reduced padding for smaller screens
+
       i {
-        font-size: 1.25rem;
+        font-size: 1.1rem; // Further reduced icon size for smaller screens
+        margin-bottom: 0.1rem; // Further reduced margin for smaller screens
       }
 
       .nav-label {
-        font-size: 0.625rem;
+        font-size: 0.6rem; // Slightly reduced font size for smaller screens
       }
     }
 
     .home-button {
-      width: 3.5rem;
-      height: 3.5rem;
-      margin-top: -1rem;
+      width: 48px !important; // Fixed pixel value for perfect circle on smaller screens
+      height: 48px !important; // Same fixed pixel value for perfect circle
+      min-width: 48px !important; // Prevent shrinking
+      min-height: 48px !important; // Prevent shrinking
+      max-width: 48px !important; // Prevent expanding
+      max-height: 48px !important; // Prevent expanding
+      margin-top: 0; // Removed negative margin to align with other buttons
       border-width: 2px;
+      box-sizing: border-box !important; // Ensure border is included in dimensions
 
       i {
-        font-size: 1.5rem;
+        font-size: 1.3rem; // Further reduced icon size for smaller screens
       }
     }
   }
@@ -129,21 +181,35 @@
 // Media query for very small screens
 @media (max-width: 360px) {
   .bottom-navbar {
+    padding: 0.15rem 0; // Minimal padding for very small screens
+
     .nav-link {
+      padding: 0.15rem 0; // Minimal padding for very small screens
+
       .nav-label {
-        display: none;
+        display: none; // Hide labels on very small screens
       }
 
       i {
-        margin-bottom: 0;
+        font-size: 1rem; // Smallest icon size for very small screens
+        margin-bottom: 0; // No margin needed without labels
       }
     }
 
     .home-button {
-      width: 3rem;
-      height: 3rem;
-      border-width: 2px;
-      margin-top: -0.75rem;
+      width: 40px !important; // Fixed pixel value for perfect circle on very small screens
+      height: 40px !important; // Same fixed pixel value for perfect circle
+      min-width: 40px !important; // Prevent shrinking
+      min-height: 40px !important; // Prevent shrinking
+      max-width: 40px !important; // Prevent expanding
+      max-height: 40px !important; // Prevent expanding
+      border-width: 1px; // Thinner border for very small screens
+      margin-top: 0; // Removed negative margin to align with other buttons
+      box-sizing: border-box !important; // Ensure border is included in dimensions
+
+      i {
+        font-size: 1.1rem; // Smallest icon size for very small screens
+      }
     }
   }
 }
