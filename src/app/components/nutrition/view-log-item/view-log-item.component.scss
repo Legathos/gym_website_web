@@ -1,8 +1,10 @@
 // Color variables
-$primary-color: #1E314A;
-$secondary-color: #256A7A;
-$tertiary-color: #C5E4E9;
-$accent-color: #BB8A2E;
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
 $danger-color: #dc3545;
 $light-bg: #f8f9fa;
 $card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
@@ -10,7 +12,7 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
 // Page wrapper
 .page-wrapper {
-  background-color: $light-bg;
+  background-color: $background-color;
   min-height: 100vh;
   padding: 20px 0;
 }
@@ -19,36 +21,64 @@ $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 30px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: $card-shadow;
+  padding: 1.5rem;
+  background-color: $background-color;
+  border-radius: 12px;
+  position: relative;
 }
 
 // Header and title styling
 header {
-  margin-bottom: 30px;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid $accent-color;
+  padding-bottom: 0.75rem;
+  position: relative;
 }
 
 h1 {
-  color: $primary-color;
-  margin-bottom: 15px;
+  color: $secondary-color;
+  margin: 0;
+  font-size: 1.25rem;
   font-weight: 600;
   position: relative;
 
-  &:after {
+  &::before {
     content: '';
-    display: block;
-    width: 50px;
-    height: 3px;
-    background-color: $secondary-color;
-    margin: 10px auto 0;
+    display: inline-block;
+    width: 4px;
+    height: 1.25rem;
+    background-color: $accent-color;
+    margin-right: 8px;
+    vertical-align: middle;
+    border-radius: 2px;
   }
 }
 
 // Food details section
 .food-details {
-  padding: 10px;
+  padding: 1.25rem;
+  background-color: $light-color;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: none;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, $accent-color, $secondary-color);
+    opacity: 0.8;
+  }
+
+  &:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
 }
 
 // Table styling
@@ -57,35 +87,43 @@ h1 {
   border-collapse: separate;
   border-spacing: 0;
   margin-top: 20px;
+  margin-bottom: 0.5rem;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: $card-shadow;
-  background-color: white;
+  background-color: $background-color;
+}
+
+.table tr {
+  background-color: $background-color;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba($tertiary-color, 0.1);
+  }
 }
 
 .table td {
-  padding: 15px;
+  background-color: $background-color;
+  border-color: rgba($tertiary-color, 0.2);
+  padding: 0.5rem 0.75rem;
+  vertical-align: middle;
   text-align: left;
-  border-bottom: 1px solid rgba($tertiary-color, 0.5);
+  border-bottom: 1px solid rgba($tertiary-color, 0.2);
 }
 
 .table tr:last-child td {
   border-bottom: none;
 }
 
-.table tr:nth-child(even) {
-  background-color: rgba($tertiary-color, 0.2);
-}
-
 .macro-name {
-  font-weight: 600;
+  font-weight: 500;
   color: $secondary-color;
   width: 40%;
 }
 
 .macro-value {
-  font-size: 1.05em;
   color: $primary-color;
+  font-weight: 600;
 }
 
 // Back button styling
@@ -102,21 +140,23 @@ h1 {
   background-color: $accent-color;
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 10px 18px;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
-  box-shadow: $card-shadow;
+  box-shadow: 0 2px 8px rgba($accent-color, 0.4);
 
   &:hover {
     background-color: darken($accent-color, 10%);
-    transform: translateX(-3px);
-    box-shadow: $hover-shadow;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($accent-color, 0.6);
   }
 
   &:active {
-    transform: translateY(1px);
+    background-color: darken($accent-color, 15%);
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 1px 4px rgba($accent-color, 0.4);
   }
 
   svg {
@@ -124,49 +164,39 @@ h1 {
   }
 }
 
-// Additional structural enhancements
+// Additional structural enhancements for container
 .container {
-  position: relative;
-
-  &:before {
+  &::after {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(to right, $secondary-color, $tertiary-color);
-    border-radius: 10px 10px 0 0;
-  }
-}
-
-// Food item highlight
-.food-details {
-  position: relative;
-
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 0;
     width: 30%;
-    height: 2px;
-    background-color: rgba($tertiary-color, 0.5);
+    height: 100vh;
+    background: linear-gradient(135deg, transparent, rgba($accent-color, 0.03));
+    z-index: -1;
+    pointer-events: none;
   }
 }
 
 // Weight modifier section
 .weight-modifier {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: rgba($tertiary-color, 0.2);
-  border-radius: 8px;
-  box-shadow: $card-shadow;
+  margin-top: 20px;
+  padding: 1rem;
+  background-color: $background-color;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+  }
 }
 
 .input-group {
@@ -178,23 +208,25 @@ h1 {
 
   label {
     margin-bottom: 8px;
-    font-weight: 600;
+    font-weight: 500;
     color: $secondary-color;
   }
 }
 
 .weight-input {
   width: 100%;
-  padding: 10px 15px;
-  border: 2px solid rgba($secondary-color, 0.3);
-  border-radius: 5px;
-  font-size: 1.05em;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba($tertiary-color, 0.2);
+  border-radius: 8px;
+  font-size: 1rem;
   text-align: center;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: $light-color;
 
   &:focus {
     outline: none;
     border-color: $secondary-color;
+    box-shadow: 0 0 0 3px rgba($secondary-color, 0.2);
   }
 
   &::-webkit-inner-spin-button,
@@ -207,27 +239,29 @@ h1 {
   display: flex;
   gap: 10px;
   margin-top: 10px;
+  justify-content: center;
 }
 
 .update-button {
   background-color: $secondary-color;
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
-  box-shadow: $card-shadow;
+  box-shadow: 0 2px 4px rgba($secondary-color, 0.2);
 
   &:hover {
     background-color: darken($secondary-color, 10%);
-    transform: translateY(-2px);
-    box-shadow: $hover-shadow;
+    border-color: darken($secondary-color, 10%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba($secondary-color, 0.3);
   }
 
   &:active {
-    transform: translateY(1px);
+    transform: translateY(0);
   }
 }
 
@@ -235,61 +269,69 @@ h1 {
   background-color: $danger-color;
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
-  box-shadow: $card-shadow;
+  box-shadow: 0 2px 4px rgba($danger-color, 0.2);
 
   &:hover {
     background-color: darken($danger-color, 10%);
-    transform: translateY(-2px);
-    box-shadow: $hover-shadow;
+    border-color: darken($danger-color, 10%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba($danger-color, 0.3);
   }
 
   &:active {
-    transform: translateY(1px);
+    transform: translateY(0);
   }
 }
 
 // Responsive adjustments
 @media (max-width: 768px) {
   .container {
-    padding: 20px 15px;
+    padding: 1rem;
+  }
+
+  .food-details {
+    padding: 1rem;
   }
 
   .table td {
-    padding: 12px 10px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
   }
 
   .macro-name, .macro-value {
-    font-size: 0.95em;
+    font-size: 0.9rem;
+  }
+
+  h1 {
+    font-size: 1.1rem;
   }
 
   .back-button {
-    padding: 8px 15px;
-    font-size: 0.9em;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
   }
 
   .weight-modifier {
-    padding: 15px;
-    margin-top: 20px;
+    padding: 0.8rem;
+    margin-top: 15px;
   }
 
   .weight-input {
-    padding: 8px 12px;
-    font-size: 0.95em;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
   }
 
   .update-button, .delete-button {
-    padding: 8px 15px;
-    font-size: 0.9em;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.85rem;
   }
 
   .button-group {
-    flex-direction: column;
-    width: 100%;
-    max-width: 300px;
+    gap: 8px;
   }
 }

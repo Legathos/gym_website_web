@@ -79,6 +79,14 @@ export class ViewLogItemComponent implements OnInit {
 
       // Update existing log item
       this.foodService.editFoodLog(this.logItem).subscribe(() => {
+        // Clear the cache for today's date to ensure fresh data
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const day = String(today.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
+        this.foodService.clearFoodTrackingCache(dateStr);
+
         // Navigate back to the food tracker page
         this.router.navigate(['/food-tracker/:id']);
       });
@@ -98,6 +106,15 @@ export class ViewLogItemComponent implements OnInit {
       if (result) {
         this.foodService.deleteFoodLog(this.logItem).subscribe({
           next: () => {
+            // Clear the cache for today's date to ensure fresh data
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+            const day = String(today.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+            this.foodService.clearFoodTrackingCache(dateStr);
+
+            // Navigate back to the food tracker page
             this.router.navigate(['/food-tracker/:id']);
           },
           error: (error) => {
