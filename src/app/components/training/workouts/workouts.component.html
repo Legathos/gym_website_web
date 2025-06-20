@@ -15,8 +15,34 @@
           <h3>Workout History</h3>
         </div>
         <div class="card-body">
+          <!-- Calendar display for workout history -->
+          <div class="calendar-container">
+            <div class="calendar-header">
+              <h4>{{ currentMonth }} {{ currentYear }}</h4>
+            </div>
+            <div class="calendar-weekdays">
+              <div class="weekday">Sun</div>
+              <div class="weekday">Mon</div>
+              <div class="weekday">Tue</div>
+              <div class="weekday">Wed</div>
+              <div class="weekday">Thu</div>
+              <div class="weekday">Fri</div>
+              <div class="weekday">Sat</div>
+            </div>
+            <div class="calendar-grid">
+              <div class="calendar-week" *ngFor="let week of calendarWeeks">
+                <div class="calendar-day"
+                     *ngFor="let date of week"
+                     [class.today]="isToday(date)"
+                     [class.other-month]="!isCurrentMonth(date)">
+                  <div class="date-number">{{ date.day }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- List of recent workouts will be displayed here -->
-          <div class="workout-history-list">
+          <div class="workout-history-list mt-4">
             <!-- This will be populated with actual workout data -->
           </div>
         </div>
