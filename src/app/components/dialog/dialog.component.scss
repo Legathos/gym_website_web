@@ -57,6 +57,31 @@ mat-dialog-content {
       margin: 15px auto 0;
     }
   }
+
+  // Weight input styling
+  .weight-input-container {
+    margin-top: 20px;
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid rgba($tertiary-color, 0.3);
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background-color: rgba($light-bg, 0.5);
+
+      &:focus {
+        outline: none;
+        border-color: $secondary-color;
+        box-shadow: 0 0 0 3px rgba($secondary-color, 0.2);
+      }
+
+      &::placeholder {
+        color: rgba($primary-color, 0.5);
+      }
+    }
+  }
 }
 
 // Dialog actions styling

@@ -36,5 +36,5 @@ export const EndpointDictionary = {
   getWorkoutByUserId:`${apiUrl}get-workouts-by-userid-`,
   login:`${apiUrl}user/login`,
   register:`${apiUrl}user/register`,
-  updateUserWeight:`${apiUrl}weight-history-user-`,
+  updateUserWeight:`${apiUrl}user/update-user-weight`,
 };

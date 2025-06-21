@@ -1,5 +1,23 @@
 <mat-dialog-content class="mat-typography">
   <h3>{{question}}</h3>
+
+  <!-- Weight input field - only shown for weight input dialogs -->
+  <div *ngIf="isWeightInput" class="weight-input-container mt-3">
+    <input
+      type="number"
+      [(ngModel)]="weight"
+      (ngModelChange)="onWeightChange()"
+      class="form-control"
+      placeholder="Enter weight in kg"
+      min="0"
+      max="400"
+      step="0.1"
+      required>
+    <!-- Error message -->
+    <div *ngIf="weightError" class="text-danger mt-2">
+      {{ weightError }}
+    </div>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions [align]="action === 'OK' ? 'center' : 'end'">
   <!-- Show Cancel button only for confirmation dialogs (not for OK dialogs) -->
@@ -11,6 +29,7 @@
   <button (click)="delete()" *ngIf="action === 'Cancel Workout'" cdkFocusInitial color="warn" mat-button mat-dialog-close>{{action}}</button>
   <button (click)="delete()" *ngIf="action === 'Finish Workout'" cdkFocusInitial color="primary" mat-button mat-dialog-close>{{action}}</button>
   <button (click)="delete()" *ngIf="action === 'Remove'" cdkFocusInitial color="warn" mat-button mat-dialog-close>{{action}}</button>
+  <button (click)="delete()" *ngIf="action === 'Confirm'" cdkFocusInitial color="primary" mat-button mat-dialog-close>{{action}}</button>
 
   <!-- OK button - centered when it's the only button -->
   <button (click)="delete()" *ngIf="action === 'OK'" cdkFocusInitial color="primary" mat-button mat-dialog-close>{{action}}</button>

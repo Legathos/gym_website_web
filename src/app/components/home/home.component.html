@@ -23,8 +23,21 @@
 </div>
 
   <div class="profile-card">
-    <h2 class="card-title">Weight History</h2>
-    <div class="weight-chart">
+    <div class="d-flex align-items-center justify-content-between">
+      <h2 class="card-title mb-0">Weight History</h2>
+      <button (click)="openAddWeightDialog()" class="btn btn-sm add-weight-btn" style="background-color: #FF7124;
+       color: white; width: 30px; height: 30px; padding: 0; display: flex; align-items: center; justify-content: center;
+        font-weight: bolder; font-size: 20px;">
+        +
+      </button>
+    </div>
+    <div class="weight-chart" style="position: relative;">
+      <!-- Loading spinner -->
+      <div *ngIf="isWeightChartLoading" class="chart-loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
       <canvas id="weight-chart"></canvas>
     </div>
   </div>

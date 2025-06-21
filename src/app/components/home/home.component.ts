@@ -5,6 +5,10 @@ import {MemberService} from "@domain/member";
 import {FoodService} from "@domain/food";
 import { LoggerData} from "@domain/food/model/logger.model";
 import { Chart, registerables } from 'chart.js';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+import { HttpClient } from '@angular/common/http';
+import { EndpointDictionary } from '../../../environments/endpoint-dictionary';
 
 // Register all Chart.js components
 Chart.register(...registerables);
@@ -74,7 +78,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(
     private memberService: MemberService,
-    private foodService: FoodService
+    private foodService: FoodService,
+    private dialog: MatDialog,
+    private http: HttpClient
   ) {
   }
 
@@ -114,14 +120,27 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // Loading state for weight chart
+  isWeightChartLoading: boolean = false;
+
   getUserWeightHistoryData(id: number) {
+    // Set loading state
+    this.isWeightChartLoading = true;
+
     this.memberService.getUserWeightHistoryData(id)
       .subscribe({
         next: (data) => {
           this.userWeightHistory = data;
-          this.memberService.weightChart(this.userWeightHistory)
+          this.memberService.weightChart(this.userWeightHistory);
+          // Clear loading state
+          this.isWeightChartLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading weight history:', error);
+          // Clear loading state on error
+          this.isWeightChartLoading = false;
         }
-      })
+      });
   }
 
   getFoodTrackingData() {
@@ -308,6 +327,55 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.loadFatHistory();
         }
         break;
+    }
+  }
+
+  /**
+   * Opens a dialog to add a new weight entry
+   */
+  openAddWeightDialog(): void {
+    // Create a dialog with a custom template for weight input
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '300px',
+      data: {
+        question: 'Enter your current weight (kg):',
+        action: 'Confirm',
+        isWeightInput: true
+      }
+    });
+
+    // Handle the dialog result
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.weight) {
+        // If the user confirmed and provided a weight, save it
+        this.addNewWeight(result.weight);
+      }
+    });
+  }
+
+  /**
+   * Adds a new weight entry for the current user
+   * @param weight The weight value to add
+   */
+  addNewWeight(weight: number): void {
+    if (this.user && this.user.id) {
+      // Create the UserWeightDto object
+      const userWeightDto = {
+        user_id: this.user.id,
+        weight: weight,
+        date: new Date() // Current date
+      };
+
+      // Send the POST request to add the new weight
+      this.http.post(EndpointDictionary.updateUserWeight, userWeightDto).subscribe({
+        next: () => {
+          // Refresh the weight history data to update the chart
+          this.getUserWeightHistoryData(this.user.id);
+        },
+        error: (error) => {
+          console.error('Error adding weight:', error);
+        }
+      });
     }
   }
 
