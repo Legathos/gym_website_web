@@ -1,260 +1,428 @@
-// Color variables
-$primary-color: #1E314A;
-$secondary-color: #256A7A;
-$tertiary-color: #C5E4E9;
-$accent-color: #BB8A2E;
+// Color variables to match the app's design language
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
 $light-bg: #f8f9fa;
 $card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 $hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
-// Page wrapper
-.page-wrapper {
-  background-color: $light-bg;
-  min-height: 100vh;
-  padding: 20px 0;
-}
+// Modern UI variables
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$transition-speed: 0.3s;
+$gradient-primary: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+$gradient-secondary: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
+$gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
 
-// Container styling
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 30px;
-  background-color: white;
-  border-radius: 10px;
+// Bootstrap Navbar styling
+.navbar.top-bar {
+  padding: 12px 16px;
+  margin: 1rem 1rem;
+  width: calc(100% - 2rem);
+  border-radius: $border-radius-lg;
+  background: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+  color: white;
   box-shadow: $card-shadow;
-}
-
-// Header and title styling
-header {
-  margin-bottom: 30px;
-}
-
-h1 {
-  color: $primary-color;
-  margin-bottom: 15px;
-  font-weight: 600;
+  transition: all $transition-speed ease;
   position: relative;
-
-  &:after {
-    content: '';
-    display: block;
-    width: 50px;
-    height: 3px;
-    background-color: $secondary-color;
-    margin: 10px auto 0;
-  }
-}
-
-// Food details section
-.food-details {
-  padding: 10px;
-}
-
-// Table styling
-.table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin-top: 20px;
-  border-radius: 8px;
+  z-index: 1;
   overflow: hidden;
-  box-shadow: $card-shadow;
-  background-color: white;
-}
 
-.table td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid rgba($tertiary-color, 0.5);
-}
-
-.table tr:last-child td {
-  border-bottom: none;
-}
-
-.table tr:nth-child(even) {
-  background-color: rgba($tertiary-color, 0.2);
-}
-
-.macro-name {
-  font-weight: 600;
-  color: $secondary-color;
-  width: 40%;
-}
-
-.macro-value {
-  font-size: 1.05em;
-  color: $primary-color;
-}
-
-// Back button styling
-.return-btn {
-  padding: 15px;
-  max-width: 800px;
-  margin: 0 auto 15px;
-}
-
-.back-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: $accent-color;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 18px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  box-shadow: $card-shadow;
-
-  &:hover {
-    background-color: darken($accent-color, 10%);
-    transform: translateX(-3px);
-    box-shadow: $hover-shadow;
-  }
-
-  &:active {
-    transform: translateY(1px);
-  }
-
-  svg {
-    fill: white;
-  }
-}
-
-// Additional structural enhancements
-.container {
-  position: relative;
-
-  &:before {
+  &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(to right, $secondary-color, $tertiary-color);
-    border-radius: 10px 10px 0 0;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.7;
+    z-index: 0;
   }
-}
 
-// Food item highlight
-.food-details {
-  position: relative;
-
-  &:after {
+  &::after {
     content: '';
     position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30%;
-    height: 2px;
-    background-color: rgba($tertiary-color, 0.5);
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.5;
+    z-index: 0;
   }
-}
-
-// Weight modifier section
-.weight-modifier {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: rgba($tertiary-color, 0.2);
-  border-radius: 8px;
-  box-shadow: $card-shadow;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 300px;
-
-  label {
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: $secondary-color;
-  }
-}
-
-// Form input styling
-.form-input {
-  width: 100%;
-  padding: 10px 15px;
-  border: 2px solid rgba($secondary-color, 0.3);
-  border-radius: 5px;
-  font-size: 1.05em;
-  transition: border-color 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: $secondary-color;
-  }
-
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    opacity: 1;
-  }
-}
-
-.update-button {
-  background-color: $secondary-color;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  box-shadow: $card-shadow;
 
   &:hover {
-    background-color: darken($secondary-color, 10%);
     transform: translateY(-2px);
     box-shadow: $hover-shadow;
   }
 
-  &:active {
-    transform: translateY(1px);
+  .container-fluid {
+    padding: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+    color: white;
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-back {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: all $transition-speed ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px) scale(1.05);
+      box-shadow: 0 2px 5px rgba($primary-color, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba($primary-color, 0.15);
+    }
+
+    i {
+      font-size: 20px;
+    }
   }
 }
 
-// Responsive adjustments
+.search-results-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: $secondary-color;
+  min-height: calc(100vh - 80px);
+  border-radius: 12px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: 100vh;
+    background: linear-gradient(135deg, transparent, rgba($accent-color, 0.03));
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+.food-item-card {
+  margin-bottom: 20px;
+  border-radius: 16px;
+  padding: 0;
+  background-color: $light-color;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-header {
+    padding: 16px;
+    background-color: $light-color;
+    border-bottom: none;
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: $primary-color;
+      margin-bottom: 12px;
+      letter-spacing: 0.2px;
+    }
+  }
+}
+
+// Form styling for add food
+.food-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      font-weight: 600;
+      color: $secondary-color;
+      font-size: 0.95rem;
+    }
+
+    .form-control {
+      padding: 10px 15px;
+      border: 2px solid rgba($secondary-color, 0.3);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background-color: $background-color;
+
+      &:focus {
+        outline: none;
+        border-color: $secondary-color;
+        box-shadow: 0 0 0 3px rgba($secondary-color, 0.2);
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.scan-bar {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 1.5rem 0;
+
+  .scan-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.75rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    max-width: 300px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+      pointer-events: none;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.95);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    i {
+      margin-right: 6px;
+      font-size: 20px;
+    }
+  }
+
+  .add-food-button {
+    background-color: $accent-color;
+    box-shadow: 0 2px 8px rgba($accent-color, 0.4);
+
+    &:hover {
+      background-color: darken($accent-color, 5%);
+      box-shadow: 0 4px 12px rgba($accent-color, 0.5);
+    }
+
+    &:active {
+      background-color: darken($accent-color, 10%);
+      box-shadow: 0 1px 4px rgba($accent-color, 0.3);
+    }
+  }
+}
+
+/* Responsive styles */
 @media (max-width: 768px) {
-  .container {
-    padding: 20px 15px;
+  .navbar.top-bar {
+    padding: 10px 12px;
+    margin: 0.8rem 0.8rem;
+    width: calc(100% - 1.6rem);
+    border-radius: $border-radius-md;
+
+    .page-title {
+      font-size: 1.2rem;
+      padding-bottom: 4px;
+    }
+
+    .btn-back {
+      width: 36px;
+      height: 36px;
+
+      i {
+        font-size: 18px;
+      }
+    }
+
+    &::before, &::after {
+      opacity: 0.5;
+    }
   }
 
-  .table td {
-    padding: 12px 10px;
+  .search-results-container {
+    padding: 1rem;
   }
 
-  .macro-name, .macro-value {
-    font-size: 0.95em;
+  .food-item-card {
+    margin-bottom: 15px;
+
+    .card-header {
+      padding: 14px;
+
+      .card-title {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+      }
+    }
   }
 
-  .back-button {
-    padding: 8px 15px;
-    font-size: 0.9em;
+  .food-form {
+    gap: 12px;
+
+    .form-group {
+      gap: 6px;
+
+      label {
+        font-size: 0.9rem;
+      }
+
+      .form-control {
+        padding: 8px 12px;
+        font-size: 0.95rem;
+      }
+    }
   }
 
-  .weight-modifier {
-    padding: 15px;
-    margin-top: 20px;
+  .scan-bar {
+    gap: 12px;
+    margin: 1rem 0;
+
+    .scan-button {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.9rem;
+      border-radius: 16px;
+
+      i {
+        font-size: 18px;
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar.top-bar {
+    padding: 8px 10px;
+    margin: 0.6rem 0.6rem;
+    width: calc(100% - 1.2rem);
+    border-radius: $border-radius-sm;
+
+    .page-title {
+      font-size: 1.1rem;
+      padding-bottom: 3px;
+    }
+
+    .btn-back {
+      width: 32px;
+      height: 32px;
+
+      i {
+        font-size: 16px;
+      }
+    }
+
+    &::before, &::after {
+      opacity: 0.4;
+    }
   }
 
-  .form-input {
-    padding: 8px 12px;
-    font-size: 0.95em;
+  .search-results-container {
+    padding: 0.75rem;
+    border-radius: 10px;
   }
 
-  .update-button {
-    padding: 8px 15px;
-    font-size: 0.9em;
+  .food-item-card {
+    margin-bottom: 12px;
+    border-radius: 8px;
+
+    .card-header {
+      padding: 12px;
+
+      .card-title {
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  .food-form {
+    gap: 10px;
+
+    .form-group {
+      gap: 4px;
+
+      label {
+        font-size: 0.85rem;
+      }
+
+      .form-control {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+        border-width: 1px;
+      }
+    }
+  }
+
+  .scan-bar {
+    flex-direction: column;
+    gap: 8px;
+    margin: 0.75rem 0;
+
+    .scan-button {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.85rem;
+      border-radius: 15px;
+      max-width: 100%;
+
+      i {
+        font-size: 16px;
+        margin-right: 4px;
+      }
+    }
   }
 }
