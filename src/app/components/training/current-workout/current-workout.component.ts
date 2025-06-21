@@ -110,15 +110,17 @@ export class CurrentWorkoutComponent implements OnInit {
    * Shows a dialog with the given message
    * @param message The message to display
    * @param action The action button text (default: 'OK')
+   * @param panelClass Optional CSS class to apply to the dialog
    * @returns Observable of the dialog result
    */
-  private showDialog(message: string, action: string = 'OK') {
+  private showDialog(message: string, action: string = 'OK', panelClass?: string) {
     return this.dialog.open(DialogComponent, {
       width: '350px',
       data: {
         question: message,
         action: action
-      }
+      },
+      panelClass: panelClass
     });
   }
 
@@ -235,7 +237,8 @@ export class CurrentWorkoutComponent implements OnInit {
     // Open confirmation dialog
     const dialogRef = this.showDialog(
       'Are you sure you want to finish this workout?',
-      'Finish Workout'
+      'Finish Workout',
+      'workout-completion-dialog'
     );
 
     // Handle dialog result
@@ -265,7 +268,11 @@ export class CurrentWorkoutComponent implements OnInit {
                 this.saveAllSets(workoutId).subscribe({
                   next: () => {
                     // Show success dialog
-                    const successDialogRef = this.showDialog('Workout and all sets completed successfully!');
+                    const successDialogRef = this.showDialog(
+                      'Workout and all sets completed successfully!',
+                      'OK',
+                      'workout-completion-dialog'
+                    );
 
                     // Navigate to workouts page after dialog is closed
                     successDialogRef.afterClosed().subscribe(() => {

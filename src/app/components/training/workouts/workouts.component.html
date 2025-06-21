@@ -1,7 +1,3 @@
-<div class="banner">
-  Welcome to Your Workout Dashboard
-</div>
-
 <div class="container">
   <!-- Header with Start New Workout Button -->
   <div class="row mb-4">
@@ -38,10 +34,10 @@
       <div class="calendar-grid">
         <div *ngFor="let week of calendarWeeks" class="calendar-week">
           <div *ngFor="let date of week"
+               [class.no-workout-day]="hasNoWorkout(date)"
                [class.other-month]="!isCurrentMonth(date)"
                [class.today]="isToday(date)"
                [class.workout-day]="hasWorkout(date)"
-               [class.no-workout-day]="hasNoWorkout(date)"
                class="calendar-day">
             <div class="date-number">{{ date.day }}</div>
             <div *ngIf="hasWorkout(date)" class="workout-indicator">

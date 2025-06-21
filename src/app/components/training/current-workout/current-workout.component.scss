@@ -1,13 +1,22 @@
-// Color variables for minimal modern design
+// Color variables to match the app's design language
 $primary-color: #202124;
 $secondary-color: #232D4E;
 $tertiary-color: #3B4883;
 $accent-color: #FF7124;
 $light-color: #DBBBA7;
 $background-color: #E8DFD5;
-$light-bg: #F7FAFC;
-$card-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-$hover-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+$light-bg: #f8f9fa;
+$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+// Modern UI variables
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$transition-speed: 0.3s;
+$gradient-primary: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
+$gradient-secondary: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
+$gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
 
 // Override Bootstrap variables
 $primary: $secondary-color;
@@ -17,8 +26,58 @@ $danger: #F56565;
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: $light-bg;
+  background-color: $secondary-color;
   position: relative;
+  overflow-x: hidden;
+}
+
+// Banner style from home page
+.banner {
+  background: $gradient-primary;
+  color: white;
+  font-size: clamp(1.2rem, 4vw, 1.8rem); /* Responsive font size */
+  padding: 1.2rem 2.5rem;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 1rem;
+  margin: 1.2rem 1.5rem;
+  box-shadow: $card-shadow;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+    transform: translateY(-2px);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.7;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem 1.5rem;
+    margin: 1rem;
+    border-radius: 0.8rem;
+  }
 }
 
 // Bootstrap Navbar styling
@@ -26,16 +85,18 @@ $danger: #F56565;
   padding: 0 16px;
   margin: 0.5rem auto;
   max-width: 800px;
-  border-radius: 12px;
-  background-color: white;
-  color: $primary-color;
+  border-radius: $border-radius-md;
+  background-color: $tertiary-color;
+  color: white;
   box-shadow: $card-shadow;
-  transition: box-shadow 0.2s ease;
+  transition: all $transition-speed ease;
   position: relative;
   z-index: 1;
+  height: 50px;
 
   &:hover {
     box-shadow: $hover-shadow;
+    transform: translateY(-2px);
   }
 
   .container-fluid {
@@ -44,25 +105,29 @@ $danger: #F56565;
 
   .page-title {
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
     margin: 0;
     text-align: center;
+    color: white;
   }
 
   .btn-back {
-    background-color: $secondary-color;
+    background-color: $accent-color;
     color: white;
-    transition: background-color 0.2s ease;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
+    transition: all $transition-speed ease;
+    width: 30px;
+    height: 30px;
+    border-radius: $border-radius-sm;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
     &:hover {
-      background-color: darken($secondary-color, 10%);
+      background-color: darken($accent-color, 5%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
 
     i {
@@ -72,11 +137,10 @@ $danger: #F56565;
 }
 
 .content-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: white;
-  border-radius: 12px;
+  max-width: 96.5vw;
+  padding: 25px;
+  background-color: rgba($background-color, 0.9);
+  border-radius: $border-radius-md;
   box-shadow: $card-shadow;
   min-height: calc(100vh - 80px);
   flex: 1;
@@ -120,20 +184,24 @@ $danger: #F56565;
 
   .btn {
     width: 100%;
-    padding: 0.6rem 1.25rem;
+    padding: 10px 20px;
     font-weight: 500;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    box-shadow: none;
-    background-color: $secondary-color;
+    border-radius: $border-radius-sm;
+    transition: all $transition-speed ease;
+    background: linear-gradient(to bottom, $accent-color, darken($accent-color, 10%));
     border: none;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     &:hover {
-      background-color: darken($secondary-color, 5%);
+      background: linear-gradient(to bottom, lighten($accent-color, 5%), $accent-color);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
     &:active {
-      background-color: darken($secondary-color, 10%);
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 }
@@ -142,14 +210,16 @@ $danger: #F56565;
 .exercise-card {
   overflow: hidden;
   border: none;
-  border-radius: 8px;
+  border-radius: $border-radius-lg;
   box-shadow: $card-shadow;
-  transition: box-shadow 0.2s ease;
-  background-color: white;
-  margin-bottom: 1rem;
+  transition: all $transition-speed ease;
+  background-color: $tertiary-color;
+  margin-bottom: 25px;
+  color: white;
 
   &:hover {
     box-shadow: $hover-shadow;
+    transform: translateY(-2px);
   }
 
   // Exercise top bar styling
@@ -157,31 +227,39 @@ $danger: #F56565;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.6rem 1rem;
-    background-color: $secondary-color;
+    padding: 18px 20px;
+    background: rgba($tertiary-color, 0.9);
     color: white;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-bottom: 2px solid $accent-color;
   }
 
   .exercise-name {
     margin: 0;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 600;
     color: white;
+    padding-bottom: 6px;
   }
 
   .delete-btn {
     padding: 0.25rem 0.5rem;
     background-color: transparent;
     border: none;
-    transition: background-color 0.2s ease;
+    transition: all $transition-speed ease;
     color: white;
-    border-radius: 4px;
+    border-radius: $border-radius-sm;
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
     }
+  }
+
+  // Card body styling
+  .card-body {
+    padding: 25px;
+    background-color: rgba($background-color, 0.9);
+    color: $primary-color;
   }
 
   // Set tracking styling
@@ -191,11 +269,11 @@ $danger: #F56565;
 
   .sets-title {
     color: $primary-color;
-    font-weight: 500;
-    border-bottom: 1px solid rgba($secondary-color, 0.1);
-    padding-bottom: 0.4rem;
+    font-weight: 600;
+    border-bottom: 2px solid $accent-color;
+    padding-bottom: 0.6rem;
     margin-bottom: 0.75rem;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
   }
 
   .set-headers {
@@ -233,13 +311,17 @@ $danger: #F56565;
   .set-row {
     display: flex;
     background-color: $light-bg;
-    border-radius: 6px;
+    border-radius: $border-radius-sm;
     padding: 0.6rem;
     margin-bottom: 0.5rem;
-    transition: background-color 0.2s ease;
+    transition: all $transition-speed ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 
     &:hover {
       background-color: darken($light-bg, 2%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
   }
 
@@ -304,25 +386,44 @@ $danger: #F56565;
     background-color: transparent;
     color: $danger;
     border: none;
-    border-radius: 4px;
+    border-radius: $border-radius-sm;
+    transition: all $transition-speed ease;
+    box-shadow: 0 1px 3px rgba($primary-color, 0.15);
 
     &:hover {
       background-color: rgba($danger, 0.1);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 5px rgba($primary-color, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba($primary-color, 0.15);
     }
   }
 
   .add-set-btn {
     width: 100%;
-    border-radius: 4px;
-    border: none;
-    background-color: rgba($secondary-color, 0.1);
-    color: $secondary-color;
-    padding: 0.4rem;
-    transition: all 0.2s ease;
+    border-radius: $border-radius-sm;
+    background-color: $light-color;
+    color: $primary-color;
+    border: 1px solid rgba($primary-color, 0.3);
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all $transition-speed ease;
     font-size: 0.85rem;
 
     &:hover {
-      background-color: rgba($secondary-color, 0.2);
+      background: rgba($light-color, 0.8);
+      border-color: rgba($primary-color, 0.5);
+      color: $primary-color;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      box-shadow: none;
+      transform: translateY(0);
     }
   }
 }
@@ -335,33 +436,50 @@ $danger: #F56565;
   padding: 1rem 0;
   position: sticky;
   bottom: 0;
-  background-color: white;
-  border-radius: 8px;
+  background-color: rgba($background-color, 0.9);
+  border-radius: $border-radius-md;
   z-index: 2;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
 
   .btn {
-    padding: 0.6rem 1.25rem;
+    padding: 10px 20px;
     font-weight: 500;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+    border-radius: $border-radius-sm;
+    transition: all $transition-speed ease;
     min-width: 45%;
-    box-shadow: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: none;
   }
 
   .btn-success {
-    background-color: $secondary-color;
+    background: linear-gradient(to bottom, $accent-color, darken($accent-color, 10%));
+    color: white;
 
-    &:hover, &:focus {
-      background-color: darken($secondary-color, 5%);
+    &:hover {
+      background: linear-gradient(to bottom, lighten($accent-color, 5%), $accent-color);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 
   .btn-danger {
-    background-color: $danger;
+    background: linear-gradient(to bottom, $danger, darken($danger, 10%));
+    color: white;
 
-    &:hover, &:focus {
-      background-color: darken($danger, 5%);
+    &:hover {
+      background: linear-gradient(to bottom, lighten($danger, 5%), $danger);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 }
