@@ -710,11 +710,11 @@ $danger: #dc3545;
       }
 
       .add-btn {
-        background: linear-gradient(135deg, #28a745, darken(#28a745, 15%));
+        background: $accent-color;
         color: white;
 
         &:hover {
-          background: linear-gradient(135deg, lighten(#28a745, 5%), #28a745);
+          background: $accent-color;
         }
       }
 
