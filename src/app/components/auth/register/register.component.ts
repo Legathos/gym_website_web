@@ -16,7 +16,6 @@ export class RegisterComponent implements OnInit {
   warningMessage!: string;
   alertType!: string;
   user!: User;
-  userRegisteredCheck!: boolean;
   @ViewChild('confirmationMessage', {static: false}) confirmationMessage!: NgbAlert;
 
   constructor(private router: Router,
@@ -41,7 +40,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(event?: Event) {
-    console.log('onSubmit called');
     if (event) {
       event.preventDefault(); // Prevent default form submission
     }
