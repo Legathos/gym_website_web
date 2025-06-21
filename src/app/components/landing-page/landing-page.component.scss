@@ -1,7 +1,12 @@
-$primary-color: #1E314A;
-$secondary-color: #256A7A;
-$tertiary-color: #C5E4E9;
-$accent-color: #BB8A2E;
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
+$light-bg: #f8f9fa;
+$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 
 body, h1, h2, p, div {
   margin: 0;
@@ -10,7 +15,7 @@ body, h1, h2, p, div {
 }
 
 body {
-  background-color: $tertiary-color;
+  background-color: $secondary-color;
   font-family: 'Arial', sans-serif;
   color: $primary-color;
 }
@@ -24,15 +29,16 @@ body {
 }
 
 .main-banner {
-  background: linear-gradient(135deg, $secondary-color, darken($tertiary-color, 15%));
+  background: linear-gradient(to right, $secondary-color, $tertiary-color);
   color: #fff;
-  padding: 60px 20px;
+  padding: 80px 20px;
   border-radius: 12px;
   margin-bottom: 60px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: $card-shadow;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
 
   &::before {
     content: '';
@@ -44,24 +50,37 @@ body {
     background: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
     opacity: 0.1;
     z-index: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    box-shadow: $hover-shadow;
+
+    &::before {
+      opacity: 0.15;
+    }
   }
 
   .banner-content {
     position: relative;
     z-index: 1;
+    animation: fadeIn 0.8s ease-out;
 
     h1 {
-      font-size: 3.5rem;
+      font-size: 4rem;
       font-weight: 700;
       margin-bottom: 15px;
       letter-spacing: 1px;
+      color: white;
+      text-transform: uppercase;
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       max-width: 600px;
       margin: 0 auto;
       opacity: 0.9;
+      font-weight: 300;
     }
   }
 }
@@ -112,24 +131,28 @@ body {
 }
 
 .cta-buttons {
-  margin-top: 40px;
+  margin-top: 60px;
+  margin-bottom: 40px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 .btn {
   text-decoration: none;
   font-weight: 600;
-  padding: 14px 28px;
+  padding: 16px 32px;
   border-radius: 30px;
   display: inline-block;
-  margin: 0 12px;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-size: 0.95rem;
+  box-shadow: $card-shadow;
   position: relative;
   overflow: hidden;
+  min-width: 180px;
 
   &::before {
     content: '';
@@ -144,7 +167,7 @@ body {
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: $hover-shadow;
 
     &::before {
       left: 100%;
@@ -152,24 +175,23 @@ body {
   }
 
   &.login {
-    background-color: transparent;
-    color: $secondary-color;
-    border: 2px solid $secondary-color;
+    color: $accent-color;
+    border: 2px solid $accent-color;
 
     &:hover {
-      background-color: $secondary-color;
+      background-color: $accent-color;
       color: white;
     }
   }
 
   &.register {
-    background-color: $secondary-color;
+    background-color: $accent-color;
     color: white;
-    border: 2px solid $secondary-color;
+    border: 2px solid $accent-color;
 
     &:hover {
-      background-color: darken($secondary-color, 10%);
-      border-color: darken($secondary-color, 10%);
+      background-color: darken($accent-color, 10%);
+      border-color: darken($accent-color, 10%);
     }
   }
 }
@@ -177,16 +199,17 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
   .main-banner {
-    padding: 40px 15px;
-    margin-bottom: 50px;
+    padding: 50px 15px;
+    margin-bottom: 40px;
+    border-radius: 8px;
 
     .banner-content {
       h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
       }
 
       p {
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
     }
   }
@@ -197,20 +220,22 @@ body {
   }
 
   .cta-buttons {
-    margin-top: 30px;
-    display: flex;
+    margin-top: 40px;
+    margin-bottom: 30px;
     flex-direction: column;
     align-items: center;
+    gap: 15px;
 
     .btn {
-      margin: 8px 0;
-      width: 80%;
+      width: 100%;
       max-width: 250px;
+      padding: 14px 28px;
     }
   }
 
   .carousel-container {
     max-width: 90%;
+    margin: 30px auto;
   }
 
   .carousel-nav {
@@ -229,19 +254,82 @@ body {
 
   .feature-card {
     padding: 1.5rem;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: auto;
+    min-height: 220px;
+
+    h3 {
+      font-size: 1.2rem;
+      margin: 0.6rem 0;
+
+      &::after {
+        width: 30px;
+      }
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+
+    &:hover h3::after {
+      width: 45px;
+    }
   }
 
   .card-icon {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-banner {
+    padding: 40px 15px;
+    margin-bottom: 30px;
+
+    .banner-content {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      p {
+        font-size: 1rem;
+        padding: 0 10px;
+      }
+    }
   }
 
-  .feature-card h3 {
-    font-size: 1.2rem;
+  .carousel-container {
+    margin: 20px auto;
   }
 
-  .feature-card p {
-    font-size: 0.9rem;
+  .feature-card {
+    padding: 1.2rem;
+    min-height: 200px;
+
+    h3 {
+      font-size: 1.1rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+    }
+  }
+
+  .card-icon {
+    font-size: 1.6rem;
+    width: 45px;
+    height: 45px;
+    margin-bottom: 0.6rem;
+  }
+
+  .cta-buttons {
+    margin-top: 30px;
+
+    .btn {
+      font-size: 0.9rem;
+      padding: 12px 24px;
+    }
   }
 }
 
@@ -249,19 +337,25 @@ body {
   overflow: hidden;
   width: 100%;
   max-width: 500px;
-  margin: 20px auto;
+  margin: 40px auto;
   border-radius: 1rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: $card-shadow;
   position: relative;
+  background-color: $light-bg;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
 }
 
 .carousel-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.8);
+  width: 44px;
+  height: 44px;
+  background-color: white;
   border: none;
   border-radius: 50%;
   font-size: 1.2rem;
@@ -271,12 +365,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: $card-shadow;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: $accent-color;
+    color: white;
+    box-shadow: $hover-shadow;
     transform: translateY(-50%) scale(1.1);
   }
 
@@ -310,16 +405,27 @@ body {
     from { transform: translateX(20px); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
   }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
 }
 
 .carousel-slide {
   flex: 0 0 100%;
-  padding: 1rem;
-  background: #f8f9fa;
+  padding: 1.2rem;
+  background: $light-bg;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: lighten($light-bg, 2%);
+  }
 }
 
 .feature-card {
@@ -332,19 +438,34 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: $card-shadow;
+  transition: all 0.3s ease;
   animation: fadeIn 0.5s ease-out, slideIn 0.6s ease-out;
+  border-top: 3px solid $accent-color;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    box-shadow: $hover-shadow;
   }
 
   h3 {
     color: $secondary-color;
     margin: 0.8rem 0;
     font-size: 1.4rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 0.5rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: $tertiary-color;
+      transition: width 0.3s ease;
+    }
   }
 
   p {
@@ -352,48 +473,90 @@ body {
     margin-bottom: 0;
     font-size: 1rem;
     line-height: 1.5;
+    opacity: 0.9;
+  }
+
+  &:hover h3::after {
+    width: 60px;
   }
 }
 
 .card-icon {
   font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+  color: $accent-color;
+  background-color: rgba(255, 113, 36, 0.1);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.3s ease;
+
+  .feature-card:hover & {
+    transform: scale(1.1);
+    background-color: rgba(255, 113, 36, 0.15);
+  }
 }
 
 .carousel-indicators {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin: 1.5rem 0 1rem;
 }
 
 .carousel-indicators span {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   margin: 0 6px;
-  background: #ccc;
+  background: #ddd;
   border-radius: 50%;
   display: inline-block;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+  }
 
   &:hover {
     transform: scale(1.2);
-    background: lighten($secondary-color, 15%);
+    background: lighten($accent-color, 15%);
   }
 }
 
 .carousel-indicators span.active {
-  background: $secondary-color;
-  width: 14px;
-  height: 14px;
+  background: $accent-color;
   transform: scale(1.1);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 5px rgba(255, 113, 36, 0.3);
+
+  &::after {
+    border-color: rgba(255, 113, 36, 0.3);
+  }
 }
 
 .swipe-instruction {
   text-align: center;
   margin-top: 0.5rem;
-  color: lighten($primary-color, 20%);
-  font-size: 0.9rem;
+  color: lighten($primary-color, 30%);
+  font-size: 0.85rem;
+  font-style: italic;
+  letter-spacing: 0.5px;
+
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+  }
 }
