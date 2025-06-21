@@ -14,8 +14,8 @@
     <!-- Workout name input field -->
     <div class="workout-name-container mb-4">
       <input
-        [ngModel]="workoutName"
         (ngModelChange)="updateWorkoutName($event)"
+        [ngModel]="workoutName"
         aria-label="Workout name"
         class="form-control workout-name-input"
         placeholder="Enter workout name"

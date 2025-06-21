@@ -14,7 +14,7 @@ $border-radius-sm: 8px;
 $border-radius-md: 12px;
 $border-radius-lg: 16px;
 $transition-speed: 0.3s;
-$gradient-primary: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+$gradient-primary: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
 $gradient-secondary: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
 $gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
 
@@ -24,7 +24,7 @@ $danger: #dc3545;
 
 // Banner style from workouts page
 .banner {
-  background: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+  background: $gradient-primary;
   color: white;
   font-size: clamp(1.2rem, 4vw, 1.8rem); /* Responsive font size */
   padding: 1.2rem 2.5rem;
@@ -85,7 +85,7 @@ $danger: #dc3545;
   margin: 1rem 1rem;
   width: calc(100% - 2rem);
   border-radius: $border-radius-lg;
-  background: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+  background: $gradient-primary;
   color: white;
   box-shadow: $card-shadow;
   transition: all $transition-speed ease;
@@ -321,34 +321,57 @@ $danger: #dc3545;
     .filter-dropdown {
       position: relative;
       transition: all $transition-speed ease;
+      z-index: 10000; /* Higher z-index to ensure dropdown appears on top of exercise cards */
 
       .btn.btn-outline-primary {
-        background-color: rgba($light-color, 0.7);
+        background: linear-gradient(135deg, rgba($light-color, 0.8), rgba($light-color, 0.6));
         color: $primary-color;
         border-radius: $border-radius-sm;
         border: 1px solid rgba($primary-color, 0.1);
-        font-weight: 500;
+        font-weight: 600;
         font-size: 14px;
-        padding: 8px 16px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        padding: 10px 18px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         transition: all $transition-speed ease;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        letter-spacing: 0.3px;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 70%);
+          opacity: 0.5;
+          transition: opacity $transition-speed ease;
+          pointer-events: none;
+        }
 
         &:hover, &:focus {
-          background-color: rgba($light-color, 0.8);
-          border-color: rgba($primary-color, 0.2);
+          background: linear-gradient(135deg, rgba($light-color, 0.9), rgba($light-color, 0.7));
+          border-color: rgba($accent-color, 0.3);
           color: $primary-color;
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-          transform: translateY(-2px);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+          transform: translateY(-3px);
+
+          &::before {
+            opacity: 0.8;
+          }
         }
 
         &:active, &[aria-expanded="true"] {
-          background: linear-gradient(to bottom, $accent-color, darken($accent-color, 10%));
+          background: $gradient-accent;
           color: white;
           border-color: $accent-color;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 3px 8px rgba($accent-color, 0.3);
+          text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 
           i, &::after {
             color: white;
@@ -365,51 +388,114 @@ $danger: #dc3545;
         }
 
         i {
-          font-size: 16px;
+          font-size: 18px;
           color: $accent-color;
           transition: color $transition-speed ease;
+          filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
         }
       }
 
       .dropdown-menu {
-        background-color: rgba($light-color, 0.95);
-        border-radius: $border-radius-sm;
-        border: none;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        padding: 8px;
-        min-width: 160px;
-        margin-top: 8px;
-        z-index: 9999; /* Ensure dropdown appears on top of other elements */
+        background: linear-gradient(135deg, rgba($light-color, 0.98), rgba($light-color, 0.95));
+        border-radius: $border-radius-md;
+        border: 1px solid rgba($accent-color, 0.1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        padding: 12px;
+        min-width: 180px;
+        margin-top: 10px;
+        z-index: 99999; /* Ensure dropdown appears on top of all other elements */
+        transform-origin: top center;
+        animation: dropdownFadeIn 0.25s ease-out;
+        backdrop-filter: blur(5px);
+        position: absolute; /* Ensure proper positioning in the stacking context */
+
+        @keyframes dropdownFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.98);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: -6px;
+          left: 20px;
+          width: 12px;
+          height: 12px;
+          background: rgba($light-color, 0.98);
+          transform: rotate(45deg);
+          border-top: 1px solid rgba($accent-color, 0.1);
+          border-left: 1px solid rgba($accent-color, 0.1);
+          z-index: -1;
+        }
 
         .dropdown-item {
           color: $primary-color;
           font-weight: 500;
           font-size: 14px;
-          padding: 8px 12px;
-          border-radius: 4px;
+          padding: 10px 14px;
+          border-radius: 6px;
           transition: all $transition-speed ease;
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
+          margin-bottom: 4px;
+          position: relative;
+          overflow: hidden;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba($accent-color, 0.1), transparent);
+            opacity: 0;
+            transition: opacity $transition-speed ease;
+            pointer-events: none;
+          }
 
           &:hover, &:focus {
-            background-color: rgba($light-color, 0.8);
+            background-color: rgba($light-color, 0.7);
             color: $primary-color;
+            transform: translateX(3px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+            &::before {
+              opacity: 0.5;
+            }
+
+            i {
+              transform: scale(1.1);
+            }
           }
 
           &:active {
-            background: linear-gradient(to bottom, $accent-color, darken($accent-color, 10%));
+            background: $gradient-accent;
             color: white;
+            box-shadow: 0 2px 5px rgba($accent-color, 0.2);
 
             i {
               color: white;
+              transform: scale(1);
             }
           }
 
           i {
             font-size: 16px;
             color: $accent-color;
-            transition: color $transition-speed ease;
+            transition: all $transition-speed ease;
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
           }
         }
       }
@@ -967,33 +1053,54 @@ $danger: #dc3545;
       .sort-dropdown,
       .filter-dropdown {
         width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+        z-index: 10000; /* Higher z-index to ensure dropdown appears on top of exercise cards */
 
         .btn.btn-outline-primary {
           width: 100%;
-          font-size: 12px;
-          padding: 6px 12px;
+          font-size: 13px;
+          padding: 8px 14px;
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+          letter-spacing: 0.2px;
 
           i {
-            font-size: 14px;
+            font-size: 16px;
           }
 
           &::after {
-            margin-left: 4px;
+            margin-left: 6px;
+          }
+
+          &:hover, &:focus {
+            transform: translateY(-2px); /* Slightly reduced hover effect for mobile */
           }
         }
 
         .dropdown-menu {
           width: 100%;
-          padding: 6px;
-          z-index: 1000; /* Ensure dropdown appears on top of other elements */
+          padding: 10px;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+          border-radius: $border-radius-sm;
+          z-index: 99999; /* Ensure dropdown appears on top of all other elements */
+          position: absolute; /* Ensure proper positioning in the stacking context */
+
+          &::before {
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+          }
 
           .dropdown-item {
-            font-size: 12px;
-            padding: 6px 10px;
+            font-size: 13px;
+            padding: 8px 12px;
+            margin-bottom: 3px;
+            border-radius: 4px;
 
             i {
-              font-size: 14px;
+              font-size: 15px;
+            }
+
+            &:hover, &:focus {
+              transform: translateX(2px); /* Slightly reduced hover effect for mobile */
             }
           }
         }

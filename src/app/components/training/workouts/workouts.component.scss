@@ -14,13 +14,13 @@ $border-radius-sm: 8px;
 $border-radius-md: 12px;
 $border-radius-lg: 16px;
 $transition-speed: 0.3s;
-$gradient-primary: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+$gradient-primary: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
 $gradient-secondary: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
 $gradient-accent: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
 
 // Banner style from home page
 .banner {
-  background: linear-gradient(135deg, $primary-color, $tertiary-color, $accent-color);
+  background: $gradient-primary;
   color: white;
   font-size: clamp(1.2rem, 4vw, 1.8rem); /* Responsive font size */
   padding: 1.2rem 2.5rem;
