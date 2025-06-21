@@ -10,7 +10,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   constructor(private cookieService: CookieService, private jwtService: JwtService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!req.url.includes("login")) {
+    if (!req.url.includes("login") && !req.url.includes("register")) {
       const jwt = this.cookieService.get("auth-cookie");
       if (jwt === '' || (jwt !== '' && Date.now() > this.jwtService.parseJwt(jwt).exp * 1000)) {
         return EMPTY;

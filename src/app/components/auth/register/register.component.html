@@ -8,7 +8,7 @@
     <div class="col-md-6 col-lg-4">
       <div class="card shadow-sm rounded-3 p-4">
         <div class="card-body">
-          <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+          <form (ngSubmit)="onSubmit($event)" [formGroup]="registerForm">
             <div class="mb-3">
               <input formControlName="username" id="username" name="username" placeholder="Enter username" type="text" class="form-control">
             </div>
@@ -40,7 +40,7 @@
               </select>
             </div>
             <div class="d-grid gap-2">
-              <button class="btn btn-primary" type="submit">Register</button>
+              <button class="btn btn-primary" type="submit" (click)="onSubmit($event)">Register</button>
             </div>
           </form>
           <ngb-alert #confirmationMessage *ngIf="warningMessage" [type]="alertType" class="mt-3">
