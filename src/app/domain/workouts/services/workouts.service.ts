@@ -415,4 +415,59 @@ export class WorkoutsService {
       `${EndpointDictionary.getMonthlyWorkouts}?userId=${userId}&year=${year}&month=${month}`
     );
   }
+
+  /**
+   * Gets all workouts for a specific user
+   * @param userId The ID of the user
+   * @returns Observable with all workouts for the user
+   */
+  getAllWorkoutsByUserId(userId: number): Observable<WorkoutsData[]> {
+    return this.httpClient.get<WorkoutsData[]>(`${EndpointDictionary.getWorkoutByUserId}${userId}`);
+  }
+
+  /**
+   * Gets a specific workout by ID
+   * @param id The ID of the workout
+   * @returns Observable with the workout data
+   */
+  getWorkout(id: number): Observable<WorkoutsData> {
+    return this.httpClient.get<WorkoutsData>(`${EndpointDictionary.getWorkoutById}${id}`);
+  }
+
+  /**
+   * Gets all sets for a specific workout
+   * @param workoutId The ID of the workout
+   * @returns Observable with the sets for the workout
+   */
+  getSetsByWorkoutId(workoutId: number): Observable<SetTrackingData[]> {
+    return this.httpClient.get<SetTrackingData[]>(`${EndpointDictionary.getSetsByWorkout}${workoutId}`);
+  }
+
+  /**
+   * Gets all sets for a specific exercise
+   * @param exerciseId The ID of the exercise
+   * @returns Observable with the sets for the exercise
+   */
+  getSetsByExerciseId(exerciseId: number): Observable<SetTrackingData[]> {
+    return this.httpClient.get<SetTrackingData[]>(`${EndpointDictionary.getSetsByExercise}${exerciseId}`);
+  }
+
+  /**
+   * Gets sets for a specific workout and exercise
+   * @param workoutId The ID of the workout
+   * @param exerciseId The ID of the exercise
+   * @returns Observable with the sets for the workout and exercise
+   */
+  getSetsByWorkoutIdAndExerciseId(workoutId: number, exerciseId: number): Observable<SetTrackingData[]> {
+    return this.httpClient.get<SetTrackingData[]>(`${EndpointDictionary.getSetsByWorkoutAndExercise}${workoutId}/${exerciseId}`);
+  }
+
+  /**
+   * Gets a specific exercise by ID
+   * @param id The ID of the exercise
+   * @returns Observable with the exercise data
+   */
+  getExerciseById(id: number): Observable<ExerciseData> {
+    return this.httpClient.get<ExerciseData>(`${EndpointDictionary.getExerciseById}${id}`);
+  }
 }
