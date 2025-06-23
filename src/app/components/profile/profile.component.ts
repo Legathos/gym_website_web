@@ -28,7 +28,15 @@ export class ProfileComponent implements OnInit {
   getUserData() {
     this.memberService.getUserData().subscribe({
       next: (data) => {
+        console.log('User data received:', data);
         this.user = data;
+
+        // Ensure email field is present
+        if (!this.user.email) {
+          console.warn('Email field is missing in user data. Adding default email.');
+          this.user.email = this.user.username + '@example.com'; // Default email based on username
+        }
+
         this.getUserWeightHistoryData(this.user.id);
       }
     });

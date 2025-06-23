@@ -11,6 +11,10 @@
         <div class="info-value">{{this.user.username}}</div>
       </div>
       <div class="info-item">
+        <div class="info-label">Email</div>
+        <div class="info-value">{{this.user.email || (this.user.username + '@example.com')}}</div>
+      </div>
+      <div class="info-item">
         <div class="info-label">Age</div>
         <div class="info-value">{{this.user.age}} years</div>
       </div>
