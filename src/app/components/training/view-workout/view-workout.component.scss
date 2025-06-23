@@ -1,0 +1,491 @@
+// Color variables to match the app's design language
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
+$light-bg: #f8f9fa;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+// Modern UI variables
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$transition-speed: 0.3s;
+$gradient-primary: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
+$gradient-success: linear-gradient(135deg, $success-color, darken($success-color, 10%));
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: $secondary-color;
+  padding-bottom: 70px; // Add padding for the bottom navbar
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.workout-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  animation: fadeIn 0.8s ease-out;
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    flex-grow: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: $gradient-primary;
+      border-radius: 3px;
+    }
+  }
+
+  .back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    margin-right: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    transition: all $transition-speed ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    i {
+      margin-right: 10px;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(-5px);
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+  animation: fadeIn 0.6s ease-out;
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba($accent-color, 0.1);
+    border-radius: 50%;
+    border-top-color: $accent-color;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba($accent-color, 0.2);
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: white;
+    font-weight: 500;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  margin-bottom: 30px;
+  border-radius: $border-radius-md;
+  background-color: rgba($danger-color, 0.1);
+  animation: fadeIn 0.6s ease-out;
+
+  .error-message {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 500;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .retry-btn, .back-btn {
+    background: linear-gradient(135deg, $danger-color, darken($danger-color, 10%));
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all $transition-speed ease;
+    box-shadow: 0 4px 15px rgba($danger-color, 0.3);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba($danger-color, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba($danger-color, 0.3);
+    }
+  }
+
+  .back-btn {
+    background: linear-gradient(135deg, $tertiary-color, darken($tertiary-color, 10%));
+    margin-left: 10px;
+    box-shadow: 0 4px 15px rgba($tertiary-color, 0.3);
+
+    &:hover {
+      box-shadow: 0 8px 20px rgba($tertiary-color, 0.4);
+    }
+
+    &:active {
+      box-shadow: 0 4px 10px rgba($tertiary-color, 0.3);
+    }
+  }
+}
+
+.workout-details {
+  animation: fadeIn 0.8s ease-out;
+  animation-delay: 0.2s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+
+  .workout-info-card {
+    background-color: white;
+    border-radius: $border-radius-md;
+    box-shadow: $card-shadow;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-top: 3px solid $accent-color;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.1) 0%, transparent 70%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .workout-info {
+      .info-row {
+        display: flex;
+        margin-bottom: 15px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .label {
+          width: 150px;
+          font-weight: 600;
+          color: $secondary-color;
+          font-size: 1.1rem;
+        }
+
+        .value {
+          flex-grow: 1;
+          color: $primary-color;
+          font-size: 1.1rem;
+
+          &.status {
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+
+            &.completed {
+              background-color: rgba($success-color, 0.1);
+              color: $success-color;
+            }
+
+            &.in-progress {
+              background-color: rgba($tertiary-color, 0.1);
+              color: $tertiary-color;
+            }
+
+            &.planned {
+              background-color: rgba($accent-color, 0.1);
+              color: $accent-color;
+            }
+
+            &.cancelled {
+              background-color: rgba($danger-color, 0.1);
+              color: $danger-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .exercises-section {
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: white;
+      font-weight: 700;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 10px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: $gradient-primary;
+        border-radius: 3px;
+      }
+    }
+
+    .exercise-card {
+      background-color: white;
+      border-radius: $border-radius-md;
+      box-shadow: $card-shadow;
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: all $transition-speed ease;
+      border-left: 3px solid $tertiary-color;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: $hover-shadow;
+      }
+
+      .exercise-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+
+        h3 {
+          margin: 0;
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: $secondary-color;
+        }
+
+        .category {
+          background-color: rgba($tertiary-color, 0.1);
+          color: $tertiary-color;
+          padding: 5px 12px;
+          border-radius: 20px;
+          font-size: 0.9rem;
+          font-weight: 600;
+        }
+      }
+
+      .description {
+        color: $primary-color;
+        margin-bottom: 20px;
+        font-size: 1rem;
+        line-height: 1.6;
+        opacity: 0.8;
+      }
+
+      .sets-table {
+        border: 1px solid #e2e8f0;
+        border-radius: $border-radius-sm;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+        .table-header, .table-row {
+          display: flex;
+
+          .set-column, .reps-column, .weight-column {
+            padding: 12px;
+            text-align: center;
+          }
+
+          .set-column {
+            width: 20%;
+            background-color: rgba($tertiary-color, 0.05);
+            font-weight: 600;
+          }
+
+          .reps-column, .weight-column {
+            width: 40%;
+          }
+        }
+
+        .table-header {
+          background-color: rgba($tertiary-color, 0.1);
+          font-weight: 600;
+          color: $secondary-color;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-size: 0.9rem;
+        }
+
+        .table-row {
+          border-top: 1px solid #e2e8f0;
+
+          &:nth-child(even) {
+            background-color: rgba($tertiary-color, 0.02);
+          }
+
+          &:hover {
+            background-color: rgba($accent-color, 0.05);
+          }
+        }
+      }
+
+      .no-sets {
+        color: $tertiary-color;
+        font-style: italic;
+        text-align: center;
+        padding: 20px;
+        background-color: rgba($tertiary-color, 0.05);
+        border-radius: $border-radius-sm;
+      }
+    }
+  }
+
+  .no-exercises {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: $border-radius-md;
+    padding: 40px;
+    text-align: center;
+    color: white;
+    font-style: italic;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .workout-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+
+    h1 {
+      font-size: 2rem;
+
+      &::after {
+        width: 50px;
+      }
+    }
+
+    .back-btn {
+      margin-right: 0;
+      align-self: flex-start;
+    }
+  }
+
+  .workout-details {
+    .workout-info-card {
+      padding: 20px;
+
+      .workout-info {
+        .info-row {
+          flex-direction: column;
+
+          .label {
+            width: 100%;
+            margin-bottom: 5px;
+          }
+        }
+      }
+    }
+
+    .exercises-section {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .exercise-card {
+        padding: 20px;
+
+        .exercise-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+
+  .workout-header {
+    h1 {
+      font-size: 1.8rem;
+    }
+  }
+
+  .workout-details {
+    .workout-info-card {
+      padding: 15px;
+    }
+
+    .exercises-section {
+      .exercise-card {
+        padding: 15px;
+
+        .sets-table {
+          .table-header, .table-row {
+            .set-column, .reps-column, .weight-column {
+              padding: 8px;
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
