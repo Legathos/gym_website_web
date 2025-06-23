@@ -43,6 +43,7 @@ import { BarcodeScannerComponent } from './components/nutrition/barcode-scanner/
 import { AddFoodComponent } from './components/nutrition/add-food/add-food.component';
 import { ExerciseLibraryComponent } from './components/training/exercise-library/exercise-library.component';
 import { AddExerciseComponent } from './components/training/add-exercise/add-exercise.component';
+import { UserModule } from '@domain/user/user.module';
 
 
 @NgModule({
@@ -96,6 +97,7 @@ import { AddExerciseComponent } from './components/training/add-exercise/add-exe
     MatButtonToggleModule,
     MatInput,
     MatSelectModule,
+    UserModule,
   ],
   providers: [NgbActiveModal,
     {
