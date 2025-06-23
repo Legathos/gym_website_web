@@ -1,7 +1,6 @@
 <div class="container">
   <div class="profile-header">
     <h1 class="text-center">Profile</h1>
-    <p class="welcome-text">Welcome, {{this.user.username}}!</p>
   </div>
 
   <div class="profile-card">
@@ -10,6 +9,10 @@
       <div class="info-item">
         <div class="info-label">Username</div>
         <div class="info-value">{{this.user.username}}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Email</div>
+        <div class="info-value">{{this.user.email || (this.user.username + '@example.com')}}</div>
       </div>
       <div class="info-item">
         <div class="info-label">Age</div>

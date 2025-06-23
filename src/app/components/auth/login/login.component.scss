@@ -11,21 +11,3 @@ $tertiary-color: #3B4883;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 }
-
-// Animation for the login container
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Apply animation to the container
-.container-fluid {
-  animation-name: reveal;
-  animation-duration: 1000ms;
-}

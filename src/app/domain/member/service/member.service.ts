@@ -12,6 +12,7 @@ import {User, UserService} from '@domain/user';
 @Injectable()
 export class MemberService {
   user!: User;
+  private weightChartInstance: Chart | null = null;
 
   constructor(private userService: UserService,
               private http: HttpClient,
@@ -47,9 +48,23 @@ export class MemberService {
   }
 
   weightChart(userWeightHistory: UserWeightData[]) {
-    const data = userWeightHistory
-    new Chart(
-      <HTMLCanvasElement>document.getElementById('weight-chart'),
+    const data = userWeightHistory;
+
+    // Get the canvas element
+    const canvas = <HTMLCanvasElement>document.getElementById('weight-chart');
+    if (!canvas) {
+      console.warn('Weight chart canvas not found');
+      return;
+    }
+
+    // Destroy existing chart if it exists
+    if (this.weightChartInstance) {
+      this.weightChartInstance.destroy();
+    }
+
+    // Create new chart
+    this.weightChartInstance = new Chart(
+      canvas,
       {
         type: 'line',
         data: {
@@ -167,5 +182,7 @@ export class MemberService {
         }
       }
     );
+
+    return this.weightChartInstance;
   }
 }

@@ -1,1 +1,100 @@
-<p>settings works!</p>
+<div class="container">
+  <div class="settings-header">
+    <h1 class="text-center">Settings</h1>
+  </div>
+
+  <!-- Account Settings -->
+  <div class="settings-card">
+    <h2 class="card-title">Account Settings</h2>
+    <div [formGroup]="accountForm" class="settings-form">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input formControlName="email" id="email" placeholder="your.email@example.com" type="email">
+        <button (click)="updateEmail()" class="save-btn mt-2">Update Email</button>
+      </div>
+
+      <div class="form-group mt-4">
+        <h3>Change Password</h3>
+        <div class="form-group">
+          <label for="password">New Password</label>
+          <input formControlName="password" id="password" placeholder="New password" type="password">
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input formControlName="confirmPassword" id="confirmPassword" placeholder="Confirm new password" type="password">
+        </div>
+        <button (click)="updatePassword()" class="save-btn">Update Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Settings -->
+  <div class="settings-card">
+    <h2 class="card-title">Profile Settings</h2>
+    <div [formGroup]="profileForm" class="settings-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input formControlName="username" id="username" placeholder="Your username" type="text">
+      </div>
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="height">Height (cm)</label>
+          <input formControlName="height" id="height" placeholder="Height in cm" type="number">
+        </div>
+        <div class="form-group half">
+          <label for="weight">Weight (kg)</label>
+          <input formControlName="weight" id="weight" placeholder="Weight in kg" type="number">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="age">Age</label>
+          <input formControlName="age" id="age" placeholder="Your age" type="number">
+        </div>
+        <div class="form-group half">
+          <label for="gender">Gender</label>
+          <select formControlName="gender" id="gender">
+            <option value="">Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <button (click)="updateProfile()" class="save-btn">Update Profile</button>
+    </div>
+  </div>
+
+  <!-- Appearance Settings -->
+  <div class="settings-card">
+    <h2 class="card-title">Appearance Settings</h2>
+    <div class="settings-options">
+      <div class="theme-option">
+        <span class="option-label">Theme</span>
+        <div class="theme-selector">
+          <div (click)="changeTheme('light')" class="theme-choice active" data-theme="light">
+            <div class="theme-preview light-theme"></div>
+            <span>Light</span>
+          </div>
+          <div (click)="changeTheme('dark')" class="theme-choice" data-theme="dark">
+            <div class="theme-preview dark-theme"></div>
+            <span>Dark</span>
+          </div>
+          <div (click)="changeTheme('system')" class="theme-choice" data-theme="system">
+            <div class="theme-preview system-theme"></div>
+            <span>System</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Account -->
+  <div class="settings-card danger-zone">
+    <h2 class="card-title">Danger Zone</h2>
+    <div class="danger-actions">
+      <p class="warning-text">Once you delete your account, there is no going back. Please be certain.</p>
+      <button (click)="confirmDeleteAccount()" class="delete-btn">Delete Account</button>
+    </div>
+  </div>
+</div>
