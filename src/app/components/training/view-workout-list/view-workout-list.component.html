@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="workout-list-header">
+    <h1>My Workouts</h1>
+    <button class="add-workout-btn" (click)="createNewWorkout()">Create New Workout</button>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading your workouts...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button (click)="loadWorkouts()" class="retry-btn">Try Again</button>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && !error && workouts.length === 0" class="empty-container">
+    <div class="empty-icon">📋</div>
+    <h2>No Workouts Found</h2>
+    <p>You haven't created any workouts yet. Start by creating your first workout!</p>
+  </div>
+
+  <!-- Workout list -->
+  <div *ngIf="!loading && !error && workouts.length > 0" class="workout-list">
+    <div (click)="viewWorkoutDetails(workout.id!)" *ngFor="let workout of workouts" class="workout-card">
+      <div class="workout-info">
+        <h2 class="workout-name">{{ workout.name }}</h2>
+        <p class="workout-date">{{ formatDate(workout.date) }}</p>
+        <div class="workout-stats">
+          <span class="stat">
+            <i class="fas fa-weight"></i>
+            {{ workout.total_weight }} kg
+          </span>
+          <span [ngClass]="workout.status.toLowerCase()" class="stat status">
+            {{ workout.status }}
+          </span>
+        </div>
+      </div>
+      <div class="workout-action">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </div>
+  </div>
+</div>

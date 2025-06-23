@@ -1,0 +1,435 @@
+// Color variables to match the app's design language
+$primary-color: #202124;
+$secondary-color: #232D4E;
+$tertiary-color: #3B4883;
+$accent-color: #FF7124;
+$light-color: #DBBBA7;
+$background-color: #E8DFD5;
+$light-bg: #f8f9fa;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+// Modern UI variables
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$transition-speed: 0.3s;
+$gradient-primary: linear-gradient(135deg, $accent-color, darken($accent-color, 10%));
+$gradient-success: linear-gradient(135deg, $success-color, darken($success-color, 10%));
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: $secondary-color;
+  padding-bottom: 70px; // Add padding for the bottom navbar
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.workout-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  animation: fadeIn 0.8s ease-out;
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: $gradient-primary;
+      border-radius: 3px;
+    }
+  }
+
+  .add-workout-btn {
+    background: $gradient-primary;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all $transition-speed ease;
+    box-shadow: 0 4px 15px rgba($accent-color, 0.3);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba($accent-color, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba($accent-color, 0.3);
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+  animation: fadeIn 0.6s ease-out;
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba($accent-color, 0.1);
+    border-radius: 50%;
+    border-top-color: $accent-color;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba($accent-color, 0.2);
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: white;
+    font-weight: 500;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+  animation: fadeIn 0.6s ease-out;
+
+  .error-message {
+    color: $danger-color;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: rgba($danger-color, 0.1);
+    padding: 15px;
+    border-radius: $border-radius-md;
+    border-left: 3px solid $danger-color;
+    max-width: 500px;
+    font-weight: 500;
+  }
+
+  .retry-btn {
+    background: linear-gradient(135deg, $danger-color, darken($danger-color, 10%));
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all $transition-speed ease;
+    box-shadow: 0 4px 15px rgba($danger-color, 0.3);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba($danger-color, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba($danger-color, 0.3);
+    }
+  }
+}
+
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+
+  .empty-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    color: $light-color;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: white;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 25px;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  .create-workout-btn {
+    background: $gradient-success;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all $transition-speed ease;
+    box-shadow: 0 4px 15px rgba($success-color, 0.3);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba($success-color, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba($success-color, 0.3);
+    }
+  }
+}
+
+.workout-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+  animation: fadeIn 0.8s ease-out;
+  animation-delay: 0.2s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.workout-card {
+  background-color: white;
+  border-radius: $border-radius-md;
+  box-shadow: $card-shadow;
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all $transition-speed ease;
+  position: relative;
+  overflow: hidden;
+  border-top: 3px solid $accent-color;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $hover-shadow;
+  }
+
+  .workout-info {
+    flex: 1;
+
+    .workout-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0 0 10px 0;
+      color: $secondary-color;
+      position: relative;
+      padding-bottom: 8px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: $gradient-primary;
+        transition: width $transition-speed ease;
+      }
+    }
+
+    .workout-date {
+      font-size: 1rem;
+      color: $tertiary-color;
+      margin: 0 0 15px 0;
+      opacity: 0.8;
+    }
+
+    .workout-stats {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      .stat {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.9rem;
+        color: $primary-color;
+        font-weight: 500;
+
+        i {
+          font-size: 1rem;
+          color: $accent-color;
+        }
+
+        &.status {
+          padding: 5px 12px;
+          border-radius: 20px;
+          font-weight: 600;
+          text-transform: capitalize;
+          letter-spacing: 0.5px;
+
+          &.completed {
+            background-color: rgba($success-color, 0.1);
+            color: $success-color;
+          }
+
+          &.in-progress {
+            background-color: rgba($tertiary-color, 0.1);
+            color: $tertiary-color;
+          }
+
+          &.planned {
+            background-color: rgba($accent-color, 0.1);
+            color: $accent-color;
+          }
+        }
+      }
+    }
+  }
+
+  .workout-action {
+    color: $accent-color;
+    font-size: 1.2rem;
+    transition: transform $transition-speed ease;
+  }
+
+  &:hover {
+    .workout-name::after {
+      width: 60px;
+    }
+
+    .workout-action {
+      transform: translateX(5px);
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .workout-list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+
+    h1 {
+      font-size: 2rem;
+
+      &::after {
+        width: 50px;
+      }
+    }
+
+    .add-workout-btn {
+      width: 100%;
+      text-align: center;
+      padding: 10px 20px;
+    }
+  }
+
+  .workout-list {
+    grid-template-columns: 1fr;
+  }
+
+  .workout-card {
+    padding: 20px;
+
+    .workout-info {
+      .workout-name {
+        font-size: 1.2rem;
+      }
+
+      .workout-date {
+        font-size: 0.9rem;
+      }
+
+      .workout-stats {
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .stat {
+          font-size: 0.8rem;
+
+          &.status {
+            padding: 4px 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+
+  .workout-list-header {
+    h1 {
+      font-size: 1.8rem;
+    }
+  }
+
+  .workout-card {
+    padding: 15px;
+
+    .workout-info {
+      .workout-name {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
