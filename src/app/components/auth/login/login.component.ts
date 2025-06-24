@@ -42,8 +42,22 @@ export class LoginComponent implements OnInit {
         this.navigate(this.jwtService.parseJwt(this.cookieService.get("auth-cookie")));
       },
       error: (error: any) => {
-        this.warningMessage = GlobalConstants.genericError;
         this.alertType = 'danger';
+
+        // Display specific error messages based on the error status
+        if (error.status === 401) {
+          this.warningMessage = GlobalConstants.invalidCredentials;
+        } else if (error.status === 404) {
+          this.warningMessage = GlobalConstants.userNotFound;
+        } else if (error.status === 403) {
+          this.warningMessage = GlobalConstants.accountLocked;
+        } else if (error.status === 0) {
+          this.warningMessage = GlobalConstants.networkError;
+        } else {
+          // Fallback to the generic error message
+          this.warningMessage = GlobalConstants.genericError;
+        }
+
         setTimeout(() => {
           this.confirmationMessage.close();
           this.warningMessage = '';
