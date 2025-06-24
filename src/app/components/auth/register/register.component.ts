@@ -4,6 +4,7 @@ import { Router} from "@angular/router";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {MemberService} from "@domain/member";
 import { User } from '@domain/user';
+import {GlobalConstants} from "../../../../data/global-constraints.data";
 
 @Component({
   selector: 'app-register',
@@ -62,7 +63,20 @@ export class RegisterComponent implements OnInit {
       },
       error: (error) => {
         this.alertType = 'danger';
-        this.warningMessage = 'Registration failed: ' + (error.message || 'Unknown error');
+
+        // Display specific error messages based on the error status
+        if (error.status === 409) {
+          this.warningMessage = GlobalConstants.userExistError;
+        } else if (error.status === 400) {
+          this.warningMessage = GlobalConstants.invalidRegistrationData;
+        } else if (error.status === 422) {
+          this.warningMessage = GlobalConstants.usernameEmailInUse;
+        } else if (error.status === 0) {
+          this.warningMessage = GlobalConstants.networkError;
+        } else {
+          // Fallback to a more descriptive error message
+          this.warningMessage = 'Registration failed: ' + (error.error?.message || error.message || 'Unknown error');
+        }
       }
     });
   }
