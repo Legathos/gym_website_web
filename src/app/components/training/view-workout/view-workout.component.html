@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="workout-header">
+    <button class="back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> Back to Workouts
+    </button>
+    <h1 *ngIf="workout">{{ workout.name }}</h1>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading workout details...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button *ngIf="workout" (click)="loadWorkout(workout.id!)" class="retry-btn">Try Again</button>
+    <button *ngIf="!workout" (click)="goBack()" class="back-btn">Back to Workouts</button>
+  </div>
+
+  <!-- Workout details -->
+  <div *ngIf="!loading && !error && workout" class="workout-details">
+    <div class="workout-info-card">
+      <div class="workout-info">
+        <div class="info-row">
+          <span class="label">Date:</span>
+          <span class="value">{{ formatDate(workout.date) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Total Weight:</span>
+          <span class="value">{{ workout.total_weight }} kg</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Status:</span>
+          <span [ngClass]="workout.status.toLowerCase()" class="value status">{{ workout.status }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exercises and Sets -->
+    <div *ngIf="exercises.length > 0" class="exercises-section">
+      <h2>Exercises</h2>
+      <div *ngFor="let exercise of exercises" class="exercise-card">
+        <div class="exercise-header">
+          <h3>{{ exercise.name }}</h3>
+          <span class="category">{{ exercise.category }}</span>
+        </div>
+        <p *ngIf="exercise.description" class="description">{{ exercise.description }}</p>
+
+        <!-- Sets for this exercise -->
+        <div *ngIf="sets.get(exercise.id)?.length" class="sets-table">
+          <div class="table-header">
+            <div class="set-column">Set</div>
+            <div class="reps-column">Reps</div>
+            <div class="weight-column">Weight (kg)</div>
+          </div>
+          <div *ngFor="let set of sets.get(exercise.id)" class="table-row">
+            <div class="set-column">{{ set.set_id }}</div>
+            <div class="reps-column">{{ set.reps }}</div>
+            <div class="weight-column">{{ set.weight }}</div>
+          </div>
+        </div>
+        <div *ngIf="!sets.get(exercise.id)?.length" class="no-sets">
+          No sets recorded for this exercise.
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!exercises.length && !loading" class="no-exercises">
+      <p>No exercises found for this workout.</p>
+    </div>
+  </div>
+</div>

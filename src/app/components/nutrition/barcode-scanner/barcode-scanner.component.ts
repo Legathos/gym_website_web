@@ -18,6 +18,7 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
   scanner: BrowserMultiFormatReader = new BrowserMultiFormatReader();
   scanning = true;
   controls: IScannerControls | null = null;
+  lastFrameUrl: string | null = null; // Store the last frame as a data URL
 
   // Default meal ID (1 = breakfast)
   mealId: number = 1;
@@ -106,8 +107,35 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
   }
 
 
+  // Capture the current frame from the video element
+  captureFrame(): void {
+    if (!this.videoElement || !this.videoElement.nativeElement) {
+      console.error('Video element not found');
+      return;
+    }
+
+    try {
+      const video = this.videoElement.nativeElement;
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+
+      if (ctx) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        this.lastFrameUrl = canvas.toDataURL('image/png');
+        console.log('Frame captured successfully');
+      }
+    } catch (error) {
+      console.error('Error capturing frame:', error);
+    }
+  }
+
   onBarcodeScanned(code: string): void {
     console.log('Barcode scanned:', code);
+
+    // Capture the current frame before processing the barcode
+    this.captureFrame();
 
     // First check if the barcode exists in the database
     const barcodeNumber = parseInt(code, 10);
@@ -140,20 +168,6 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
     }
   }
 
-  // Helper method to search food from API
-  private searchFoodFromApi(code: string): void {
-    this.foodService.getFoodDataFromBarcode(code).subscribe({
-      next: (foodData: FoodData) => {
-        this.scannedFood = foodData;
-        console.log('Food data fetched from API:', foodData);
-      },
-      error: (error) => {
-        console.error('Error fetching food data from API:', error);
-        this.restartScanning();
-      }
-    });
-  }
-
   restartScanning(): void {
     this.scanning = true;
     this.scannedFood = null; // Reset scanned food to show scanner UI
@@ -184,6 +198,20 @@ export class BarcodeScannerComponent implements OnInit, OnDestroy{
         }
       });
     }
+  }
+
+  // Helper method to search food from API
+  private searchFoodFromApi(code: string): void {
+    this.foodService.getFoodDataFromBarcode(code).subscribe({
+      next: (foodData: FoodData) => {
+        this.scannedFood = foodData;
+        console.log('Food data fetched from API:', foodData);
+      },
+      error: (error) => {
+        console.error('Error fetching food data from API:', error);
+        this.restartScanning();
+      }
+    });
   }
 
 }

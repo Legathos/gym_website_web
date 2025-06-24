@@ -44,6 +44,8 @@ import { AddFoodComponent } from './components/nutrition/add-food/add-food.compo
 import { ExerciseLibraryComponent } from './components/training/exercise-library/exercise-library.component';
 import { AddExerciseComponent } from './components/training/add-exercise/add-exercise.component';
 import { UserModule } from '@domain/user/user.module';
+import { ViewWorkoutListComponent } from './components/training/view-workout-list/view-workout-list.component';
+import { ViewWorkoutComponent } from './components/training/view-workout/view-workout.component';
 
 
 @NgModule({
@@ -70,6 +72,8 @@ import { UserModule } from '@domain/user/user.module';
     AddFoodComponent,
     ExerciseLibraryComponent,
     AddExerciseComponent,
+    ViewWorkoutListComponent,
+    ViewWorkoutComponent,
   ],
   imports: [
     BrowserModule,

@@ -16,18 +16,22 @@ export class FoodSearchComponent implements OnInit{
   mealId: number = 1; // Default to breakfast
   editMode: boolean = false;
   logItem: any = null; // Will store the log item data when editing
+  date: string = ''; // Will store the date for adding food items
   private searchTerms = new Subject<string>();
 
   constructor(
     private foodService: FoodService,
     private router: Router
   ) {
-    // Get the meal ID and edit mode from the navigation state if available
+    // Get the meal ID, date, and edit mode from the navigation state if available
     const navigation = this.router.getCurrentNavigation();
     if (navigation && navigation.extras.state) {
-      const state = navigation.extras.state as { mealId: number, editMode: boolean, logItem: any };
+      const state = navigation.extras.state as { mealId: number, date: string, editMode: boolean, logItem: any };
       if (state.mealId) {
         this.mealId = state.mealId;
+      }
+      if (state.date) {
+        this.date = state.date;
       }
       if (state.editMode) {
         this.editMode = state.editMode;
@@ -77,6 +81,7 @@ export class FoodSearchComponent implements OnInit{
       state: {
         foodItem: food,
         mealId: this.mealId,
+        date: this.date,
         editMode: this.editMode,
         logItem: this.logItem
       }
@@ -87,6 +92,7 @@ export class FoodSearchComponent implements OnInit{
     this.router.navigate(['/ai-estimator'], {
       state: {
         mealId: this.mealId,
+        date: this.date,
         editMode: this.editMode,
         logItem: this.logItem
       }
@@ -97,6 +103,7 @@ export class FoodSearchComponent implements OnInit{
     this.router.navigate(['/barcode-scanner'], {
       state: {
         mealId: this.mealId,
+        date: this.date,
         editMode: this.editMode,
         logItem: this.logItem
       }
@@ -108,6 +115,7 @@ export class FoodSearchComponent implements OnInit{
     this.router.navigate(['/add-food'], {
       state: {
         mealId: this.mealId,
+        date: this.date,
         editMode: this.editMode,
         logItem: this.logItem
       }
