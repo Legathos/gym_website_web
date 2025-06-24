@@ -16,6 +16,7 @@ export class ViewFoodItemComponent implements OnInit{
   mealId: number = 1; // Default to breakfast
   editMode: boolean = false;
   logItem: any = null;
+  date: string = ''; // Will store the date for adding food items
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -32,6 +33,11 @@ export class ViewFoodItemComponent implements OnInit{
       // Get the meal ID from the navigation state if available
       if (history.state.mealId) {
         this.mealId = history.state.mealId;
+      }
+
+      // Get the date from the navigation state if available
+      if (history.state.date) {
+        this.date = history.state.date;
       }
 
       // Check if we're in edit mode
@@ -85,10 +91,13 @@ export class ViewFoodItemComponent implements OnInit{
         return;
       }
 
+      // Use the selected date if available, otherwise use the current date
+      const logDate = this.date ? new Date(this.date) : new Date();
+
       const loggerModel = {
         id: undefined,
         user_id: userId,
-        date: new Date(),
+        date: logDate,
         food_id: this.foodItem.id,
         food_name: this.foodItem.name,
         meal: this.mealId,
@@ -103,18 +112,18 @@ export class ViewFoodItemComponent implements OnInit{
       if (this.editMode && this.logItem) {
         // Update existing log item
         this.foodService.editFoodLog(loggerModel).subscribe(() => {
-          // Clear the cache for today's date to ensure fresh data
-          const today = this.formatDate(new Date());
-          this.foodService.clearFoodTrackingCache(today);
+          // Clear the cache for the selected date to ensure fresh data
+          const dateToUse = this.date || this.formatDate(new Date());
+          this.foodService.clearFoodTrackingCache(dateToUse);
           // Navigate back to the food tracker page
           this.router.navigate(['/food-tracker/:id']);
         });
       } else {
         // Add new log item
         this.foodService.addFoodToTracker(loggerModel).subscribe(() => {
-          // Clear the cache for today's date to ensure fresh data
-          const today = this.formatDate(new Date());
-          this.foodService.clearFoodTrackingCache(today);
+          // Clear the cache for the selected date to ensure fresh data
+          const dateToUse = this.date || this.formatDate(new Date());
+          this.foodService.clearFoodTrackingCache(dateToUse);
           // Navigate back to the food tracker page
           this.router.navigate(['/food-tracker/:id']);
         });

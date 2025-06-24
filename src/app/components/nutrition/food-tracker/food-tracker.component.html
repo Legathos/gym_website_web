@@ -1,4 +1,17 @@
 <div class="container">
+  <!-- Date Navigation -->
+  <div class="date-navigation">
+    <div class="d-flex justify-content-center align-items-center">
+      <button (click)="navigateToPreviousDay()" aria-label="Previous day" class="date-nav-btn me-3">
+        &laquo;
+      </button>
+      <h2>{{ formattedDate }}</h2>
+      <button (click)="navigateToNextDay()" aria-label="Next day" class="date-nav-btn ms-3">
+        &raquo;
+      </button>
+    </div>
+  </div>
+
   <div class="row position-relative align-items-start mb-4">
     <!-- Macronutrient bar -->
     <section class="col-md-12 macros-chart">

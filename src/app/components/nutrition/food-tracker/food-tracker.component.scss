@@ -6,6 +6,67 @@ $accent-color: #FF7124;
 $light-color: #DBBBA7;
 $background-color: #E8DFD5;
 
+// Date navigation styles
+.date-navigation {
+  background-color: $light-color;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, $accent-color, $secondary-color);
+    opacity: 0.8;
+  }
+
+  h2 {
+    color: $secondary-color;
+    font-weight: 600;
+    margin: 0;
+    padding: 0 1rem;
+    font-size: 1.1rem;
+  }
+
+  .date-nav-btn {
+    width: 40px;
+    height: 40px;
+    background-color: $background-color;
+    color: $secondary-color;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+
+    &:hover {
+      background-color: $accent-color;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($accent-color, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.95);
+      box-shadow: 0 1px 4px rgba($accent-color, 0.3);
+    }
+  }
+}
+
 body {
   background-color: $background-color;
   font-family: 'Segoe UI', sans-serif;

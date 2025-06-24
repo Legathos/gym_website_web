@@ -44,7 +44,8 @@ export class FoodTrackerComponent implements OnInit {
   dinnerCarbs = 0;
   dinnerFats = 0;
   dinnerCalories = 0;
-  date:string = this.getTodayDate()
+  date: string = this.getTodayDate();
+  formattedDate: string = '';
 
   // Track the currently expanded item
   currentlyExpandedItem: string | null = null;
@@ -57,6 +58,9 @@ export class FoodTrackerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Format the initial date
+    this.updateFormattedDate();
+
     // Load initial data
     this.loadFoodData();
 
@@ -70,6 +74,50 @@ export class FoodTrackerComponent implements OnInit {
         this.loadFoodData();
       }
     });
+  }
+
+  /**
+   * Updates the formatted date display
+   */
+  updateFormattedDate(): void {
+    const dateObj = new Date(this.date);
+    this.formattedDate = dateObj.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }
+
+  /**
+   * Navigate to the previous day
+   */
+  navigateToPreviousDay(): void {
+    const currentDate = new Date(this.date);
+    currentDate.setDate(currentDate.getDate() - 1);
+
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    this.date = `${year}-${month}-${day}`;
+    this.updateFormattedDate();
+    this.loadFoodData();
+  }
+
+  /**
+   * Navigate to the next day
+   */
+  navigateToNextDay(): void {
+    const currentDate = new Date(this.date);
+    currentDate.setDate(currentDate.getDate() + 1);
+
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    this.date = `${year}-${month}-${day}`;
+    this.updateFormattedDate();
+    this.loadFoodData();
   }
 
   /**
@@ -179,8 +227,8 @@ export class FoodTrackerComponent implements OnInit {
   }
 
   addItem(meal: number) {
-    // Navigate to food search with meal ID parameter
-    this.router.navigate(['/food-search'], { state: { mealId: meal } });
+    // Navigate to food search with meal ID and date parameters
+    this.router.navigate(['/food-search'], { state: { mealId: meal, date: this.date } });
   }
 
   editLogItem(logItem: LoggerData) {
