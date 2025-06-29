@@ -48,7 +48,8 @@ export class MemberService {
   }
 
   weightChart(userWeightHistory: UserWeightData[]) {
-    const data = userWeightHistory;
+    // Sort the weight history data by date
+    const data = [...userWeightHistory].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     // Get the canvas element
     const canvas = <HTMLCanvasElement>document.getElementById('weight-chart');
