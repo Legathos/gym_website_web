@@ -12,6 +12,18 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
   // This will be populated when a food is estimated by AI
   estimatedFood: FoodData | null = null;
 
+  // User input for food amount in grams
+  foodAmount: number = 100; // Default to 100g
+
+  // Helper methods for template calculations
+  calculateCalories(calories: number): number {
+    return Math.round(calories * this.foodAmount / 100);
+  }
+
+  calculateNutrient(value: number): string {
+    return (value * this.foodAmount / 100).toFixed(1);
+  }
+
   // Meal ID (1=breakfast, 2=lunch, 3=dinner)
   mealId: number = 1; // Default to breakfast
 
@@ -100,6 +112,9 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
             return;
           }
 
+          // Calculate nutrition values based on user-input amount
+          const ratio = this.foodAmount / 100; // Nutrition values are per 100g
+
           // Create the logger data object
           const loggerData = {
             id: undefined,
@@ -108,11 +123,11 @@ export class AiEstimatorComponent implements OnInit, OnDestroy {
             food_id: this.estimatedFood!.id,
             food_name: this.estimatedFood!.name,
             meal: this.mealId, // Use the meal ID from the router state
-            weight: this.estimatedFood!.weight,
-            calories: this.estimatedFood!.calories,
-            carbs: this.estimatedFood!.carbs,
-            fats: this.estimatedFood!.fats,
-            protein: this.estimatedFood!.protein
+            weight: this.foodAmount, // Use user-input amount
+            calories: Math.round(this.estimatedFood!.calories * ratio),
+            carbs: Math.round(this.estimatedFood!.carbs * ratio * 10) / 10,
+            fats: Math.round(this.estimatedFood!.fats * ratio * 10) / 10,
+            protein: Math.round(this.estimatedFood!.protein * ratio * 10) / 10
           };
 
           // Add the food to the tracker
