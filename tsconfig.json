@@ -29,7 +29,7 @@
       "@core/*": ["./app/core/*"],
       "@domain/*": ["./app/domain/*"]
     }
-  
+
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
