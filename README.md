@@ -147,7 +147,6 @@ Key data models include:
    git clone <repository-url>
    cd gym_website_web
    ```
-
 2. Install dependencies
    ```bash
    npm install
@@ -207,17 +206,3 @@ The project follows Angular best practices with a modular architecture:
 - `npm test`: Run unit tests
 - `npm run watch`: Build and watch for changes
 
-## Roadmap
-
-### Release 1 - Mid-August
-**_This release will include:_**
-- Food and macro tracking
-- Progress tracking and insights
-- Food library with ability to create and modify items
-
-### Release 2 - Mid-December
-**_This release will include:_**
-- Workout and exercise tracking
-- Exercise documentation and examples
-- Achievements
-- Workout generation
